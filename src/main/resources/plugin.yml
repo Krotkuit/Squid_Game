@@ -1,0 +1,9 @@
+name: Test2
+version: '1.0-SNAPSHOT'
+main: fr.salut.test2.Main
+api-version: '1.20'
+commands:
+  movedetection:
+    description: "Command for switch move detection"
+  test:
+    description: "Command for test"
