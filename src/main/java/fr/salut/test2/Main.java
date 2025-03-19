@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin implements Listener {
-
+    // oui oui bagette
     @Override
     public void onEnable() {
         TeamManager.Team_Instance();
