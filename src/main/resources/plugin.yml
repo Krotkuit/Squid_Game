@@ -7,3 +7,5 @@ commands:
     description: "Command for switch move detection"
   test:
     description: "Command for test"
+  rblocktoggle:
+    description: "Command to toggle rblocks"
