@@ -4,6 +4,7 @@ import fr.salut.test2.component.ListenerManager.*;
 import fr.salut.test2.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.test2.component.ListenerManager.intance.TeamManager;
 import fr.salut.test2.component.commands.MoveDetectionCmd;
+import fr.salut.test2.component.commands.RBlockUseCommand;
 import fr.salut.test2.component.commands.TestCmd;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public final class Main extends JavaPlugin implements Listener {
     private void loadCommands() {
         getCommand("movedetection").setExecutor(new MoveDetectionCmd());
         getCommand("test").setExecutor(new TestCmd());
+        getCommand("rblocktoggle").setExecutor(new RBlockUseCommand());
     }
 
 }
