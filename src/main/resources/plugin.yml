@@ -1,6 +1,6 @@
-name: Test2
+name: SquidGame
 version: '1.0-SNAPSHOT'
-main: fr.salut.test2.Main
+main: fr.salut.squidgame.Main
 api-version: '1.20'
 commands:
   movedetection:
@@ -9,3 +9,12 @@ commands:
     description: "Command for test"
   rblocktoggle:
     description: "Command to toggle rblocks"
+  prv:
+    description: Commande pour gérer les états PRV.
+    usage: /prv <ON|OFF|STOP>
+  ltte:
+    description: Commande pour gérer les états LTTE.
+    usage: /ltte <ON|OFF|STOP>
+  bap:
+    description: Commande pour gérer les états BaP.
+    usage: /bap <ON|OFF|STOP>
