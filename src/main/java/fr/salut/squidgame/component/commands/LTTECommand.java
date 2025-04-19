@@ -29,11 +29,9 @@ public class LTTECommand implements CommandExecutor {
             case "ON":
                 LTTEManager.clearPlayersWithTNT();
                 plugin.setLTTEState(LTTEState.ON);
+                LTTEManager.startGame();
                 sender.sendMessage("§aLTTE activé : toutes les procédures fonctionnent.");
-                plugin.getServer().getOnlinePlayers().forEach(player -> {
-                    PlayerJoinEvent event = new PlayerJoinEvent(player, "Bienvenue !");
-                    plugin.getServer().getPluginManager().callEvent(event);
-                });
+
                 break;
             case "OFF":
                 plugin.setLTTEState(LTTEState.OFF);

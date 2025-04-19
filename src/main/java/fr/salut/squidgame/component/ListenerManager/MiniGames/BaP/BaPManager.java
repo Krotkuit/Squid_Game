@@ -3,6 +3,7 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.BaP;
 
 import com.google.gson.internal.LinkedTreeMap;
 import fr.salut.squidgame.component.commands.BaPCommand;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -12,12 +13,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import java.util.*;
+import java.util.List;
 
 import static fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState.STOP;
 
@@ -26,6 +31,7 @@ public class BaPManager implements Listener {
   private final Map<String, int[]> teamZones = new HashMap<>(); // Zones des équipes
   private final Map<String, List<int[]>> prisonZones = new HashMap<>(); // Zones des prisons
   private static final Set<Player> playersInPrison = new HashSet<>(); // Joueurs en prison
+  private final Set<Player> recentSneakers = new HashSet<>();
 
   public BaPManager(JavaPlugin plugin) {
     this.plugin = plugin;
@@ -36,17 +42,17 @@ public class BaPManager implements Listener {
   public void initializeZones() {
     // Définir les zones des équipes avec les coordonnées des deux coins opposés
     teamZones.put("bleu", new int[]{173, -59, -205, 194, -56, -184});
-    teamZones.put("orange", new int[]{173, -59, -227, 194, -56, -206});
+    teamZones.put("vert", new int[]{173, -59, -227, 194, -56, -206});
 
     // Définir les zones des prisons avec les coordonnées des trois cubes
-    prisonZones.put("orange", Arrays.asList(
-        new int[]{167, -59, -205, 172, -56, -176},
-        new int[]{167, -59, -183, 202, -56, -176},
+    prisonZones.put("vert", Arrays.asList(
+        new int[]{165, -59, -205, 172, -56, -176},
+        new int[]{165, -59, -183, 202, -56, -176},
         new int[]{195, -59, -205, 202, -56, -176}
     ));
     prisonZones.put("bleu", Arrays.asList(
-        new int[]{167, -59, -235, 172, -56, -206},
-        new int[]{167, -59, -235, 202, -56, -228},
+        new int[]{165, -59, -235, 172, -56, -206},
+        new int[]{165, -59, -235, 202, -56, -228},
         new int[]{195, -59, -235, 202, -56, -206}
     ));
   }
@@ -54,8 +60,8 @@ public class BaPManager implements Listener {
     switch (teamName.toLowerCase()) {
       case "bleu":
         return new Location(Bukkit.getWorld("world"), 183, -59, -232); // Coordonnées fixes pour l'équipe "bleu"
-      case "orange":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -180); // Coordonnées fixes pour l'équipe "orange"
+      case "vert":
+        return new Location(Bukkit.getWorld("world"), 183, -59, -180); // Coordonnées fixes pour l'équipe "vert"
       default:
         return null; // Si l'équipe n'existe pas
     }
@@ -65,12 +71,28 @@ public class BaPManager implements Listener {
     switch (teamName.toLowerCase()) {
       case "bleu":
         return new Location(Bukkit.getWorld("world"), 183, -59, -195); // Coordonnées du centre du camp bleu
-      case "orange":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -217); // Coordonnées du centre du camp orange
+      case "vert":
+        return new Location(Bukkit.getWorld("world"), 183, -59, -217); // Coordonnées du centre du camp vert
       default:
         return null; // Si l'équipe n'existe pas
     }
   }
+
+  @EventHandler
+  public void onPlayerSneak(PlayerToggleSneakEvent event) {
+    Player player = event.getPlayer();
+    if (event.isSneaking()) {
+      recentSneakers.add(player);
+      // Retirer le joueur du Set après 10 ticks
+      new BukkitRunnable() {
+        @Override
+        public void run() {
+          recentSneakers.remove(player);
+        }
+      }.runTaskLater(plugin, 10);
+    }
+  }
+
   @EventHandler
   public void onSnowballLaunch(ProjectileLaunchEvent event) {
     BaPState gameState = BaPCommand.getBaPState();
@@ -80,7 +102,7 @@ public class BaPManager implements Listener {
         event.setCancelled(true); // Annule le lancement de la Snowball
         if (event.getEntity().getShooter() instanceof Player) {
           Player shooter = (Player) event.getEntity().getShooter();
-          shooter.sendMessage(ChatColor.RED + "Le jeu est en état STOP, vous ne pouvez pas lancer de Snowball !");
+          shooter.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Le jeu est en état STOP, vous ne pouvez pas lancer la balle !"));
         }
       }
     }
@@ -97,7 +119,7 @@ public class BaPManager implements Listener {
     Team team = player.getScoreboard().getEntryTeam(player.getName());
 
     if (team == null) {
-      player.sendMessage(ChatColor.RED + "Vous n'êtes pas assigné à une équipe !");
+      player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Vous n'êtes pas assigné à une équipe !"));
       return;
     }
 
@@ -111,12 +133,12 @@ public class BaPManager implements Listener {
 
     if (playersInPrison.contains(player)) {
       if (!isInsideAnyBounds(to, prisonBounds)) {
-        player.sendMessage(ChatColor.RED + "Vous ne pouvez pas quitter la prison !");
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Vous ne pouvez pas quitter la prison !"));
         event.setTo(from);
       }
     } else {
       if (!isInsideBounds(to, zoneBounds)) {
-        player.sendMessage(ChatColor.RED + "Vous ne pouvez pas quitter votre zone !");
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Vous ne pouvez pas quitter votre zone !"));
         event.setTo(from);
       }
     }
@@ -135,6 +157,13 @@ public class BaPManager implements Listener {
         Player shooter = (Player) snowball.getShooter();
         Team hitPlayerTeam = hitPlayer.getScoreboard().getEntryTeam(hitPlayer.getName());
         Team shooterTeam = shooter.getScoreboard().getEntryTeam(shooter.getName());
+
+        if (recentSneakers.contains(hitPlayer)) {
+          // Le joueur rattrape la balle
+          hitPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.BLUE + "Vous avez rattrapé la balle !"));
+          hitPlayer.playSound(hitPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+          return;
+        }
 
         if (hitPlayerTeam != null && shooterTeam != null) {
           if (playersInPrison.contains(shooter) && !playersInPrison.contains(hitPlayer) && !hitPlayerTeam.equals(shooterTeam)) {
@@ -193,12 +222,17 @@ public class BaPManager implements Listener {
       if (snowball.getShooter() instanceof Player) {
         Player shooter = (Player) snowball.getShooter();
 
-        // Trouver le joueur le plus proche
+        // Trouver le joueur le plus proche dans les équipes "bleu" ou "vert"
         Player closestPlayer = null;
         double closestDistance = Double.MAX_VALUE;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-          if (player.equals(shooter)) continue; // Ignorer le lanceur
+          Team team = player.getScoreboard().getEntryTeam(player.getName());
+          if (team == null) continue;
+
+          String teamName = team.getName().toLowerCase();
+          if (!teamName.equals("bleu") && !teamName.equals("vert")) continue;
+
           double distance = player.getLocation().distance(snowball.getLocation());
           if (distance < closestDistance) {
             closestDistance = distance;
@@ -211,9 +245,9 @@ public class BaPManager implements Listener {
           closestPlayer.getInventory().addItem(new ItemStack(Material.SNOWBALL, 1));
           closestPlayer.playSound(closestPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
           closestPlayer.setCompassTarget(snowball.getLocation());
-          closestPlayer.sendMessage(ChatColor.GREEN + "Vous avez reçu une Snowball !");
+          closestPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "Vous avez reçu la balle !"));
         } else {
-          shooter.sendMessage(ChatColor.RED + "Aucun joueur proche pour recevoir la Snowball !");
+          shooter.sendMessage(ChatColor.RED + "Aucun joueur proche dans les équipes orange ou vert pour recevoir la balle !");
         }
       }
     }
