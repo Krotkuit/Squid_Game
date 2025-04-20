@@ -1,12 +1,16 @@
 package fr.salut.squidgame.component.player;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 
+@Getter
 public class TPlayer {
 
+  @Setter
   private Player player;
   private boolean dead = false;
   private boolean admin = false;
@@ -16,11 +20,7 @@ public class TPlayer {
     setDead(false);
   }
 
-  public boolean isDead() {
-    return this.dead;
-  }
-
-  public void setDead(boolean dead) {
+    public void setDead(boolean dead) {
     //Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mort").addEntry(player.getName());
     //Bukkit.getScoreboardManager().getMainScoreboard().getTeam("joueur").addEntry(player.getName());
     // Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("garde");
@@ -40,22 +40,11 @@ public class TPlayer {
     else Bukkit.getScoreboardManager().getMainScoreboard().getTeam("joueur").addEntry(player.getName());
   }
 
-  public Player getPlayer() {
-    return this.player;
-  }
-
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
-
-  public boolean isAdmin() {
-    return this.admin;
-  }
-
   public void setAdmin(boolean admin) {
+
     if (admin) this.player.setPlayerListName(ChatColor.LIGHT_PURPLE + "[Garde] " + ChatColor.WHITE + this.player.getName());
     else this.player.setPlayerListName(ChatColor.WHITE + this.player.getName());
     this.admin = admin;
-  }
 
+  }
 }

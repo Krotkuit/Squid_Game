@@ -1,6 +1,7 @@
 package fr.salut.squidgame.player;
 
 import fr.salut.squidgame.component.player.TPlayer;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -8,13 +9,10 @@ import java.util.Set;
 
 public class PlayersManager {
 
+  @Getter
   public static Set<TPlayer> tPlayers = new HashSet<>();
 
-  public static Set<TPlayer> getTPlayers() {
-    return tPlayers;
-  }
-
-  public static void addTPlayer(TPlayer tPlayer) {
+    public static void addTPlayer(TPlayer tPlayer) {
     tPlayers.add(tPlayer);
   }
 

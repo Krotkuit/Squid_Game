@@ -1,5 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
+import lombok.Setter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.scoreboard.Team;
 
 public class MoveDetectListener implements Listener {
 
+  @Setter
   private static boolean enabled = false;
 
   private final JavaPlugin plugin;
@@ -45,9 +47,5 @@ public class MoveDetectListener implements Listener {
         }
       }, 100);
     }
-  }
-
-  public static void setEnabled(boolean b) {
-    enabled = b;
   }
 }

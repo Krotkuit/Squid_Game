@@ -1,11 +1,8 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE;
 
-import fr.salut.squidgame.Main;
-import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
-import net.md_5.bungee.api.chat.BaseComponent;
+import fr.salut.squidgame.SquidGame;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,13 +18,10 @@ import java.util.Random;
 
 
 public class LTTEManager implements Listener {
-    private static Main plugin;
+    SquidGame plugin = SquidGame.getInstance();
     private static final List<Player> playersWithTNT = new ArrayList<>();
     private final Random random = new Random();
 
-    public LTTEManager(Main plugin) {
-        this.plugin = plugin;
-    }
     @EventHandler
     public void onGameStart(PlayerJoinEvent event) {
         LTTEState gameState = plugin.getLTTEState();
@@ -76,13 +70,9 @@ public class LTTEManager implements Listener {
 
         if (state == LTTEState.OFF || state == LTTEState.STOP) return;
 
-        if (!(event.getDamager() instanceof Player)) return;
+        if (!(event.getDamager() instanceof Player giver)) return;
 
-        Player giver = (Player) event.getDamager();
-        if (!(event.getEntity() instanceof Player)) return;
-
-        Player receiver = (Player) event.getEntity();
-
+        if (!(event.getEntity() instanceof Player receiver)) return;
 
         if (playersWithTNT.contains(giver) && !playersWithTNT.contains(receiver)) {
             // Transfert de la TNT
@@ -116,7 +106,7 @@ public class LTTEManager implements Listener {
                     playersWithTNT.remove(player);
                 }
             }
-        }.runTaskLater(Bukkit.getPluginManager().getPlugin("SquidGame"), delayInTicks);
+        }.runTaskLater(plugin, delayInTicks);
     }
 
     public Collection<Player> getPlayersWithTNT() {
@@ -132,6 +122,6 @@ public class LTTEManager implements Listener {
             player.sendMessage(ChatColor.GREEN + "Vous n'avez plus de TNT !");
         }
         playersWithTNT.clear();
-        plugin.getLogger().info("La liste des loups explosifs a été réinitialisée.");
+        SquidGame.getInstance().getLogger().info("La liste des loups explosifs a été réinitialisée.");
     }
 }

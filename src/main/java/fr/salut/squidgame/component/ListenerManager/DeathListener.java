@@ -22,7 +22,7 @@ public class DeathListener implements Listener {
   @EventHandler
   public void onPlayerDeath(PlayerDeathEvent event) {
     // mise à jour du compteur
-    MAJ_compteur.MAJ_compteur();
+    new MAJ_compteur();
 
     // rétablir les items
     Player player = event.getPlayer();

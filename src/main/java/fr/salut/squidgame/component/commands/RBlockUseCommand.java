@@ -16,11 +16,12 @@ import java.util.List;
 
 public class RBlockUseCommand implements CommandExecutor, TabCompleter {
 
+  // pas compris
   @Override
   public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
     if (!(commandSender instanceof Player)) return false;
-    Player player = ((Player) commandSender);
+    Player player =(Player) commandSender;
 
     String rBlockTitle = strings[0];
     HashMap<String, RBlock> rBlockList = RBlocks.getRBlockList();

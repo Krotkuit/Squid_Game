@@ -10,6 +10,8 @@ import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberMan
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -18,27 +20,47 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Main extends JavaPlugin implements Listener {
+public final class SquidGame extends JavaPlugin implements Listener {
 
+    @Getter static SquidGame instance;
+
+    @Setter
+    @Getter
     private PRVState prvState = PRVState.OFF;
     private LTTEState ltteState = LTTEState.OFF;
+    @Getter
     private final PlayerNumberManager playerNumberManager = new PlayerNumberManager();
+    @Getter
+    private final List<Player> playersWithTNT = new ArrayList<>();
 
     @Override
     public void onEnable() {
+        instance = this;
+
         TeamManager.Team_Instance();
 
-        getServer().getPluginManager().registerEvents(new BlockDetector(), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(), this);
-        getServer().getPluginManager().registerEvents(new NoMoveTagListener(), this);
-        //getServer().getPluginManager().registerEvents(new PlayerRightListener(), this);
-        getServer().getPluginManager().registerEvents(new ArmorProtectionListener(), this);
-        getServer().getPluginManager().registerEvents(new MoveDetectListener(this), this);
-        getServer().getPluginManager().registerEvents(new DeathListener(), this);
-        getServer().getPluginManager().registerEvents(new PRVListener(this), this);
-        getServer().getPluginManager().registerEvents(new LTTEManager(this), this);
-        getServer().getPluginManager().registerEvents(new BaPManager(this), this);
+        registerEvents(
+                new BlockDetector(),
+                new JoinListener(),
+                new NoMoveTagListener(),
+                //new PlayerRightListener(),
+                new ArmorProtectionListener(),
+                new MoveDetectListener(this),
+                new DeathListener(),
+                new PRVListener(),
+                new LTTEManager(),
+                new BaPManager()
+        );
+
         loadCommands();
+
+        // Load les commandes aussi
+        CommandManager.handler.register(
+                new BaPCommand(),
+                new LTTECommand(this),
+                new MoveDetectionCmd(),
+                new PRVCommand()
+        );
 
         // import custom mob
         getLogger().info("Le plugin est activé !");
@@ -47,27 +69,16 @@ public final class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        getLogger().info("Le plugin est désactivé !");
     }
 
     private void loadCommands() {
-        getCommand("movedetection").setExecutor(new MoveDetectionCmd());
         getCommand("test").setExecutor(new TestCmd());
         getCommand("rblocktoggle").setExecutor(new RBlockUseCommand());
-        getCommand("prv").setExecutor(new PRVCommand(this));
-        getCommand("ltte").setExecutor(new LTTECommand(this));
-        getCommand("bap").setExecutor(new BaPCommand(this));
     }
 
     public void teleportPlayer(Player player, double x, double y, double z) {
         player.teleport(new Location(player.getWorld(), x, y, z));
-    }
-
-    public PRVState getPrvState() {
-        return prvState;
-    }
-
-    public void setPrvState(PRVState state) {
-        this.prvState = state;
     }
 
     public LTTEState getLTTEState() {
@@ -77,13 +88,10 @@ public final class Main extends JavaPlugin implements Listener {
     public void setLTTEState(LTTEState state) {
         this.ltteState = state;
     }
-    public PlayerNumberManager getPlayerNumberManager() {
-        return playerNumberManager;
-    }
 
-    private final List<Player> playersWithTNT = new ArrayList<>();
-
-    public List<Player> getPlayersWithTNT() {
-        return playersWithTNT;
+    public static void registerEvents(Listener... listeners) {
+        for (Listener listener : listeners) {
+            instance.getServer().getPluginManager().registerEvents(listener, instance);
+        }
     }
 }

@@ -18,3 +18,8 @@ commands:
   bap:
     description: Commande pour gérer les états BaP.
     usage: /bap <ON|OFF|STOP>
+
+permissions:
+  sqg.admins.commands.*:
+    description: "Donne l'accès aux commandes d'administration"
+    default: op

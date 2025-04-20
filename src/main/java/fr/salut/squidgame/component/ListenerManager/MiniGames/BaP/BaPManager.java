@@ -1,8 +1,8 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.BaP;
 
 
-import com.google.gson.internal.LinkedTreeMap;
 import fr.salut.squidgame.component.commands.BaPCommand;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -22,13 +22,13 @@ import java.util.*;
 import static fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState.STOP;
 
 public class BaPManager implements Listener {
-  private final JavaPlugin plugin;
   private final Map<String, int[]> teamZones = new HashMap<>(); // Zones des équipes
   private final Map<String, List<int[]>> prisonZones = new HashMap<>(); // Zones des prisons
+
+  @Getter
   private static final Set<Player> playersInPrison = new HashSet<>(); // Joueurs en prison
 
-  public BaPManager(JavaPlugin plugin) {
-    this.plugin = plugin;
+  public BaPManager() {
     initializeZones();
   }
 
@@ -51,25 +51,19 @@ public class BaPManager implements Listener {
     ));
   }
   private Location getPrisonSpawn(String teamName) {
-    switch (teamName.toLowerCase()) {
-      case "bleu":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -232); // Coordonnées fixes pour l'équipe "bleu"
-      case "orange":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -180); // Coordonnées fixes pour l'équipe "orange"
-      default:
-        return null; // Si l'équipe n'existe pas
-    }
+      return switch (teamName.toLowerCase()) {
+          case "bleu" -> new Location(Bukkit.getWorld("world"), 183, -59, -232); // Coordonnées fixes pour l'équipe "bleu"
+          case "orange" -> new Location(Bukkit.getWorld("world"), 183, -59, -180); // Coordonnées fixes pour l'équipe "orange"
+          default -> null; // Si l'équipe n'existe pas
+      };
   }
 
   private Location getTeamSpawn(String teamName) {
-    switch (teamName.toLowerCase()) {
-      case "bleu":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -195); // Coordonnées du centre du camp bleu
-      case "orange":
-        return new Location(Bukkit.getWorld("world"), 183, -59, -217); // Coordonnées du centre du camp orange
-      default:
-        return null; // Si l'équipe n'existe pas
-    }
+      return switch (teamName.toLowerCase()) {
+          case "bleu" -> new Location(Bukkit.getWorld("world"), 183, -59, -195); // Coordonnées du centre du camp bleu
+          case "orange" -> new Location(Bukkit.getWorld("world"), 183, -59, -217); // Coordonnées du centre du camp orange
+          default -> null; // Si l'équipe n'existe pas
+      };
   }
   @EventHandler
   public void onSnowballLaunch(ProjectileLaunchEvent event) {
@@ -78,13 +72,13 @@ public class BaPManager implements Listener {
     if (event.getEntity() instanceof Snowball) {
       if (gameState == STOP) {
         event.setCancelled(true); // Annule le lancement de la Snowball
-        if (event.getEntity().getShooter() instanceof Player) {
-          Player shooter = (Player) event.getEntity().getShooter();
+        if (event.getEntity().getShooter() instanceof Player shooter) {
           shooter.sendMessage(ChatColor.RED + "Le jeu est en état STOP, vous ne pouvez pas lancer de Snowball !");
         }
       }
     }
   }
+
   @EventHandler
   public void onPlayerMove(PlayerMoveEvent event) {
     BaPState gameState = BaPCommand.getBaPState();
@@ -127,12 +121,8 @@ public class BaPManager implements Listener {
     BaPState gameState = BaPCommand.getBaPState();
 
     if (gameState != BaPState.ON) return;
-    if (event.getDamager() instanceof Snowball && event.getEntity() instanceof Player) {
-      Player hitPlayer = (Player) event.getEntity();
-      Snowball snowball = (Snowball) event.getDamager();
-
-      if (snowball.getShooter() instanceof Player) {
-        Player shooter = (Player) snowball.getShooter();
+    if (event.getDamager() instanceof Snowball snowball && event.getEntity() instanceof Player hitPlayer) {
+      if (snowball.getShooter() instanceof Player shooter) {
         Team hitPlayerTeam = hitPlayer.getScoreboard().getEntryTeam(hitPlayer.getName());
         Team shooterTeam = shooter.getScoreboard().getEntryTeam(shooter.getName());
 
@@ -183,15 +173,13 @@ public class BaPManager implements Listener {
 
     if (gameState != BaPState.ON) return;
 
-    if (event.getEntity() instanceof Snowball) {
-      Snowball snowball = (Snowball) event.getEntity();
+    if (event.getEntity() instanceof Snowball snowball) {
 
       // Vérifier si la Snowball a déjà été traitée
       if (processedSnowballs.contains(snowball.getUniqueId())) return;
       processedSnowballs.add(snowball.getUniqueId());
 
-      if (snowball.getShooter() instanceof Player) {
-        Player shooter = (Player) snowball.getShooter();
+      if (snowball.getShooter() instanceof Player shooter) {
 
         // Trouver le joueur le plus proche
         Player closestPlayer = null;
@@ -256,11 +244,11 @@ public class BaPManager implements Listener {
     int y2 = Math.max(bounds[1], bounds[4]);
     int z2 = Math.max(bounds[2], bounds[5]);
 
-    boolean inside = loc.getX() >= x1 && loc.getX() <= x2 &&
-        loc.getY() >= y1 && loc.getY() <= y2 &&
-        loc.getZ() >= z1 && loc.getZ() <= z2;
-    return inside;
+      return loc.getX() >= x1 && loc.getX() <= x2 &&
+          loc.getY() >= y1 && loc.getY() <= y2 &&
+          loc.getZ() >= z1 && loc.getZ() <= z2;
   }
+
   private boolean isInsideAnyBounds(Location loc, List<int[]> boundsList) {
     if (boundsList == null || boundsList.isEmpty()) {
       Bukkit.getLogger().warning("Les limites sont nulles ou vides !");
@@ -275,8 +263,4 @@ public class BaPManager implements Listener {
 
     return false; // Le joueur n'est dans aucun des cubes
   }
-  public static Set<Player> getPlayersInPrison() {
-    return playersInPrison;
-  }
-
 }

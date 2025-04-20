@@ -1,6 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
-import fr.salut.squidgame.Main;
+import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.armor.GiveArmorPlayer;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class JoinListener implements Listener {
     // Vérifier si c'est la première connexion du joueur
     if (!player.hasPlayedBefore()) {
       // attribuer un nombre au joueur
-      Main plugin = (Main) Bukkit.getPluginManager().getPlugin("SquidGame");
+      SquidGame plugin = (SquidGame) Bukkit.getPluginManager().getPlugin("SquidGame");
 
       if (plugin != null) {
         plugin.getPlayerNumberManager().assignNumber(player);
@@ -61,7 +61,7 @@ public class JoinListener implements Listener {
       team.addEntry(player.getName());
     }
     // mise à jour du compteur
-    MAJ_compteur.MAJ_compteur();
+    new MAJ_compteur();
 
     Team team_p = player.getScoreboard().getEntryTeam(player.getName());
     if (team_p == null) return;
@@ -82,6 +82,5 @@ public class JoinListener implements Listener {
       player.playSound(player, Sound.MUSIC_DISC_13, 1, 1);
     }
   }
-
 }
 

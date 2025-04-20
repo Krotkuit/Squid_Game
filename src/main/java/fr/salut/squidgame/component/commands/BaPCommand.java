@@ -1,22 +1,15 @@
 package fr.salut.squidgame.component.commands;
 
-import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState;
+import org.bukkit.entity.Player;
+import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.DefaultFor;
+import revxrsal.commands.annotation.Subcommand;
 
-import java.util.Map;
-
-public class BaPCommand implements CommandExecutor {
-    private final JavaPlugin plugin;
+@Command("bap")
+public class BaPCommand {
     private static BaPState bapState = BaPState.OFF; // État initial
-
-    public BaPCommand(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public static void setBaPState(BaPState newState) {
         if (newState == null) {
@@ -25,31 +18,28 @@ public class BaPCommand implements CommandExecutor {
         bapState = newState;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length < 1 || !label.equalsIgnoreCase("bap")) {
-            sender.sendMessage(ChatColor.RED + "Usage: /bap <ON|OFF|STOP>");
-            return true;
-        }
+    @DefaultFor("~")
+    public void bapDefault(Player sender){
+        sender.sendMessage("§cÉtat invalide. Utilisez ON, OFF ou STOP.");
+    }
 
-        switch (args[0].toUpperCase()) {
-            case "ON":
-                bapState = BaPState.ON;
-                sender.sendMessage(ChatColor.GREEN + "BaP activé : le jeu est maintenant actif.");
-                break;
-            case "OFF":
-                bapState = BaPState.OFF;
-                BaPManager.getPlayersInPrison().clear();
-                sender.sendMessage(ChatColor.RED + "BaP désactivé : le jeu est maintenant inactif.");
-                break;
-            case "STOP":
-                bapState = BaPState.STOP;
-                sender.sendMessage(ChatColor.YELLOW + "BaP en pause : le jeu est temporairement suspendu.");
-                break;
-            default:
-                sender.sendMessage(ChatColor.RED + "État invalide. Utilisez ON, OFF ou STOP.");
-        }
-        return true;
+    @Subcommand("ON")
+    public void bapON(Player sender){
+        bapState = BaPState.ON;
+        sender.sendMessage("§aBaP activé : le jeu est maintenant actif.");
+    }
+
+    @Subcommand("OFF")
+    public void bapOFF(Player sender){
+        bapState = BaPState.OFF;
+        BaPManager.getPlayersInPrison().clear();
+        sender.sendMessage("§cBaP désactivé : le jeu est maintenant inactif.");
+    }
+
+    @Subcommand("STOP")
+    public void bapSTOP(Player sender){
+        bapState = BaPState.STOP;
+        sender.sendMessage("§eBaP en pause : le jeu est temporairement suspendu.");
     }
 
     public static BaPState getBaPState() {

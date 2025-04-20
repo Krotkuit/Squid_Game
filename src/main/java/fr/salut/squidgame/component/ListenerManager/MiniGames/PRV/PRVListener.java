@@ -1,6 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.PRV;
 
-import fr.salut.squidgame.Main;
+import fr.salut.squidgame.SquidGame;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,17 +15,12 @@ import java.util.Set;
 
 public class PRVListener implements Listener {
 
-    private static Main plugin;
+    SquidGame plugin = SquidGame.getInstance();
     private static final Set<Player> teleportedPlayers = new HashSet<>();
-
-    public PRVListener(Main plugin) {
-        this.plugin = plugin;
-    }
 
     private final Location poulePrisonCenter = new Location(Bukkit.getWorld("world"), -55.5, -60, -228.5);
     private final Location renardPrisonCenter = new Location(Bukkit.getWorld("world"), -99.5, -60, -215.5);
     private final Location viperePrisonCenter = new Location(Bukkit.getWorld("world"), -88.5, -60, -259.5);
-    private final double prisonRadiusSquared = 25;
 
     @EventHandler
     public void onPlayerInteract(EntityDamageByEntityEvent event) {
@@ -88,11 +83,7 @@ public class PRVListener implements Listener {
                     player.sendMessage("§cVous ne pouvez pas quitter §fla prison des §aVipères §f!");
                 }
             }
-            return; // Empêche toute autre logique pour les joueurs emprisonnés
-        }
-
-        // Vérifie si le joueur est libre (non emprisonné)
-        if (!teleportedPlayers.contains(player)) {
+        } else { // Vérifie si le joueur est libre (non emprisonné)
             if (isPlayerInTeam(player, "vipere") && isInPrisonZone(player, poulePrisonCenter)) {
                 if (!playersWhoFreedPrison.contains(player)) {
                     releasePrisoners("vipere", player);
@@ -152,12 +143,13 @@ public class PRVListener implements Listener {
             return false;
         }
         double distanceSquared = playerLocation.distanceSquared(prisonCenter);
+        double prisonRadiusSquared = 25;
         return distanceSquared <= prisonRadiusSquared;
     }
 
     public static void resetPrisoners() {
         teleportedPlayers.clear();
         playersWhoFreedPrison.clear();
-        plugin.getLogger().info("Les listes de prisonniers ont été réinitialisées.");
+        SquidGame.getInstance().getLogger().info("Les listes de prisonniers ont été réinitialisées.");
     }
 }

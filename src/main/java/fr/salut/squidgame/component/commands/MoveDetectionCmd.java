@@ -1,42 +1,32 @@
 package fr.salut.squidgame.component.commands;
 
 import fr.salut.squidgame.component.ListenerManager.MoveDetectListener;
-import org.bukkit.command.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.bukkit.entity.Player;
+import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.DefaultFor;
+import revxrsal.commands.annotation.Subcommand;
 
-import java.util.List;
+@Command({"movedetection", "mvd"})
+public class MoveDetectionCmd {
 
-public class MoveDetectionCmd implements CommandExecutor, TabCompleter {
+    boolean enable;
 
-  @Override
-  public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-    //if (!commandSender.isOp()) {
-      //commandSender.sendMessage("§cVous devez être op pour utiliser cette commande");
-      //return false;
-    // }
-
-    if (strings.length != 1) {
-      commandSender.sendMessage("§cMerci d'utiliser la syntaxe: /movedetection <true|false>");
-      return false;
+    @DefaultFor("~")
+    public void bapDefault(Player sender){
+        sender.sendMessage("§cÉtat invalide. Utilisez true ou false.");
     }
 
-    try {
-      boolean enable = Boolean.parseBoolean(strings[0]);
-      commandSender.sendMessage("§aDétection de mouvements activée: " + (enable ? "Oui" : "Non"));
-      MoveDetectListener.setEnabled(enable);
-    }
-    catch (IllegalArgumentException e) {
-      commandSender.sendMessage("§cMerci d'entrer un booléen (true|false)");
-      return false;
+    @Subcommand("true")
+    public void mvdTrue(Player sender){
+        sender.sendMessage("§aDétection de mouvements activée: Oui");
+        MoveDetectListener.setEnabled(enable);
+        enable = true;
     }
 
-    return false;
-  }
-
-  @Override
-  public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-    if (!commandSender.isOp()) return List.of();
-    return List.of("true", "false");
-  }
+    @Subcommand("false")
+    public void mvdFalse(Player sender){
+        sender.sendMessage("§aDétection de mouvements activée: Non");
+        MoveDetectListener.setEnabled(enable);
+        enable = false;
+    }
 }
