@@ -32,8 +32,7 @@ public class MoveDetectListener implements Listener {
     Team team = player.getScoreboard().getEntryTeam(player.getName());
 
     if (player.getScoreboardTags().contains("md") && !team.getName().equalsIgnoreCase("garde") && !team.getName().equalsIgnoreCase("mort")) {
-      player.sendMessage("Vous avez bougé!");
-      player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Vous avez bougé !"));
+      //player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Vous avez bougé !"));
 
       player.getScoreboardTags().remove("md");
 
@@ -43,7 +42,7 @@ public class MoveDetectListener implements Listener {
         // Joue un son de flèche tirée à tous les autres joueurs
         for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
           // Joue le son de la flèche en direction du joueur tué
-          otherPlayer.playSound(player.getLocation(), "entity.arrow.shoot", 1.0f, 1.0f);
+          otherPlayer.playSound(player.getLocation(), "item.crossbow.shoot", 1.0f, 1.0f);
         }
       }, 100);
     }

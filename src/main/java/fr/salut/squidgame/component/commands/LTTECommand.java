@@ -4,7 +4,6 @@ import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerJoinEvent;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
@@ -27,11 +26,8 @@ public class LTTECommand {
     public void ltteON(Player sender){
         LTTEManager.clearPlayersWithTNT();
         plugin.setLTTEState(LTTEState.ON);
+        LTTEManager.startGame();
         sender.sendMessage("§aLTTE activé : toutes les procédures fonctionnent.");
-        plugin.getServer().getOnlinePlayers().forEach(player -> {
-            PlayerJoinEvent event = new PlayerJoinEvent(player, "Bienvenue !");
-            plugin.getServer().getPluginManager().callEvent(event);
-        });
     }
 
     @Subcommand("OFF")

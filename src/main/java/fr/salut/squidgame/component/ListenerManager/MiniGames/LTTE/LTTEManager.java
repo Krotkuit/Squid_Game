@@ -18,12 +18,11 @@ import java.util.Random;
 
 
 public class LTTEManager implements Listener {
-    SquidGame plugin = SquidGame.getInstance();
+    private static final SquidGame plugin = SquidGame.getInstance();
     private static final List<Player> playersWithTNT = new ArrayList<>();
-    private final Random random = new Random();
+    private static final Random random = new Random();
 
-    @EventHandler
-    public void onGameStart(PlayerJoinEvent event) {
+    public static void startGame() {
         LTTEState gameState = plugin.getLTTEState();
 
         if (gameState != LTTEState.ON) return; // Vérifie si le jeu est actif
@@ -36,7 +35,7 @@ public class LTTEManager implements Listener {
                 return team != null && (team.getName().equalsIgnoreCase("mort") || team.getName().equalsIgnoreCase("garde"));
             });
 
-            int tntCount = Math.max((int) Math.ceil(onlinePlayers.size() * 0.05), 1);
+            int tntCount = Math.max((int) Math.ceil(onlinePlayers.size() * 0.1), 1);
 
             for (int i = 0; i < tntCount && !onlinePlayers.isEmpty(); i++) {
                 Player selectedPlayer = onlinePlayers.remove(random.nextInt(onlinePlayers.size()));
@@ -54,9 +53,9 @@ public class LTTEManager implements Listener {
 
             if (!playersWithTNT.isEmpty()) {
                 String tntPlayers = playersWithTNT.stream()
-                        .map(Player::getName)
-                        .reduce((p1, p2) -> p1 + ", " + p2)
-                        .orElse("Aucun joueur");
+                    .map(Player::getName)
+                    .reduce((p1, p2) -> p1 + ", " + p2)
+                    .orElse("Aucun joueur");
                 Bukkit.broadcastMessage(ChatColor.GOLD + "Joueurs avec une TNT : " + ChatColor.RED + tntPlayers);
             }
             // Démarre le compte à rebours de 20 secondes
@@ -86,8 +85,8 @@ public class LTTEManager implements Listener {
         }
     }
 
-    private void startTNTCountdown() {
-        int delayInSeconds = random.nextInt(35 - 15 + 1) + 15; // Génère un nombre entre 15 et 35
+    private static void startTNTCountdown() {
+        int delayInSeconds = random.nextInt(95 - 35 + 1) + 35; // Génère un nombre entre 15 et 35
         int delayInTicks = delayInSeconds * 20;
         new BukkitRunnable() {
             @Override
