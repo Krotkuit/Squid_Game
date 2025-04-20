@@ -14,8 +14,6 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.Objects;
 
-import static fr.salut.squidgame.component.ListenerManager.BlockDetector.getEpreuve;
-
 public class DeathListener implements Listener {
 
 
@@ -56,77 +54,77 @@ public class DeathListener implements Listener {
     int Respawn_X;
     int Respawn_Y;
     int Respawn_Z;
-    if (Objects.equals(getEpreuve(), "123Soleil")) {
+    if (Objects.equals(BlockDetector.getEpreuve(), "123Soleil")) {
       Respawn_X = -79;
       Respawn_Y = -43;
       Respawn_Z = 125;
-    } else if (Objects.equals(getEpreuve(), "Biscuit_Team")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Biscuit_Team")) {
       Respawn_X = -334;
       Respawn_Y = -42;
       Respawn_Z = 41;
-    } else if (Objects.equals(getEpreuve(), "Biscuit_Game")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Biscuit_Game")) {
       Respawn_X = -294;
       Respawn_Y = -40;
       Respawn_Z = 150;
-    } else if (Objects.equals(getEpreuve(), "Tire_a_la_Corde")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Tire_a_la_Corde")) {
       Respawn_X = 50;
       Respawn_Y = -17;
       Respawn_Z = 74;
     }
-    else if (Objects.equals(getEpreuve(), "Arc_en_Ciel")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Arc_en_Ciel")) {
       Respawn_X = -215;
       Respawn_Y = -41;
       Respawn_Z = -131;
     }
-    else if (Objects.equals(getEpreuve(), "Brise_Glace")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Brise_Glace")) {
       Respawn_X = 44;
       Respawn_Y = -23;
       Respawn_Z = -30;
     }
-    else if (Objects.equals(getEpreuve(), "Carrousel")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Carrousel")) {
       Respawn_X = -127;
       Respawn_Y = -45;
       Respawn_Z = 12;
     }
-    else if (Objects.equals(getEpreuve(), "Billes")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Billes")) {
       Respawn_X = 146;
       Respawn_Y = -43;
       Respawn_Z = -63;
     }
-    else if (Objects.equals(getEpreuve(), "Discotheque")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Discotheque")) {
       Respawn_X = 139;
       Respawn_Y = -43;
       Respawn_Z = 34;
     }
-    else if (Objects.equals(getEpreuve(), "Jack_a_dit")) {
+    else if (Objects.equals(BlockDetector.getEpreuve(), "Jack_a_dit")) {
       Respawn_X = -254;
       Respawn_Y = -41;
       Respawn_Z = 37;
-    } else if (Objects.equals(getEpreuve(), "Bataille_Navale")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Bataille_Navale")) {
       Respawn_X = -151;
       Respawn_Y = -43;
       Respawn_Z = -97;
-    } else if (Objects.equals(getEpreuve(), "Croque_Carotte")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Croque_Carotte")) {
       Respawn_X = 42;
       Respawn_Y = -31;
       Respawn_Z = -134;
-    } else if (Objects.equals(getEpreuve(), "Puissance_4")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Puissance_4")) {
       Respawn_X = -190;
       Respawn_Y = -42;
       Respawn_Z = 97;
-    } else if (Objects.equals(getEpreuve(), "Morpion")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Morpion")) {
       Respawn_X = -334;
       Respawn_Y = -41;
       Respawn_Z = -78;
-    } else if (Objects.equals(getEpreuve(), "Squid_Game")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Squid_Game")) {
       Respawn_X = -256;
       Respawn_Y = -40;
       Respawn_Z = -52;
-    } else if (Objects.equals(getEpreuve(), "Roulette_Russe")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Roulette_Russe")) {
       Respawn_X = -20;
       Respawn_Y = -60;
       Respawn_Z = 141;
-    } else if (Objects.equals(getEpreuve(), "Tic_Tac_Explosif")) {
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Tic_Tac_Explosif")) {
       Respawn_X = -84;
       Respawn_Y = -60;
       Respawn_Z = -169;
