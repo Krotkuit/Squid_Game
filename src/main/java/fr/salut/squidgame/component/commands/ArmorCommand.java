@@ -76,7 +76,7 @@ public class ArmorCommand {
         }
     }
 
-    @Subcommand("player <target> <color>")
+    @Subcommand("player <color>")
     void armorPlayerColor(Player sender, @Named("target") Player target, @Named("color") String colorName){
         Color color = COLORS.get(colorName.toLowerCase());
         if (color == null) {
