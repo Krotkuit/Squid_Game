@@ -1,5 +1,6 @@
 package fr.salut.squidgame;
 
+import dev.xernas.menulib.MenuLib;
 import fr.salut.squidgame.component.ListenerManager.*;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
@@ -29,16 +30,19 @@ public final class SquidGame extends JavaPlugin implements Listener {
     private PRVState prvState = PRVState.OFF;
     private LTTEState ltteState = LTTEState.OFF;
     @Getter
-    private final PlayerNumberManager playerNumberManager = new PlayerNumberManager();
-    @Getter
     private final List<Player> playersWithTNT = new ArrayList<>();
 
     @Override
     public void onEnable() {
         instance = this;
+        MenuLib.init(this);
+        // Manager
+        new CommandManager();
+        new PlayerNumberManager();
 
         TeamManager.Team_Instance();
 
+        // Listener
         registerEvents(
                 new BlockDetector(),
                 new JoinListener(),
@@ -55,11 +59,13 @@ public final class SquidGame extends JavaPlugin implements Listener {
         loadCommands();
 
         // Load les commandes aussi
-        CommandManager.handler.register(
+        CommandManager.getHandler().register(
                 new BaPCommand(),
                 new LTTECommand(this),
                 new MoveDetectionCmd(),
-                new PRVCommand()
+                new PRVCommand(),
+                new NickNameCommands(),
+                new MenuCommand()
         );
 
         // import custom mob

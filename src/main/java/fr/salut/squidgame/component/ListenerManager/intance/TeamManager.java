@@ -30,6 +30,8 @@ public class TeamManager {
       team.setColor(ChatColor.WHITE);
     }
 
+
+
     // Team garde
      team = scoreboard.getTeam("garde");
     if (team == null) {

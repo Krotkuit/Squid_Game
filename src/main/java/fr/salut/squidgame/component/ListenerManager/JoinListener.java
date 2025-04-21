@@ -1,6 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
-import fr.salut.squidgame.SquidGame;
+import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.GiveArmorPlayer;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
 import lombok.Getter;
@@ -26,24 +26,23 @@ public class JoinListener implements Listener {
     // Vérifier si c'est la première connexion du joueur
     if (!player.hasPlayedBefore()) {
       // attribuer un nombre au joueur
-      SquidGame plugin = (SquidGame) Bukkit.getPluginManager().getPlugin("SquidGame");
+      PlayerNumberManager.getInstance().assignNumber(player);
+      int number = PlayerNumberManager.getInstance().getPlayerNumber(player);
+      String idFormatted = String.format("%03d", number);
+      player.sendMessage("Votre numéro est : " + number);
 
-      if (plugin != null) {
-        plugin.getPlayerNumberManager().assignNumber(player);
-        int number = plugin.getPlayerNumberManager().getPlayerNumber(player);
-        player.sendMessage("Votre numéro est : " + number);
+      // Modifier le pseudo dans le chat
+      player.setDisplayName("Joueur #" + idFormatted);
+      // Modifier le nom dans le tableau des scores (tab)
+      player.setPlayerListName("Joueur #" + idFormatted);
 
-        // Modifier le pseudo dans le chat
-        player.setDisplayName("Joueur #" + number);
-        // Modifier le nom dans le tableau des scores (tab)
-        player.setPlayerListName("Joueur #" + number);
+      // Modifier le nom au-dessus de la tête
+      player.setCustomName("Joueur #" + idFormatted);
 
-        // Modifier le nom au-dessus de la tête
-        player.setCustomName("Joueur #" + number);
+      team.setSuffix(" #" + idFormatted + " ");
+      team.addEntry(player.getName());
 
-        player.setCustomNameVisible(true);
-
-      }
+      player.setCustomNameVisible(true);
 
       // Donner un armure en cuir teintée au joueur
       GiveArmorPlayer.giveUnbreakableArmor(player);
@@ -74,13 +73,13 @@ public class JoinListener implements Listener {
     Player player = event.getPlayer();
     if (!player.hasPlayedBefore()) {
       TitleUtils.sendTitle(
-        player,
-        "&k&fBienvenue &k&fdans", // Titre
-        "&k&d&l■&k&a&lSquid &k&d&lGame&k&a&l■", // Sous-titre
-        10, 180, 20
+              player,
+              "&k&fBienvenue &k&fdans", // Titre
+              "&k&d&l■&k&a&lSquid &k&d&lGame&k&a&l■", // Sous-titre
+              10, 180, 20
       );
       player.playSound(player, Sound.MUSIC_DISC_13, 1, 1);
     }
   }
-}
 
+}
