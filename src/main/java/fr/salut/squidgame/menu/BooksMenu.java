@@ -95,7 +95,6 @@ public class BooksMenu extends Menu {
         if (world==null) world = getOwner().getWorld();
         world.getBlockAt(books.getLoc()).setType(Material.REDSTONE_BLOCK);
         world.getBlockAt(books.getLoc()).setType(Material.AIR);
-        getOwner().removeScoreboardTag("tempBook");
         getOwner().closeInventory();
     }
 }
