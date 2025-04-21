@@ -86,7 +86,7 @@ public class ArmorCommand {
         giveLeatherArmor(target, color, null);
     }
 
-    @Subcommand("team <team> <color>")
+    @Subcommand("team <color>")
     void armorTeamColor(Player sender, @Named("team") Team team, @Named("color") String colorName){
         Color color = COLORS.get(colorName.toLowerCase());
         if (color == null) {
