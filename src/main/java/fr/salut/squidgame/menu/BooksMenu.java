@@ -5,6 +5,8 @@ import dev.xernas.menulib.utils.InventorySize;
 import dev.xernas.menulib.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -88,9 +90,12 @@ public class BooksMenu extends Menu {
     }
 
     private void giveBook (Books books){
-        String baseCommand = books.getCommand();
-        String command = baseCommand.replace("%player%", getOwner().getName());
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+        getOwner().addScoreboardTag("tempBook");
+        World world = Bukkit.getWorld("world");
+        if (world==null) world = getOwner().getWorld();
+        world.getBlockAt(books.getLoc()).setType(Material.REDSTONE_BLOCK);
+        world.getBlockAt(books.getLoc()).setType(Material.AIR);
+        getOwner().removeScoreboardTag("tempBook");
         getOwner().closeInventory();
     }
 }

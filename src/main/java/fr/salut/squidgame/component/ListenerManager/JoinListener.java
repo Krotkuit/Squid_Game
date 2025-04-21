@@ -81,5 +81,4 @@ public class JoinListener implements Listener {
       player.playSound(player, Sound.MUSIC_DISC_13, 1, 1);
     }
   }
-
 }
