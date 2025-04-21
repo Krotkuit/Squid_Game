@@ -15,26 +15,6 @@ import java.util.Map;
 @Command("armor")
 public class ArmorCommand {
 
-    private static final Map<String, Color> COLORS = new HashMap<>();
-
-    static {
-        COLORS.put("white", Color.WHITE);
-        COLORS.put("orange", Color.ORANGE);
-        COLORS.put("magenta", Color.FUCHSIA);
-        COLORS.put("light_blue", Color.AQUA);
-        COLORS.put("yellow", Color.YELLOW);
-        COLORS.put("lime", Color.LIME);
-        COLORS.put("pink", Color.FUCHSIA);
-        COLORS.put("gray", Color.GRAY);
-        COLORS.put("light_gray", Color.SILVER);
-        COLORS.put("cyan", Color.TEAL);
-        COLORS.put("purple", Color.PURPLE);
-        COLORS.put("blue", Color.BLUE);
-        COLORS.put("brown", Color.MAROON);
-        COLORS.put("green", Color.GREEN);
-        COLORS.put("red", Color.RED);
-        COLORS.put("black", Color.BLACK);
-    }
 
     @DefaultFor("~")
     void defaultArmor(Player sender){
@@ -64,41 +44,238 @@ public class ArmorCommand {
         }
     }
 
-    @Subcommand("<color>")
-    void armorColor(Player sender, @Named("color") String colorName){
-        Color color = COLORS.get(colorName.toLowerCase());
-        if (color == null) {
-            sender.sendMessage("§cCouleur inconnue.");
-            return;
-        }
+    @Subcommand("blue")
+    void armorPlayerBlue(Player sender){
         for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            giveLeatherArmor(target, color, null);
+            giveLeatherArmor(target, Color.BLUE, null);
         }
     }
 
-    @Subcommand("player <color>")
-    void armorPlayerColor(Player sender, @Named("target") Player target, @Named("color") String colorName){
-        Color color = COLORS.get(colorName.toLowerCase());
-        if (color == null) {
-            sender.sendMessage("§cCouleur inconnue.");
-            return;
-        }
-        giveLeatherArmor(target, color, null);
+    @Subcommand("player blue")
+    void armorPlayerBlue(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.BLUE, null);
     }
 
-    @Subcommand("team <color>")
-    void armorTeamColor(Player sender, @Named("team") Team team, @Named("color") String colorName){
-        Color color = COLORS.get(colorName.toLowerCase());
-        if (color == null) {
-            sender.sendMessage("§cCouleur inconnue.");
-            return;
-        }
+    @Subcommand("team blue")
+    void armorTeamBlue(Player sender, @Named("target") Team team){
         for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            if (team.hasEntity(target)) {
-                giveLeatherArmor(target, color, null);
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.BLUE, null);
             }
         }
     }
+
+    @Subcommand("green")
+    void armorPlayerGreen(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.GREEN, null);
+        }
+    }
+
+    @Subcommand("player green")
+    void armorPlayerGreen(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.GREEN, null);
+    }
+
+    @Subcommand("team green")
+    void armorTeamGreen(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.GREEN, null);
+            }
+        }
+    }
+
+    @Subcommand("yellow")
+    void armorPlayerYellow(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.YELLOW, null);
+        }
+    }
+
+    @Subcommand("player yellow")
+    void armorPlayerYellow(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.YELLOW, null);
+    }
+
+    @Subcommand("team yellow")
+    void armorTeamYellow(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.YELLOW, null);
+            }
+        }
+    }
+
+    @Subcommand("orange")
+    void armorPlayerOrange(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.ORANGE, null);
+        }
+    }
+
+    @Subcommand("player orange")
+    void armorPlayerOrange(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.ORANGE, null);
+    }
+
+    @Subcommand("team orange")
+    void armorTeamOrange(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.ORANGE, null);
+            }
+        }
+    }
+
+    @Subcommand("white")
+    void armorPlayerWhite(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.WHITE, null);
+        }
+    }
+
+    @Subcommand("player white")
+    void armorPlayerWhite(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.WHITE, null);
+    }
+
+    @Subcommand("team white")
+    void armorTeamWhite(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.WHITE, null);
+            }
+        }
+    }
+
+    @Subcommand("black")
+    void armorPlayerBlack(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.BLACK, null);
+        }
+    }
+
+    @Subcommand("player black")
+    void armorPlayerBlack(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.BLACK, null);
+    }
+
+    @Subcommand("team black")
+    void armorTeamBlack(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.BLACK, null);
+            }
+        }
+    }
+
+    @Subcommand("purple")
+    void armorPlayerPurple(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.PURPLE, null);
+        }
+    }
+
+    @Subcommand("player purple")
+    void armorPlayerPurple(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.PURPLE, null);
+    }
+
+    @Subcommand("team purple")
+    void armorTeamPurple(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.PURPLE, null);
+            }
+        }
+    }
+
+    @Subcommand("fuchsia")
+    void armorPlayerFuchsia(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.FUCHSIA, null);
+        }
+    }
+
+    @Subcommand("player fuchsia")
+    void armorPlayerFuchsia(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.FUCHSIA, null);
+    }
+
+    @Subcommand("team fuchsia")
+    void armorTeamFuchsia(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.FUCHSIA, null);
+            }
+        }
+    }
+
+    @Subcommand("aqua")
+    void armorPlayerAqua(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.AQUA, null);
+        }
+    }
+
+    @Subcommand("player aqua")
+    void armorPlayerAqua(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.AQUA, null);
+    }
+
+    @Subcommand("team aqua")
+    void armorTeamAqua(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.AQUA, null);
+            }
+        }
+    }
+
+    @Subcommand("lime")
+    void armorPlayerLime(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.LIME, null);
+        }
+    }
+
+    @Subcommand("player lime")
+    void armorPlayerLime(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.LIME, null);
+    }
+
+    @Subcommand("team lime")
+    void armorTeamLime(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.LIME, null);
+            }
+        }
+    }
+
+
+    @Subcommand("red")
+    void armorPlayerRed(Player sender){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            giveLeatherArmor(target, Color.RED, null);
+        }
+    }
+
+    @Subcommand("player red")
+    void armorPlayerRed(Player sender, @Named("target") Player target){
+        giveLeatherArmor(target, Color.RED, null);
+    }
+
+    @Subcommand("team red")
+    void armorTeamRed(Player sender, @Named("target") Team team){
+        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
+            if (team.hasEntity(target)){
+                giveLeatherArmor(target, Color.RED, null);
+            }
+        }
+    }
+
 
     private void giveLeatherArmor(Player player, Color color, String hexaColor){
         if (color == null && hexaColor != null){
