@@ -65,7 +65,8 @@ public final class SquidGame extends JavaPlugin implements Listener {
                 new MoveDetectionCmd(),
                 new PRVCommand(),
                 new NickNameCommands(),
-                new MenuCommand()
+                new MenuCommand(),
+                new ArmorCommand()
         );
 
         // import custom mob
