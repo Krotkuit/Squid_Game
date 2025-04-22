@@ -24,8 +24,8 @@ public class CMManager {
         Scoreboard scoreboard = manager.getMainScoreboard();
         Team team = scoreboard.getTeam("joueur");
 
-        for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            if (player.getScoreboard().getTeams().contains(team)){
+        for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
+            if (team.hasEntry(player.getName())) {
                 chairs += 1;
             }
         }
@@ -57,15 +57,22 @@ public class CMManager {
         }
     }
 
-    private static void generateRandomPos(){
-        int x = new Random().nextInt(Math.min(161, 118), Math.max(161, 118));
-        //int x = new Random().nextInt(Math.min(zone[0], zone[2]), Math.max(zone[0], zone[2]));
-        int y = -56;
-        int z = new Random().nextInt(Math.min(51, 8), Math.max(51, 8));
-        //int z = new Random().nextInt(Math.min(zone[1], zone[3]), Math.max(zone[1], zone[3]));
+    private static void generateRandomPos() {
+        int minX = Math.min(zone[0], zone[2]);
+        int maxX = Math.max(zone[0], zone[2]);
+        int minZ = Math.min(zone[1], zone[3]);
+        int maxZ = Math.max(zone[1], zone[3]);
+
+        if (minX >= maxX || minZ >= maxZ) {
+            throw new IllegalArgumentException("Les limites de la zone sont incorrectes : bound doit être supérieur à origin.");
+        }
+
+        int x = new Random().nextInt(minX, maxX);
+        int y = -56; // Coordonnée Y fixe
+        int z = new Random().nextInt(minZ, maxZ);
 
         Location location = new Location(Bukkit.getWorld("world"), x, y, z);
-        if (chairsLoc.contains(location)){
+        if (chairsLoc.contains(location)) {
             generateRandomPos();
         } else {
             chairsLoc.add(location);
