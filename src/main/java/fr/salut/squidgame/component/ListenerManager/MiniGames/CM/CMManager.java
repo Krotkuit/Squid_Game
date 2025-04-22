@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -37,20 +38,22 @@ public class CMManager {
         }
 
         for (Location loc : chairsLoc){
-            double x = loc.getX();
-            double y = loc.getY();
-            double z = loc.getZ();
+            int x = loc.getBlockX();
+            int y = loc.getBlockY();
+            int z = loc.getBlockZ();
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "setblock " + x + " " + y + " " + z + " cfm:stripped_oak_chair");
         }
     }
 
-    public static void removeChair(){
-        for (Location loc : chairsLoc){
-            double x = loc.getX();
-            double y = loc.getY();
-            double z = loc.getZ();
+    public static void removeChair() {
+        Iterator<Location> iterator = chairsLoc.iterator();
+        while (iterator.hasNext()) {
+            Location loc = iterator.next();
+            int x = loc.getBlockX();
+            int y = loc.getBlockY();
+            int z = loc.getBlockZ();
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "setblock " + x + " " + y + " " + z + " air");
-            chairsLoc.remove(loc);
+            iterator.remove(); // Supprime l'élément en toute sécurité
         }
     }
 

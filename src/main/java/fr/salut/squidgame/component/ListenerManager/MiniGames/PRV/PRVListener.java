@@ -1,7 +1,10 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.PRV;
 
 import fr.salut.squidgame.SquidGame;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,6 +38,11 @@ public class PRVListener implements Listener {
 
         Player target = (Player) event.getEntity();
 
+
+        if (teleportedPlayers.contains(player)) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§cVous ne pouvez pas emprisonner un joueur car vous êtes en prison !"));
+            return;
+        }
         if (isPlayerInTeam(player, "poule") && isPlayerInTeam(target, "vipere")) {
             plugin.teleportPlayer(target, poulePrisonCenter.getX(), poulePrisonCenter.getY(), poulePrisonCenter.getZ());
             teleportedPlayers.add(target);
@@ -70,17 +78,17 @@ public class PRVListener implements Listener {
             if (isPlayerInTeam(player, "vipere")) {
                 if (!isInPrisonZone(player, poulePrisonCenter)) {
                     player.teleport(poulePrisonCenter);
-                    player.sendMessage("§cVous ne pouvez pas quitter §fla prison des §fPoules §f!");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§c§cVous ne pouvez pas quitter §fla prison des §fPoules §f!"));
                 }
             } else if (isPlayerInTeam(player, "poule")) {
                 if (!isInPrisonZone(player, renardPrisonCenter)) {
                     player.teleport(renardPrisonCenter);
-                    player.sendMessage("§cVous ne pouvez pas quitter §fla prison des §6Renards §f!");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§cVous ne pouvez pas quitter §fla prison des §6Renards §f!"));
                 }
             } else if (isPlayerInTeam(player, "renard")) {
                 if (!isInPrisonZone(player, viperePrisonCenter)) {
                     player.teleport(viperePrisonCenter);
-                    player.sendMessage("§cVous ne pouvez pas quitter §fla prison des §aVipères §f!");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§cVous ne pouvez pas quitter §fla prison des §aVipères §f!"));
                 }
             }
         } else { // Vérifie si le joueur est libre (non emprisonné)

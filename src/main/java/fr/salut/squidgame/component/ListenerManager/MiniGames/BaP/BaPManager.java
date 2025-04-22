@@ -152,10 +152,23 @@ public class BaPManager implements Listener {
           // Le joueur rattrape la balle
           hitPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.BLUE + "Vous avez rattrapé la balle !"));
           hitPlayer.playSound(hitPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+          hitPlayer.setCompassTarget(snowball.getLocation());
           return;
         }
 
         if (hitPlayerTeam != null && shooterTeam != null) {
+
+          if (playersInPrison.contains(hitPlayer)) {
+            // Le joueur est déjà en prison, il reçoit simplement la balle
+            if (!hitPlayer.getInventory().contains(Material.SNOWBALL)) {
+              hitPlayer.getInventory().addItem(new ItemStack(Material.SNOWBALL, 1));
+            }
+            hitPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "Vous avez reçu la balle !"));
+            hitPlayer.playSound(hitPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+            hitPlayer.setCompassTarget(snowball.getLocation());
+            return;
+          }
+
           if (playersInPrison.contains(shooter) && !playersInPrison.contains(hitPlayer) && !hitPlayerTeam.equals(shooterTeam)) {
             // Libérer le lanceur
             playersInPrison.remove(shooter);
@@ -235,7 +248,7 @@ public class BaPManager implements Listener {
           closestPlayer.setCompassTarget(snowball.getLocation());
           closestPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "Vous avez reçu la balle !"));
         } else {
-          shooter.sendMessage(ChatColor.RED + "Aucun joueur proche dans les équipes orange ou vert pour recevoir la balle !");
+          shooter.sendMessage(ChatColor.RED + "Aucun joueur proche dans les équipes bleu ou vert pour recevoir la balle !");
         }
       }
     }
