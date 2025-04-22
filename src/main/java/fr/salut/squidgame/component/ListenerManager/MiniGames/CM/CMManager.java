@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CMManager {
-    static int[] zone = {161, 51, 118, 8 };
+    static int[] zone = {161, 51, 118, 8};
     private static final List<Location> chairsLoc = new ArrayList<>();
 
     public static void putChairs(){
@@ -55,9 +55,11 @@ public class CMManager {
     }
 
     private static void generateRandomPos(){
-        int x = new Random().nextInt(Math.min(zone[0], zone[2]), Math.max(zone[0], zone[2]));
+        int x = new Random().nextInt(Math.min(161, 118), Math.max(161, 118));
+        //int x = new Random().nextInt(Math.min(zone[0], zone[2]), Math.max(zone[0], zone[2]));
         int y = -56;
-        int z = new Random().nextInt(Math.min(zone[1], zone[3]), Math.max(zone[1], zone[3]));
+        int z = new Random().nextInt(Math.min(51, 8), Math.max(51, 8));
+        //int z = new Random().nextInt(Math.min(zone[1], zone[3]), Math.max(zone[1], zone[3]));
 
         Location location = new Location(Bukkit.getWorld("world"), x, y, z);
         if (chairsLoc.contains(location)){
