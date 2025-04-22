@@ -12,6 +12,7 @@ import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListene
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.BaPCommand;
+import fr.salut.squidgame.component.commands.games.CMCommand;
 import fr.salut.squidgame.component.commands.games.LTTECommand;
 import fr.salut.squidgame.component.commands.games.PRVCommand;
 import lombok.Getter;
@@ -69,7 +70,8 @@ public final class SquidGame extends JavaPlugin implements Listener {
                 new PRVCommand(),
                 new NickNameCommands(),
                 new MenuCommand(),
-                new ArmorCommand()
+                new ArmorCommand(),
+                new CMCommand()
         );
 
         // import custom mob
