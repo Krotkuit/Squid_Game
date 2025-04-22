@@ -38,7 +38,7 @@ public class ArmorCommand {
     }
 
     //donne armure en mail
-    @Subcommand("player")
+    @Subcommand("player mail")
     void armorPlayer(Player sender, @Named("target") Player target){
         giveMailArmor(target);
         // tu peux rajouter un message si tu veux
@@ -66,8 +66,8 @@ public class ArmorCommand {
         LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) chestplate.getItemMeta();
 
         if (color==null && hexaColor!=null){
-            if (hexaColor.contains("#")){
-                hexaColor.replace("#", "");
+            if (hexaColor.startsWith("#")){
+                hexaColor = hexaColor.replace("#", "");
             }
             color.setRed(getRGB(hexaColor)[0]);
             color.setGreen(getRGB(hexaColor)[1]);
