@@ -60,12 +60,10 @@ public class ArmorCommand {
         ItemStack boot = new ItemStack(Material.LEATHER_BOOTS);
         ItemStack pant = new ItemStack(Material.LEATHER_LEGGINGS);
         ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-        ItemStack hat = new ItemStack(Material.LEATHER_HELMET);
 
         LeatherArmorMeta bootMeta = (LeatherArmorMeta) boot.getItemMeta();
         LeatherArmorMeta pantMeta = (LeatherArmorMeta) pant.getItemMeta();
         LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) chestplate.getItemMeta();
-        LeatherArmorMeta hatMeta = (LeatherArmorMeta) hat.getItemMeta();
 
         if (color==null && hexaColor!=null){
             if (hexaColor.contains("#")){
@@ -79,17 +77,21 @@ public class ArmorCommand {
         bootMeta.setColor(color);
         pantMeta.setColor(color);
         chestplateMeta.setColor(color);
-        hatMeta.setColor(color);
+
+        bootMeta.setUnbreakable(true); // Armure incassable
+        bootMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        pantMeta.setUnbreakable(true); // Armure incassable
+        pantMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        chestplateMeta.setUnbreakable(true); // Armure incassable
+        chestplateMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
 
         boot.setItemMeta(bootMeta);
         pant.setItemMeta(pantMeta);
         chestplate.setItemMeta(chestplateMeta);
-        hat.setItemMeta(hatMeta);
 
         player.getEquipment().setBoots(boot);
         player.getEquipment().setLeggings(pant);
         player.getEquipment().setChestplate(chestplate);
-        player.getEquipment().setHelmet(hat);
     }
 
     private void giveMailArmor(Player player){
