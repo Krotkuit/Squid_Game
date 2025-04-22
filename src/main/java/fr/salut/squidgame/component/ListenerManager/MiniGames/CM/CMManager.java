@@ -55,9 +55,9 @@ public class CMManager {
     }
 
     private static void generateRandomPos(){
-        int x = new Random().nextInt(zone[0], zone[2]);
+        int x = new Random().nextInt(Math.min(zone[0], zone[2]), Math.max(zone[0], zone[2]));
         int y = -56;
-        int z = new Random().nextInt(zone[1], zone[3]);
+        int z = new Random().nextInt(Math.min(zone[1], zone[3]), Math.max(zone[1], zone[3]));
 
         Location location = new Location(Bukkit.getWorld("world"), x, y, z);
         if (chairsLoc.contains(location)){
