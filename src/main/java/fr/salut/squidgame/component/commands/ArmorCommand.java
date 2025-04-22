@@ -98,12 +98,10 @@ public class ArmorCommand {
         ItemStack boot = new ItemStack(Material.CHAINMAIL_BOOTS);
         ItemStack pant = new ItemStack(Material.CHAINMAIL_LEGGINGS);
         ItemStack chestplate = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
-        ItemStack hat = new ItemStack(Material.CHAINMAIL_HELMET);
 
         player.getEquipment().setBoots(boot);
         player.getEquipment().setLeggings(pant);
         player.getEquipment().setChestplate(chestplate);
-        player.getEquipment().setHelmet(hat);
     }
 
     private int[] getRGB(final String rgb) {
