@@ -11,6 +11,9 @@ import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberMan
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
+import fr.salut.squidgame.component.commands.games.BaPCommand;
+import fr.salut.squidgame.component.commands.games.LTTECommand;
+import fr.salut.squidgame.component.commands.games.PRVCommand;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;

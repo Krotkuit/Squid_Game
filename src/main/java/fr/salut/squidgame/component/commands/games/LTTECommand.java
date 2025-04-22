@@ -1,4 +1,4 @@
-package fr.salut.squidgame.component.commands;
+package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;

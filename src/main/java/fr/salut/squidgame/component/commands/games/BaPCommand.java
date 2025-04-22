@@ -1,4 +1,4 @@
-package fr.salut.squidgame.component.commands;
+package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState;

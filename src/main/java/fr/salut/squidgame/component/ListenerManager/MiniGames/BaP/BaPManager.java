@@ -2,7 +2,7 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.BaP;
 
 
 import fr.salut.squidgame.SquidGame;
-import fr.salut.squidgame.component.commands.BaPCommand;
+import fr.salut.squidgame.component.commands.games.BaPCommand;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.*;
