@@ -1,13 +1,11 @@
 package fr.salut.squidgame.component.commands;
 
 import fr.salut.squidgame.SquidGame;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.scoreboard.Team;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
@@ -58,26 +56,6 @@ public class ArmorCommand {
         // tu peux rajouter un message si tu veux
     }
 
-    @Subcommand("team hexa")
-    void armorTeam(Player sender, @Named("target") Team team, @Named("hexa") String hexa){
-        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            if (team.hasEntity(target)){
-                giveLeatherArmor(target, null, hexa);
-            }
-        }
-        // tu peux rajouter un message si tu veux
-    }
-
-    @Subcommand("team red")
-    void armorTeamRed(Player sender, @Named("target") Team team){
-        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            if (team.hasEntity(target)){
-                giveLeatherArmor(target, Color.RED, null);
-            }
-        }
-        // tu peux rajouter un message si tu veux
-    }
-
     private void giveLeatherArmor(Player player, Color color, String hexaColor){
         ItemStack boot = new ItemStack(Material.LEATHER_BOOTS);
         ItemStack pant = new ItemStack(Material.LEATHER_LEGGINGS);
@@ -102,6 +80,11 @@ public class ArmorCommand {
         pantMeta.setColor(color);
         chestplateMeta.setColor(color);
         hatMeta.setColor(color);
+
+        boot.setItemMeta(bootMeta);
+        pant.setItemMeta(pantMeta);
+        chestplate.setItemMeta(chestplateMeta);
+        hat.setItemMeta(hatMeta);
 
         player.getEquipment().setBoots(boot);
         player.getEquipment().setLeggings(pant);
