@@ -8,10 +8,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
+import revxrsal.commands.annotation.Optional;
 
 import java.util.List;
 
@@ -19,12 +21,16 @@ import java.util.List;
 public class ArmorCommand {
 
     @DefaultFor("~")
-    public void giveArmor(CommandSender sender, @Named("targets") String selector, String color) {
+    public void giveArmor(CommandSender sender, @Named("targets") String selector, @Optional String color) {
         List<Entity> entities = Bukkit.selectEntities(sender, selector);
 
         for (Entity entity : entities) {
             if (entity instanceof Player player){
-                giveLeatherArmor(player, color);
+                if (color==null){
+                    giveMailArmor(player);
+                } else {
+                    giveLeatherArmor(player, color);
+                }
             }
         }
     }
@@ -75,6 +81,22 @@ public class ArmorCommand {
         ItemStack boot = new ItemStack(Material.CHAINMAIL_BOOTS);
         ItemStack pant = new ItemStack(Material.CHAINMAIL_LEGGINGS);
         ItemStack chestplate = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
+
+        ArmorMeta bootMeta = (ArmorMeta) boot.getItemMeta();
+        ArmorMeta pantMeta = (ArmorMeta) pant.getItemMeta();
+        ArmorMeta chestplateMeta = (ArmorMeta) chestplate.getItemMeta();
+
+
+        bootMeta.setUnbreakable(true); // Armure incassable
+        bootMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        pantMeta.setUnbreakable(true); // Armure incassable
+        pantMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        chestplateMeta.setUnbreakable(true); // Armure incassable
+        chestplateMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+
+        boot.setItemMeta(bootMeta);
+        pant.setItemMeta(pantMeta);
+        chestplate.setItemMeta(chestplateMeta);
 
         player.getEquipment().setBoots(boot);
         player.getEquipment().setLeggings(pant);
