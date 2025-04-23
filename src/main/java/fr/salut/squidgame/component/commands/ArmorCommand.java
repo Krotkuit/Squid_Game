@@ -1,62 +1,37 @@
 package fr.salut.squidgame.component.commands;
 
-import fr.salut.squidgame.SquidGame;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
-import revxrsal.commands.annotation.Subcommand;
+
+import java.util.List;
 
 @Command("armor")
 public class ArmorCommand {
 
     @DefaultFor("~")
-    void defaultArmor(Player sender){
-        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            giveMailArmor(target);
+    public void giveArmor(CommandSender sender, @Named("targets") String selector, String color) {
+        List<Entity> entities = Bukkit.selectEntities(sender, selector);
+
+        for (Entity entity : entities) {
+            if (entity instanceof Player player){
+                giveLeatherArmor(player, color);
+            }
         }
     }
 
-    @Subcommand("hexa")
-    void armorPlayer(Player sender, @Named("hexa") String hexa){
-        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            giveLeatherArmor(target, null, hexa);
-        }
-        // tu peux rajouter un message si tu veux
-    }
 
-    @Subcommand("red")
-    void armorPlayer(Player sender){
-        for (Player target : SquidGame.getInstance().getServer().getOnlinePlayers()){
-            giveLeatherArmor(target, Color.RED, null);
-        }
-        // tu peux rajouter un message si tu veux
-    }
-
-    //donne armure en mail
-    @Subcommand("player mail")
-    void armorPlayer(Player sender, @Named("target") Player target){
-        giveMailArmor(target);
-        // tu peux rajouter un message si tu veux
-    }
-
-    @Subcommand("player hexa")
-    void armorPlayer(Player sender, @Named("target") Player target, @Named("hexa") String hexa){
-        giveLeatherArmor(target, null, hexa);
-        // tu peux rajouter un message si tu veux
-    }
-
-    @Subcommand("player red")
-    void armorPlayerRed(Player sender, @Named("target") Player target){
-        giveLeatherArmor(target, Color.RED, null);
-        // tu peux rajouter un message si tu veux
-    }
-
-    private void giveLeatherArmor(Player player, Color color, String hexaColor){
+    private void giveLeatherArmor(Player player, String hexaColor){
+        Color color = null;
         ItemStack boot = new ItemStack(Material.LEATHER_BOOTS);
         ItemStack pant = new ItemStack(Material.LEATHER_LEGGINGS);
         ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -65,13 +40,15 @@ public class ArmorCommand {
         LeatherArmorMeta pantMeta = (LeatherArmorMeta) pant.getItemMeta();
         LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) chestplate.getItemMeta();
 
-        if (color==null && hexaColor!=null){
+        if (hexaColor!=null){
             if (hexaColor.startsWith("#")){
                 hexaColor = hexaColor.replace("#", "");
             }
-            color.setRed(getRGB(hexaColor)[0]);
-            color.setGreen(getRGB(hexaColor)[1]);
-            color.setBlue(getRGB(hexaColor)[2]);
+            int r = getRGB(hexaColor)[0];
+            int g = getRGB(hexaColor)[1];
+            int b = getRGB(hexaColor)[2];
+
+            color = Color.fromRGB(r, g, b);
         }
 
         bootMeta.setColor(color);
@@ -79,11 +56,11 @@ public class ArmorCommand {
         chestplateMeta.setColor(color);
 
         bootMeta.setUnbreakable(true); // Armure incassable
-        bootMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        bootMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
         pantMeta.setUnbreakable(true); // Armure incassable
-        pantMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        pantMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
         chestplateMeta.setUnbreakable(true); // Armure incassable
-        chestplateMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
+        chestplateMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE); // Cache le tag incassable
 
         boot.setItemMeta(bootMeta);
         pant.setItemMeta(pantMeta);
@@ -112,5 +89,4 @@ public class ArmorCommand {
         }
         return ret;
     }
-
 }
