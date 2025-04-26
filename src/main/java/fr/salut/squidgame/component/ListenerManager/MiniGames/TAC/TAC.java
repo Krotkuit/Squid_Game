@@ -23,6 +23,7 @@ public class TAC implements Listener {
 
     private static final List<UUID> teamCorde1 = TACCommand.getTeamCorde1();
     private static final List<UUID> teamCorde2 = TACCommand.getTeamCorde2();
+    private static final HashMap<UUID, Integer> clickCounts = new HashMap<>();
 
     @Getter
     static List<UUID> ignoredClicker = new ArrayList<>();
@@ -30,6 +31,19 @@ public class TAC implements Listener {
     static int clickTeam1 = 0;
     @Setter
     static int clickTeam2 = 0;
+
+    public static void CPS() {
+        // Reset CPS chaque seconde
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (SquidGame.getInstance().getTacState().equals(TACState.OFF)){
+                    cancel();
+                }
+                clickCounts.clear();
+            }
+        }.runTaskTimer(SquidGame.getInstance(), 0L, 20L); // 20 ticks = 1 seconde
+    }
 
     @EventHandler
     public void onPlayerClick(PlayerInteractEvent e){
@@ -39,11 +53,21 @@ public class TAC implements Listener {
 
             if (!e.getAction().equals(Action.LEFT_CLICK_BLOCK))return;
             if (ignoredClicker.contains(player.getUniqueId())) return;
-            if (player.getScoreboardTags().contains("Corde1")){
-                clickTeam1++;
+
+            clickCounts.put(player.getUniqueId(), clickCounts.getOrDefault(player.getUniqueId(), 0) + 1);
+            int cps = clickCounts.get(player.getUniqueId());
+
+            if (cps > 15) {
+                Bukkit.broadcastMessage("⚠️ " + player.getName() + " a " + cps + " CPS !");
             }
-            if (player.getScoreboardTags().contains("Corde2")){
-                clickTeam2++;
+
+            if (cps<20){
+                if (player.getScoreboardTags().contains("Corde1")){
+                    clickTeam1++;
+                }
+                if (player.getScoreboardTags().contains("Corde2")){
+                    clickTeam2++;
+                }
             }
         }
     }

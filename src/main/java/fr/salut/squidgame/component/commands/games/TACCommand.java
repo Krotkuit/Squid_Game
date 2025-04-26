@@ -37,6 +37,7 @@ public class TACCommand {
         plugin.setTacState(TACState.ON);
         sender.sendMessage("§aTAC activé : jeux activé.");
         TAC.startDetection();
+        TAC.CPS();
     }
 
     @Subcommand("OFF")
