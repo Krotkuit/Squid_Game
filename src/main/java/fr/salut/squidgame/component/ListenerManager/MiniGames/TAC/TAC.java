@@ -21,8 +21,8 @@ public class TAC implements Listener {
 
     SquidGame plugin = SquidGame.getInstance();
 
-    private final List<UUID> teamCorde1 = TACCommand.getTeamCorde1();
-    private final List<UUID> teamCorde2 = TACCommand.getTeamCorde2();
+    private static final List<UUID> teamCorde1 = TACCommand.getTeamCorde1();
+    private static final List<UUID> teamCorde2 = TACCommand.getTeamCorde2();
 
     @Getter
     static List<UUID> ignoredClicker = new ArrayList<>();
@@ -61,7 +61,7 @@ public class TAC implements Listener {
         }
     }
 
-    public void startDetection(){
+    public static void startDetection(){
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -69,12 +69,12 @@ public class TAC implements Listener {
                     cancel();
                 }
                 if (clickTeam1 > clickTeam2) {
-                    for (Player player : plugin.getServer().getOnlinePlayers()) {
+                    for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
                         if (player.getScoreboardTags().contains("Corde1") && !ignoredClicker.contains(player.getUniqueId())) {
-                            plugin.teleportPlayer(player, player.getX() + 0.1, player.getY(), player.getZ());
+                            SquidGame.getInstance().teleportPlayer(player, player.getX() + 0.1, player.getY(), player.getZ());
                         }
                         if (player.getScoreboardTags().contains("Corde2") && !ignoredClicker.contains(player.getUniqueId())) {
-                            plugin.teleportPlayer(player, player.getX() - 0.1, player.getY(), player.getZ());
+                            SquidGame.getInstance().teleportPlayer(player, player.getX() - 0.1, player.getY(), player.getZ());
                         }
                         Block block = Bukkit.getWorld("world").getBlockAt((int) player.getX(), (int)player.getY()-1, (int)player.getZ());
                         if (block.getType().equals(Material.AIR)){
@@ -133,6 +133,6 @@ public class TAC implements Listener {
                     cancel();
                 }
             }
-        }.runTaskTimer(plugin, 0, 20*3);// toutes les seconds ( 20 ticks = 0.33... s)
+        }.runTaskTimer(SquidGame.getInstance(), 0, 20*3);// toutes les seconds ( 20 ticks = 0.33... s)
     }
 }

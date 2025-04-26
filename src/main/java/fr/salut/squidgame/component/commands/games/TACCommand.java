@@ -1,7 +1,6 @@
 package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.SquidGame;
-import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TAC;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import lombok.Getter;
@@ -37,6 +36,7 @@ public class TACCommand {
     public void tacON(CommandSender sender){
         plugin.setTacState(TACState.ON);
         sender.sendMessage("§aTAC activé : jeux activé.");
+        TAC.startDetection();
     }
 
     @Subcommand("OFF")
