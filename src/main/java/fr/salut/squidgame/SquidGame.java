@@ -7,14 +7,13 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TAC;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
-import fr.salut.squidgame.component.commands.games.BaPCommand;
-import fr.salut.squidgame.component.commands.games.CMCommand;
-import fr.salut.squidgame.component.commands.games.LTTECommand;
-import fr.salut.squidgame.component.commands.games.PRVCommand;
+import fr.salut.squidgame.component.commands.games.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -25,10 +24,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SquidGame extends JavaPlugin implements Listener {
+public final class SquidGame extends JavaPlugin{
 
     @Getter static SquidGame instance;
 
+    @Setter
+    @Getter
+    private TACState tacState = TACState.OFF;
     @Setter
     @Getter
     private PRVState prvState = PRVState.OFF;
@@ -57,7 +59,8 @@ public final class SquidGame extends JavaPlugin implements Listener {
                 new DeathListener(),
                 new PRVListener(),
                 new LTTEManager(),
-                new BaPManager()
+                new BaPManager(),
+                new TAC()
         );
 
         loadCommands();
@@ -71,7 +74,8 @@ public final class SquidGame extends JavaPlugin implements Listener {
                 new NickNameCommands(),
                 new MenuCommand(),
                 new ArmorCommand(),
-                new CMCommand()
+                new CMCommand(),
+                new TACCommand()
         );
 
         // import custom mob
