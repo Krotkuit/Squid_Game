@@ -56,7 +56,7 @@ public class TAC implements Listener {
             clickCounts.put(player.getUniqueId(), clickCounts.getOrDefault(player.getUniqueId(), 0) + 1);
             int cps = clickCounts.get(player.getUniqueId());
 
-            if (cps > 15) {
+            if (cps >= 5) {
                 Bukkit.broadcastMessage("⚠️ " + player.getName() + " a " + cps + " CPS !");
             }
 
