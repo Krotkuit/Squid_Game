@@ -70,26 +70,16 @@ public class TAC implements Listener {
                 }
                 if (clickTeam1 > clickTeam2) {
                     for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
-                        if (player.getScoreboardTags().contains("Corde1") && !ignoredClicker.contains(player.getUniqueId())) {
+                        if (!player.getScoreboardTags().contains("Corde2")) continue;
+                        if (!ignoredClicker.contains(player.getUniqueId())) {
                             SquidGame.getInstance().teleportPlayer(player, player.getX() + 0.1, player.getY(), player.getZ());
-                        }
-                        if (player.getScoreboardTags().contains("Corde2") && !ignoredClicker.contains(player.getUniqueId())) {
-                            SquidGame.getInstance().teleportPlayer(player, player.getX() - 0.1, player.getY(), player.getZ());
                         }
                         Block block = Bukkit.getWorld("world").getBlockAt((int) player.getX(), (int)player.getY()-1, (int)player.getZ());
                         if (block.getType().equals(Material.AIR)){
                             if (!ignoredClicker.contains(player.getUniqueId())){
-                                SquidGame.getInstance().teleportPlayer(player, player.getX(), player.getY()-2, player.getZ());
                                 player.setGravity(false);
-                                if (player.getScoreboardTags().contains("Corde1")){
-                                    TACCommand.getTeamCorde1().remove(player.getUniqueId());
-                                }
-                                if (player.getScoreboardTags().contains("Corde2")){
-                                    TACCommand.getTeamCorde2().remove(player.getUniqueId());
-                                }
-                                ignoredClicker.add(player.getUniqueId());
-                            }
-                            if (player.getScoreboardTags().contains("Corde1")){
+
+                                TACCommand.getTeamCorde1().remove(player.getUniqueId());
                                 for (UUID uuid : ignoredClicker){
                                     Player playerInTeam = Bukkit.getPlayer(uuid);
                                     if (playerInTeam==null)return;
@@ -97,9 +87,24 @@ public class TAC implements Listener {
                                         SquidGame.getInstance().teleportPlayer(playerInTeam, player.getX(), player.getY()-2, player.getZ());
                                     }
                                 }
-                            }
+                                SquidGame.getInstance().teleportPlayer(player, player.getX(), player.getY()-2, player.getZ());
+                                ignoredClicker.add(player.getUniqueId());
 
-                            else if (player.getScoreboardTags().contains("Corde2")){
+                            }
+                        }
+                    }
+                } else if (clickTeam1 < clickTeam2){
+                    for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
+                        if (!player.getScoreboardTags().contains("Corde1")) continue;
+                        if (!ignoredClicker.contains(player.getUniqueId())) {
+                            SquidGame.getInstance().teleportPlayer(player, player.getX() - 0.1, player.getY(), player.getZ());
+                        }
+                        Block block = Bukkit.getWorld("world").getBlockAt((int) player.getX(), (int)player.getY()-1, (int)player.getZ());
+                        if (block.getType().equals(Material.AIR)){
+                            if (!ignoredClicker.contains(player.getUniqueId())){
+                                player.setGravity(false);
+
+                                TACCommand.getTeamCorde2().remove(player.getUniqueId());
                                 for (UUID uuid : ignoredClicker){
                                     Player playerInTeam = Bukkit.getPlayer(uuid);
                                     if (playerInTeam==null)return;
@@ -107,10 +112,14 @@ public class TAC implements Listener {
                                         SquidGame.getInstance().teleportPlayer(playerInTeam, player.getX(), player.getY()-2, player.getZ());
                                     }
                                 }
+                                SquidGame.getInstance().teleportPlayer(player, player.getX(), player.getY()-2, player.getZ());
+                                ignoredClicker.add(player.getUniqueId());
+
                             }
                         }
                     }
                 }
+
                 if (TACCommand.getTeamCorde1().isEmpty()){
                     for (UUID uuid : teamCorde1){
                         Player player = Bukkit.getPlayer(uuid);
