@@ -51,7 +51,7 @@ public class TAC implements Listener {
         Player player = e.getPlayer();
         if (plugin.getTacState().equals(TACState.ON)){
 
-            if (!e.getAction().equals(Action.LEFT_CLICK_BLOCK))return;
+            if (!e.getAction().isLeftClick())return;
             if (ignoredClicker.contains(player.getUniqueId())) return;
 
             clickCounts.put(player.getUniqueId(), clickCounts.getOrDefault(player.getUniqueId(), 0) + 1);
@@ -96,7 +96,7 @@ public class TAC implements Listener {
                     for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
                         if (!player.getScoreboardTags().contains("Corde2")) continue;
                         if (!ignoredClicker.contains(player.getUniqueId())) {
-                            SquidGame.getInstance().teleportPlayer(player, player.getX() + 0.1, player.getY(), player.getZ());
+                            SquidGame.getInstance().teleportPlayer(player, (int) player.getX() + 0.1, (int) player.getY(), (int) player.getZ());
                         }
                         Block block = Bukkit.getWorld("world").getBlockAt((int) player.getX(), (int)player.getY()-1, (int)player.getZ());
                         if (block.getType().equals(Material.AIR)){
@@ -108,10 +108,10 @@ public class TAC implements Listener {
                                     Player playerInTeam = Bukkit.getPlayer(uuid);
                                     if (playerInTeam==null)return;
                                     if (playerInTeam.getScoreboardTags().contains("Corde1")){
-                                        SquidGame.getInstance().teleportPlayer(playerInTeam, player.getX(), player.getY()-2, player.getZ());
+                                        SquidGame.getInstance().teleportPlayer(playerInTeam, (int) player.getX(), (int) player.getY()-2, (int) player.getZ());
                                     }
                                 }
-                                SquidGame.getInstance().teleportPlayer(player, player.getX(), player.getY()-2, player.getZ());
+                                SquidGame.getInstance().teleportPlayer(player, (int) player.getX(), (int) player.getY()-2,(int)  player.getZ());
                                 ignoredClicker.add(player.getUniqueId());
 
                             }
@@ -121,7 +121,7 @@ public class TAC implements Listener {
                     for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
                         if (!player.getScoreboardTags().contains("Corde1")) continue;
                         if (!ignoredClicker.contains(player.getUniqueId())) {
-                            SquidGame.getInstance().teleportPlayer(player, player.getX() - 0.1, player.getY(), player.getZ());
+                            SquidGame.getInstance().teleportPlayer(player, (int) player.getX() - 0.1, (int) player.getY(), (int) player.getZ());
                         }
                         Block block = Bukkit.getWorld("world").getBlockAt((int) player.getX(), (int)player.getY()-1, (int)player.getZ());
                         if (block.getType().equals(Material.AIR)){
@@ -133,10 +133,10 @@ public class TAC implements Listener {
                                     Player playerInTeam = Bukkit.getPlayer(uuid);
                                     if (playerInTeam==null)return;
                                     if (playerInTeam.getScoreboardTags().contains("Corde2")){
-                                        SquidGame.getInstance().teleportPlayer(playerInTeam, player.getX(), player.getY()-2, player.getZ());
+                                        SquidGame.getInstance().teleportPlayer(playerInTeam, (int) player.getX(), (int) player.getY()-2, (int) player.getZ());
                                     }
                                 }
-                                SquidGame.getInstance().teleportPlayer(player, player.getX(), player.getY()-2, player.getZ());
+                                SquidGame.getInstance().teleportPlayer(player, (int) player.getX(), (int) player.getY()-2, (int) player.getZ());
                                 ignoredClicker.add(player.getUniqueId());
 
                             }
