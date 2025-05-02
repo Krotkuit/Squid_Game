@@ -13,11 +13,11 @@ public class MenuCommand {
     @CommandPermission("sqg.admins.commands.books")
     public void onBooks(Player sender){
         new BooksMenu(sender).open();
-        GlowingEntities glowingEntities = new GlowingEntities(SquidGame.getInstance());
-        try {
-            glowingEntities.setGlowing(sender, sender, ChatColor.DARK_AQUA);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+        //GlowingEntities glowingEntities = new GlowingEntities(SquidGame.getInstance());
+        //try {
+        //    glowingEntities.setGlowing(sender, sender, ChatColor.DARK_AQUA);
+        //} catch (ReflectiveOperationException e) {
+        //    throw new RuntimeException(e);
+        //}
     }
 }
