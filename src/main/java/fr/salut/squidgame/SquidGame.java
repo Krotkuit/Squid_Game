@@ -60,7 +60,8 @@ public final class SquidGame extends JavaPlugin{
                 new PRVListener(),
                 new LTTEManager(),
                 new BaPManager(),
-                new TAC()
+                //new TAC(),
+                new GunListener()
         );
 
         loadCommands();
