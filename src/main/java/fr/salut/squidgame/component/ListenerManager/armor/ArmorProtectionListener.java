@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.Material;
+import org.bukkit.scoreboard.Team;
 
 public class ArmorProtectionListener implements Listener {
 
@@ -12,6 +13,10 @@ public class ArmorProtectionListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         // Vérifie si c'est un joueur
         if (event.getWhoClicked() instanceof Player) {
+
+            Player player = (Player) event.getWhoClicked();
+            Team team = player.getScoreboard().getEntryTeam(player.getName());
+            if (team != null && team.getName().equalsIgnoreCase("garde")) return;
 
             // On ignore si ce n'est pas un clic sur un slot d'armure
             if (event.getSlotType() != org.bukkit.event.inventory.InventoryType.SlotType.ARMOR) {
