@@ -4,6 +4,7 @@ import fr.salut.squidgame.SquidGame;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -85,7 +86,8 @@ public class LTTEManager implements Listener {
     }
 
     private static void startTNTCountdown() {
-        int delayInSeconds = random.nextInt(95 - 35 + 1) + 35; // Génère un nombre entre 15 et 35
+        int delayInSeconds = random.nextInt(95 - 35 + 1) + 35; // Génère un nombre entre 35 et 95
+        SquidGame.getInstance().getLogger().info(ChatColor.RED + "" + delayInSeconds + " secondes");
         int delayInTicks = delayInSeconds * 20;
         new BukkitRunnable() {
             @Override
@@ -96,6 +98,8 @@ public class LTTEManager implements Listener {
                     return;
                 }
 
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stopsound @a");
+
                 for (Player player : new ArrayList<>(playersWithTNT)) {
                     player.sendMessage(ChatColor.RED + "BOOM ! Vous avez explosé !");
                     player.getWorld().playSound(player.getLocation(), "minecraft:entity.tnt.primed", 1.0F, 1.0F);
@@ -103,6 +107,7 @@ public class LTTEManager implements Listener {
                     player.getWorld().createExplosion(player.getLocation(), 4.0F, false, false);
                     playersWithTNT.remove(player);
                 }
+
             }
         }.runTaskLater(plugin, delayInTicks);
     }
@@ -112,10 +117,6 @@ public class LTTEManager implements Listener {
     }
 
     public static void clearPlayersWithTNT() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.RED + "L'épreuve a été arrêtée", "", 10, 70, 20);
-        }
-
         for (Player player : new ArrayList<>(playersWithTNT)) {
             player.sendMessage(ChatColor.GREEN + "Vous n'avez plus de TNT !");
         }
