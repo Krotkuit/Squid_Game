@@ -41,6 +41,15 @@ public class BooksMenu extends Menu {
     public @NotNull Map<Integer, ItemStack> getContent() {
         Map<Integer, ItemStack> map = new HashMap<>();
 
+        map.put(1, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Lobby");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.LOBBY);
+        }));
+
         map.put(9, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("123 Soleil");
             List<String> lore = new ArrayList<>();
@@ -51,15 +60,6 @@ public class BooksMenu extends Menu {
         }));
 
         map.put(11, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Lobby");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.LOBBY);
-        }));
-
-        map.put(13, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Carrousel");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -68,22 +68,58 @@ public class BooksMenu extends Menu {
             giveBook(Books.CARROUSEL);
         }));
 
-        map.put(15, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Squid Game");
+        map.put(13, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Balle aux prisonniers");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
             itemMeta.setLore(lore);
         }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.SQUID_GAME);
+            giveBook(Books.BaP);
         }));
 
-        map.put(17, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(15, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Bras d'Argent");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
             itemMeta.setLore(lore);
         }).setOnClick(inventoryClickEvent ->{
             giveBook(Books.BRAS_DARGENT);
+        }));
+
+        map.put(17, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Loup Touche Touche Explosif");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.LTTE);
+        }));
+
+        map.put(19, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Poule Renard Vipère");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.PRV);
+        }));
+
+        map.put(21, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Chaise Musicale");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.CM);
+        }));
+
+        map.put(23, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Squid Game");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.SQUID_GAME);
         }));
 
         return map;
