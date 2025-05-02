@@ -1,7 +1,7 @@
 package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CM.CMManager;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Subcommand;
 
@@ -9,12 +9,12 @@ import revxrsal.commands.annotation.Subcommand;
 public class CMCommand {
 
     @Subcommand("load")
-    void onLoad(Player sender){
+    void onLoad(CommandSender sender){
         CMManager.putChairs();
     }
 
     @Subcommand("unload")
-    void onRemove(Player sender){
+    void onRemove(CommandSender sender){
         CMManager.removeChair();
     }
 }
