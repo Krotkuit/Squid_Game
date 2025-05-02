@@ -44,7 +44,7 @@ public final class SquidGame extends JavaPlugin{
         MenuLib.init(this);
         // Manager
         new CommandManager();
-        new PlayerNumberManager();
+        //new PlayerNumberManager();
 
         TeamManager.Team_Instance();
 
@@ -71,14 +71,13 @@ public final class SquidGame extends JavaPlugin{
                 new LTTECommand(this),
                 new MoveDetectionCmd(),
                 new PRVCommand(),
-                new NickNameCommands(),
+                //new NickNameCommands(),
                 new MenuCommand(),
                 new ArmorCommand(),
                 new CMCommand(),
                 new TACCommand()
         );
 
-        // import custom mob
         getLogger().info("Le plugin est activé !");
     }
 
