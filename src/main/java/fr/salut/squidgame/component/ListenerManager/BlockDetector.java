@@ -44,125 +44,115 @@ public class BlockDetector implements Listener {
         y == -38 &&
         z == -22) {
         epreuve = "Lobby";
-      }
-
-      else if (x == -34 &&
+      } else if (x == -34 &&
         y == -35 &&
         z == -20) {
           epreuve = "123Soleil";
-      }
-
-      else if (
+      } else if (
         x == -34 &&
         y == -35 &&
         z == -18) {
           epreuve = "Biscuit_Team";
-      }
-
-      else if (
+      } else if (
         x == -34 &&
         y == -35 &&
         z == -16) {
           epreuve = "Biscuit_Game";
-      }
-
-      else if (
+      } else if (
         x == -36 &&
         y == -35 &&
         z == -20) {
           epreuve = "Tire_a_la_Corde";
-      }
-
-      else if (
+      } else if (
         x == -36 &&
         y == -35 &&
         z == -18) {
           epreuve = "Arc_en_Ciel";
-      }
-
-      else if (
+      } else if (
         x == -36 &&
         y == -35 &&
         z == -16) {
           epreuve = "Brise_Glace";
-      }
-
-      else if (
+      } else if (
         x == -38 &&
         y == -35 &&
         z == -20) {
           epreuve = "Carrousel";
-      }
-
-      else if (
+      } else if (
         x == -38 &&
         y == -35 &&
         z == -18) {
           epreuve = "Billes";
-      }
-
-      else if (
+      } else if (
         x == -38 &&
         y == -35 &&
         z == -16) {
           epreuve = "Discotheque";
-      }
-
-      else if (
+      } else if (
         x == -40 &&
         y == -35 &&
         z == -20) {
           epreuve = "Jack_a_dit";
-      }
-
-      else if (
+      } else if (
         x == -40 &&
         y == -35 &&
         z == -18) {
           epreuve = "Bataille_Navale";
-      }
-
-      else if (
+      } else if (
         x == -40 &&
         y == -35 &&
         z == -16) {
           epreuve = "Croque_Carotte";
-      }
-
-      else if (
+      } else if (
         x == -42 &&
         y == -35 &&
         z == -20) {
           epreuve = "Puissance_4";
-      }
-
-      else if (
+      } else if (
         x == -42 &&
         y == -35 &&
         z == -18) {
           epreuve = "Morpion";
-      }
-
-      else if (
+      } else if (
         x == -42 &&
         y == -35 &&
         z == -16) {
           epreuve = "Squid_Game";
-      }
-
-      else if (
+      } else if (
         x == -44 &&
         y == -35 &&
         z == -20) {
           epreuve = "Roulette_Russe";
-      }
-
-      else if (
+      } else if (
         x == -44 &&
         y == -35 &&
         z == -18) {
         epreuve = "Tic_Tac_Explosif";
-        Bukkit.broadcastMessage(epreuve);
+      } else if (
+          x == -44 &&
+              y == -35 &&
+              z == -16) {
+        epreuve = "Bras_d_Argent";
+      } else if (
+          x == -46 &&
+              y == -35 &&
+              z == -20) {
+        epreuve = "Loup_Touche_Touche_Explosif";
+      } else if (
+          x == -46 &&
+              y == -35 &&
+              z == -18) {
+        epreuve = "Balle_aux_Prisonniers";
+      } else if (
+          x == -46 &&
+              y == -35 &&
+              z == -16) {
+        epreuve = "Chaises_Musicales";
+      } else if (
+          x == -48 &&
+              y == -35 &&
+              z == -20) {
+        epreuve = "Poule_Renard_Vipere";
       }
 
       System.out.println("Epreuve actuelle: " + epreuve);
