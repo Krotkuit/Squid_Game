@@ -128,6 +128,26 @@ public class DeathListener implements Listener {
       Respawn_X = -84;
       Respawn_Y = -60;
       Respawn_Z = -169;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Bras_d_Argent")) {
+      Respawn_X = -267;
+      Respawn_Y = -44;
+      Respawn_Z = -278;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Loup_Touche_Touche_Explosif")) {
+      Respawn_X = 28;
+      Respawn_Y = -22;
+      Respawn_Z = -253;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Balle_aux_Prisonniers")) {
+      Respawn_X = 210;
+      Respawn_Y = -47;
+      Respawn_Z = -195;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Chaises_Musicales")) {
+      Respawn_X = 139;
+      Respawn_Y = -43;
+      Respawn_Z = 36;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Poule_Renard_Vipere")) {
+      Respawn_X = -69;
+      Respawn_Y = -40;
+      Respawn_Z = -243;
     } else {
       Respawn_X = -41;
       Respawn_Y = -46;
