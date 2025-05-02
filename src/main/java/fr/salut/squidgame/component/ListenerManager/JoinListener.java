@@ -26,20 +26,20 @@ public class JoinListener implements Listener {
     // Vérifier si c'est la première connexion du joueur
     if (!player.hasPlayedBefore()) {
       // attribuer un nombre au joueur
-      PlayerNumberManager.getInstance().assignNumber(player);
-      int number = PlayerNumberManager.getInstance().getPlayerNumber(player);
-      String idFormatted = String.format("%03d", number);
-      player.sendMessage("Votre numéro est : " + number);
+      //PlayerNumberManager.getInstance().assignNumber(player);
+      //int number = PlayerNumberManager.getInstance().getPlayerNumber(player);
+      //String idFormatted = String.format("%03d", number);
+      //player.sendMessage("Votre numéro est : " + number);
 
       // Modifier le pseudo dans le chat
-      player.setDisplayName("Joueur #" + idFormatted);
+      //player.setDisplayName("Joueur #" + idFormatted);
       // Modifier le nom dans le tableau des scores (tab)
-      player.setPlayerListName("Joueur #" + idFormatted);
+      //player.setPlayerListName("Joueur #" + idFormatted);
 
       // Modifier le nom au-dessus de la tête
-      player.setCustomName("Joueur #" + idFormatted);
+      //player.setCustomName("Joueur #" + idFormatted);
 
-      team.setSuffix(" #" + idFormatted + " ");
+      //team.setSuffix(" #" + idFormatted + " ");
       team.addEntry(player.getName());
 
       player.setCustomNameVisible(true);
@@ -70,15 +70,17 @@ public class JoinListener implements Listener {
   }
   @EventHandler
   public void onPlayerDownloadTexturePack(PlayerResourcePackStatusEvent event) {
-    Player player = event.getPlayer();
-    if (!player.hasPlayedBefore()) {
-      TitleUtils.sendTitle(
-              player,
-              "&k&fBienvenue &k&fdans", // Titre
-              "&k&d&l■&k&a&lSquid &k&d&lGame&k&a&l■", // Sous-titre
-              10, 180, 20
-      );
-      player.playSound(player, Sound.MUSIC_DISC_13, 1, 1);
+    if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
+      Player player = event.getPlayer();
+      if (!player.hasPlayedBefore()) {
+        TitleUtils.sendTitle(
+            player,
+            "&k&fBienvenue &k&fdans", // Titre
+            "&k&d&l■&k&a&lSquid &k&d&lGame&k&a&l■", // Sous-titre
+            10, 180, 20
+        );
+        //player.playSound(player, Sound.MUSIC_DISC_13, 1, 1);
+      }
     }
   }
 }
