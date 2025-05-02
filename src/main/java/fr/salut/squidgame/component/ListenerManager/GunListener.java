@@ -14,16 +14,18 @@ public class GunListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Arrow arrow)) return;
-        if (!(arrow.getShooter() instanceof Player player)) return;
+        if (!(arrow.getShooter() instanceof Player shooter)) return;
+        if (!(event.getEntity() instanceof Player target)) return;
 
-        Team team = player.getScoreboard().getEntryTeam(player.getName());
-        if (team==null){return;}
-        if (!team.getName().equalsIgnoreCase("garde")){return;}
+        Team shooterTeam = shooter.getScoreboard().getEntryTeam(shooter.getName());
+        if (shooterTeam==null) return;
+        if (!shooterTeam.getName().equalsIgnoreCase("garde")) return;
 
-        ItemStack weapon = player.getInventory().getItemInMainHand();
+        Team targetTeam = target.getScoreboard().getEntryTeam(target.getName());
+        if (targetTeam != null && targetTeam.getName().equalsIgnoreCase("garde")) return;
+
+        ItemStack weapon = shooter.getInventory().getItemInMainHand();
         if (weapon.getType().equals(Material.CROSSBOW)){
-
-            LivingEntity target = (LivingEntity) event.getEntity();
             target.setHealth(0);
         }
     }
