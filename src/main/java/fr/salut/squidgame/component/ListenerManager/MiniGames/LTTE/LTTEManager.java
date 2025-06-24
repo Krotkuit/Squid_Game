@@ -42,12 +42,14 @@ public class LTTEManager implements Listener {
                 playersWithTNT.add(selectedPlayer);
                 selectedPlayer.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 70, 20);
                 selectedPlayer.sendMessage(ChatColor.RED + "Vous avez une TNT ! Touchez un autre joueur pour la lui donner !");
+                selectedPlayer.setGlowing(true);
             }
 
             for (Player onlinePlayer : onlinePlayers) {
                 if (!playersWithTNT.contains(onlinePlayer)) {
                     onlinePlayer.sendMessage(ChatColor.YELLOW + "Vous n'avez pas reçu de TNT. Restez vigilant !");
                     onlinePlayer.sendTitle(ChatColor.BLUE + "Vous n'avez pas de TNT !", "Fuyez les loups !", 10, 70, 20);
+                    onlinePlayer.setGlowing(false);
                 }
             }
 
@@ -80,8 +82,10 @@ public class LTTEManager implements Listener {
 
             giver.sendMessage(ChatColor.GREEN + "Vous avez donné la TNT à " + receiver.getName() + " !");
             giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
+            giver.setGlowing(false);
             receiver.sendMessage(ChatColor.RED + "Vous avez reçu une TNT ! Touchez un autre joueur pour la lui donner !");
             receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
+            giver.setGlowing(true);
         }
     }
 
@@ -105,6 +109,7 @@ public class LTTEManager implements Listener {
                     player.getWorld().playSound(player.getLocation(), "minecraft:entity.tnt.primed", 1.0F, 1.0F);
                     player.setHealth(0);
                     player.getWorld().createExplosion(player.getLocation(), 4.0F, false, false);
+                    player.setGlowing(false);
                     playersWithTNT.remove(player);
                 }
 
@@ -119,6 +124,7 @@ public class LTTEManager implements Listener {
     public static void clearPlayersWithTNT() {
         for (Player player : new ArrayList<>(playersWithTNT)) {
             player.sendMessage(ChatColor.GREEN + "Vous n'avez plus de TNT !");
+            player.setGlowing(false);
         }
         playersWithTNT.clear();
         SquidGame.getInstance().getLogger().info("La liste des loups explosifs a été réinitialisée.");
