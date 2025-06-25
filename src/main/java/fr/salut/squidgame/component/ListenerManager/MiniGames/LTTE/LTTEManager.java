@@ -8,6 +8,8 @@ import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -43,6 +45,7 @@ public class LTTEManager implements Listener {
                 selectedPlayer.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 70, 20);
                 selectedPlayer.sendMessage(ChatColor.RED + "Vous avez une TNT ! Touchez un autre joueur pour la lui donner !");
                 selectedPlayer.setGlowing(true);
+                selectedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 0));
             }
 
             for (Player onlinePlayer : onlinePlayers) {
@@ -50,6 +53,7 @@ public class LTTEManager implements Listener {
                     onlinePlayer.sendMessage(ChatColor.YELLOW + "Vous n'avez pas reçu de TNT. Restez vigilant !");
                     onlinePlayer.sendTitle(ChatColor.BLUE + "Vous n'avez pas de TNT !", "Fuyez les loups !", 10, 70, 20);
                     onlinePlayer.setGlowing(false);
+                    onlinePlayer.removePotionEffect(PotionEffectType.SPEED);
                 }
             }
 
@@ -83,9 +87,11 @@ public class LTTEManager implements Listener {
             giver.sendMessage(ChatColor.GREEN + "Vous avez donné la TNT à " + receiver.getName() + " !");
             giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
             giver.setGlowing(false);
+            giver.removePotionEffect(PotionEffectType.SPEED);
             receiver.sendMessage(ChatColor.RED + "Vous avez reçu une TNT ! Touchez un autre joueur pour la lui donner !");
             receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
-            giver.setGlowing(true);
+            receiver.setGlowing(true);
+            receiver.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 0));
         }
     }
 
@@ -110,6 +116,7 @@ public class LTTEManager implements Listener {
                     player.setHealth(0);
                     player.getWorld().createExplosion(player.getLocation(), 4.0F, false, false);
                     player.setGlowing(false);
+                    player.removePotionEffect(PotionEffectType.SPEED);
                     playersWithTNT.remove(player);
                 }
 
