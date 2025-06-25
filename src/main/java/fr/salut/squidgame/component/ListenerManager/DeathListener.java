@@ -28,6 +28,7 @@ public class DeathListener implements Listener {
 
     // supprime le message de mort
     event.deathMessage(Component.empty());
+    if (team == null) return;
     if (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort")) return;
 
     team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mort");

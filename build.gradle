@@ -67,7 +67,7 @@ processResources {
     }
 }
 shadowJar {
-    destinationDirectory.set(file("./build/")) //"./build/"
+    destinationDirectory.set(file("./Server/")) //"./build/"
     archiveFileName = "SquidGame.jar"
 }
 

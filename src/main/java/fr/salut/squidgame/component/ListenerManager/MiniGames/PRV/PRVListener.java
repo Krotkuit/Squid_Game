@@ -58,6 +58,7 @@ public class PRVListener implements Listener {
         } else {
             player.sendMessage("Vous ne pouvez pas interagir avec ce joueur.");
         }
+        checkIfGameShouldStop();
     }
 
     private static final Set<Player> playersWhoFreedPrison = new HashSet<>();
@@ -159,5 +160,24 @@ public class PRVListener implements Listener {
         teleportedPlayers.clear();
         playersWhoFreedPrison.clear();
         SquidGame.getInstance().getLogger().info("Les listes de prisonniers ont été réinitialisées.");
+    }
+
+    private void checkIfGameShouldStop() {
+        for (String teamName : new String[]{"poule", "vipere", "renard"}) {
+            if (isTeamFullyImprisoned(teamName)) {
+                plugin.setPrvState(PRVState.STOP);
+                Bukkit.broadcastMessage(ChatColor.RED + "L'équipe " + teamName + " est entièrement emprisonnée ! Le jeu est terminé.");
+                return;
+            }
+        }
+    }
+
+    private boolean isTeamFullyImprisoned(String teamName) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (isPlayerInTeam(player, teamName) && !teleportedPlayers.contains(player)) {
+                return false; // Un joueur de l'équipe n'est pas emprisonné
+            }
+        }
+        return true; // Tous les joueurs de l'équipe sont emprisonnés
     }
 }

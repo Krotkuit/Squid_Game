@@ -8,6 +8,8 @@ import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -58,6 +60,10 @@ public class LTTEManager implements Listener {
                     .orElse("Aucun joueur");
                 Bukkit.broadcastMessage(ChatColor.GOLD + "Joueurs avec une TNT : " + ChatColor.RED + tntPlayers);
             }
+
+
+            startTNTActionBarTask();
+
             // Démarre le compte à rebours de 20 secondes
             startTNTCountdown();
         }
@@ -122,5 +128,23 @@ public class LTTEManager implements Listener {
         }
         playersWithTNT.clear();
         SquidGame.getInstance().getLogger().info("La liste des loups explosifs a été réinitialisée.");
+    }
+
+    private static void startTNTActionBarTask() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                LTTEState state = plugin.getLTTEState();
+                if (state != LTTEState.ON || playersWithTNT.isEmpty()) {
+                    cancel();
+                    return;
+                }
+
+                for (Player player : playersWithTNT) {
+                    player.sendActionBar(ChatColor.RED + "Vous avez une TNT !");
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 0, true, false, false));
+                }
+            }
+        }.runTaskTimer(plugin, 0, 20); // Exécute toutes les secondes (20 ticks)
     }
 }

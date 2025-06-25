@@ -2,6 +2,7 @@ package fr.salut.squidgame;
 
 import dev.xernas.menulib.MenuLib;
 import fr.salut.squidgame.component.ListenerManager.*;
+import fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
@@ -61,6 +62,7 @@ public final class SquidGame extends JavaPlugin{
                 new LTTEManager(),
                 new BaPManager(),
                 //new TAC(),
+                new GameZoneManager(),
                 new GunListener()
         );
 

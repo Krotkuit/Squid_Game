@@ -40,9 +40,9 @@ public class JoinListener implements Listener {
       //player.setCustomName("Joueur #" + idFormatted);
 
       //team.setSuffix(" #" + idFormatted + " ");
-      team.addEntry(player.getName());
+      //team.addEntry(player.getName());
 
-      player.setCustomNameVisible(true);
+      //player.setCustomNameVisible(true);
 
       // Donner un armure en cuir teintée au joueur
       GiveArmorPlayer.giveUnbreakableArmor(player);
@@ -55,6 +55,10 @@ public class JoinListener implements Listener {
 
       // Ajouter le joueur dans l'équipe "joueur"
       team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("joueur");
+
+      if (team == null) {
+        throw new IllegalStateException("L'équipe 'joueur' n'existe pas sur le serveur !");
+      }
 
       // Ajouter le joueur dans l'équipe "joueur"
       team.addEntry(player.getName());
