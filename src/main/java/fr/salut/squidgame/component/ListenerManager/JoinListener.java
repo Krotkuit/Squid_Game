@@ -1,5 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
+import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
 import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.GiveArmorPlayer;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
@@ -22,7 +23,7 @@ public class JoinListener implements Listener {
     Team team = Bukkit.getScoreboardManager().getMainScoreboard().getEntryTeam(player.getName());
     if (team != null && team.getName().equalsIgnoreCase("garde")) return;
     //PlayerRightListener.giveRight(player);
-    player.teleport(new Location(Bukkit.getWorld("world"), -36, -55, 31));
+    player.teleport(new Location(Bukkit.getWorld("world"), -35.5, -57, 31.5));
     // Vérifier si c'est la première connexion du joueur
     if (!player.hasPlayedBefore()) {
       // attribuer un nombre au joueur
@@ -43,6 +44,9 @@ public class JoinListener implements Listener {
       //team.addEntry(player.getName());
 
       //player.setCustomNameVisible(true);
+
+      // Donne des vies au joueur
+      LifeListener.getInstance().addPlayerWithDefaultLives(player);
 
       // Donner un armure en cuir teintée au joueur
       GiveArmorPlayer.giveUnbreakableArmor(player);

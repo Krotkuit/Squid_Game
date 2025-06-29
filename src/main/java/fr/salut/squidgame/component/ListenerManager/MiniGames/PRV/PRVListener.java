@@ -167,6 +167,8 @@ public class PRVListener implements Listener {
             if (isTeamFullyImprisoned(teamName)) {
                 plugin.setPrvState(PRVState.STOP);
                 Bukkit.broadcastMessage(ChatColor.RED + "L'équipe " + teamName + " est entièrement emprisonnée ! Le jeu est terminé.");
+                // Exécute la commande pour arrêter le timer
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set timer Timer 0");
                 return;
             }
         }

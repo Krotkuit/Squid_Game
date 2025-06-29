@@ -157,6 +157,7 @@ public class DeathListener implements Listener {
     Bukkit.getScheduler().runTaskLater(
       Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, false));
+        player.setGameMode(GameMode.SPECTATOR);
         player.teleport(new Location(Bukkit.getWorld("world"), Respawn_X, Respawn_Y, Respawn_Z));
       }, 1L);
   }

@@ -3,12 +3,14 @@ package fr.salut.squidgame;
 import dev.xernas.menulib.MenuLib;
 import fr.salut.squidgame.component.ListenerManager.*;
 import fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager;
+import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TAC;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
@@ -51,34 +53,38 @@ public final class SquidGame extends JavaPlugin{
 
         // Listener
         registerEvents(
-                new BlockDetector(),
-                new JoinListener(),
-                new NoMoveTagListener(),
-                //new PlayerRightListener(),
-                new ArmorProtectionListener(),
-                new MoveDetectListener(this),
-                new DeathListener(),
-                new PRVListener(),
-                new LTTEManager(),
-                new BaPManager(),
-                //new TAC(),
-                new GameZoneManager(),
-                new GunListener()
+            new BlockDetector(),
+            new JoinListener(),
+            new NoMoveTagListener(),
+            //new PlayerRightListener(),
+            new ArmorProtectionListener(),
+            new MoveDetectListener(this),
+            new DeathListener(),
+            new PRVListener(),
+            new LTTEManager(),
+            new BaPManager(),
+            //new TAC(),
+            new CarrouselZoneCounter(this),
+            new GameZoneManager(),
+            new GunListener(),
+            new LifeListener()
         );
 
         loadCommands();
 
         // Load les commandes aussi
         CommandManager.getHandler().register(
-                new BaPCommand(),
-                new LTTECommand(this),
-                new MoveDetectionCmd(),
-                new PRVCommand(),
-                //new NickNameCommands(),
-                new MenuCommand(),
-                new ArmorCommand(),
-                new CMCommand(),
-                new TACCommand()
+            new BaPCommand(),
+            new LTTECommand(this),
+            new MoveDetectionCmd(),
+            new PRVCommand(),
+            //new NickNameCommands(),
+            new MenuCommand(),
+            new ArmorCommand(),
+            new CMCommand(),
+            new TACCommand(),
+            new CarrouselCommand(),
+            new LifeModeCommand()
         );
 
         getLogger().info("Le plugin est activé !");
@@ -93,6 +99,9 @@ public final class SquidGame extends JavaPlugin{
     private void loadCommands() {
         getCommand("test").setExecutor(new TestCmd());
         getCommand("rblocktoggle").setExecutor(new RBlockUseCommand());
+        getCommand("lifemode").setExecutor(new LifeModeCommand());
+        getCommand("lifemode").setTabCompleter(new LifeModeCommand());
+        getCommand("carrousel").setExecutor(new CarrouselCommand());
     }
 
     public void teleportPlayer(Player player, double x, double y, double z) {

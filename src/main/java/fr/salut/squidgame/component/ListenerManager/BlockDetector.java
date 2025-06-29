@@ -153,6 +153,26 @@ public class BlockDetector implements Listener {
               y == -35 &&
               z == -20) {
         epreuve = "Poule_Renard_Vipere";
+      } else if (
+          x == -48 &&
+              y == -35 &&
+              z == -18) {
+        epreuve = "Find_the_Button";
+      } else if (
+          x == -34 &&
+              y == -38 &&
+              z == -13) {
+        epreuve = "Salle_Blanche";
+      } else if (
+          x == -40 &&
+              y == -35 &&
+              z == -13) {
+        epreuve = "Salle_Grise";
+      } else if (
+          x == -32 &&
+              y == -35 &&
+              (z == -20 || z == -18 || z == -16)) {
+        epreuve = "Escaliers";
       }
 
       System.out.println("Epreuve actuelle: " + epreuve);

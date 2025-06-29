@@ -232,6 +232,8 @@ public class BaPManager implements Listener {
 
       if (allImprisoned) {
         BaPCommand.setBaPState(STOP);
+        // Exécute la commande pour réinitialiser le timer
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set timer Timer 0");
         Bukkit.broadcastMessage(ChatColor.GOLD + "L'équipe " + teamName + " est entièrement emprisonnée ! Le jeu est terminé.");
         return;
       }
