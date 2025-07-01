@@ -4,7 +4,6 @@ import fr.salut.squidgame.SquidGame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.HashMap;
@@ -28,6 +27,17 @@ public class LifeListener implements Listener {
 
   public void setLifeModeEnabled(boolean enabled) {
     this.lifeModeEnabled = enabled;
+
+    if (!enabled) {
+      // Met à jour les vies de tous les joueurs à 1
+      for (Player player : playerLives.keySet()) {
+        playerLives.put(player, 1);
+        updatePlayerXP(player, 1); // Met à jour la barre d'XP
+      }
+      SquidGame.getInstance().getLogger().info("Mode de vie désactivé : tous les joueurs ont maintenant 1 vie.");
+    } else {
+      SquidGame.getInstance().getLogger().info("Mode de vie activé.");
+    }
   }
 
   public void setDefaultLives(int lives) {
@@ -61,6 +71,8 @@ public class LifeListener implements Listener {
       }
     }
   }
+
+
 
   public void addPlayerWithDefaultLives(Player player) {
     int lives = lifeModeEnabled ? defaultLives : 1; // Si le mode de vie est désactivé, définir les vies à 1

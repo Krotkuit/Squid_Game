@@ -37,7 +37,7 @@ public class LTTEManager implements Listener {
                 return team != null && (team.getName().equalsIgnoreCase("mort") || team.getName().equalsIgnoreCase("garde"));
             });
 
-            int tntCount = Math.max((int) Math.ceil(onlinePlayers.size() * 0.1), 1);
+            int tntCount = Math.max((int) Math.ceil(onlinePlayers.size() * 0.15), 1);
 
             for (int i = 0; i < tntCount && !onlinePlayers.isEmpty(); i++) {
                 Player selectedPlayer = onlinePlayers.remove(random.nextInt(onlinePlayers.size()));
@@ -92,6 +92,62 @@ public class LTTEManager implements Listener {
     }
 
     private static void startTNTCountdown() {
+        int totalTicks = 3000; // Temps total en ticks (2 minutes 30 secondes)
+
+        new BukkitRunnable() {
+            int remainingTicks = totalTicks;
+
+            @Override
+            public void run() {
+                LTTEState state = plugin.getLTTEState();
+                if (state != LTTEState.ON || playersWithTNT.isEmpty()) {
+                    cancel();
+                    return;
+                }
+
+                // Bip toutes les minutes restantes
+                if (remainingTicks % 1200 == 0 && remainingTicks > 200) {
+                    int minutesLeft = remainingTicks / 1200;
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "Il reste " + minutesLeft + " minute(s) !");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound minecraft:block.note_block.pling master @a ~ ~ ~ 1 0.5 1");
+                }
+
+                // Bip toutes les secondes pendant les 10 dernières secondes
+                if (remainingTicks <= 200 && remainingTicks > 60 && remainingTicks % 20 == 0) {
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "Bip !");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound minecraft:block.note_block.pling master @a ~ ~ ~ 1 1 1");
+                }
+
+                // Bip 6 fois par seconde pendant les 3 dernières secondes
+                if (remainingTicks <= 60 && remainingTicks > 20 && remainingTicks % 3 == 0) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound minecraft:block.note_block.pling master @a ~ ~ ~ 1 1 1");
+                }
+
+                // Bip 5 fois pendant la dernière seconde
+                if (remainingTicks <= 20) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound minecraft:block.note_block.pling master @a ~ ~ ~ 1 2 1");
+                }
+
+
+                // Explosion à la fin du timer
+                if (remainingTicks <= 0) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stopsound @a");
+                    for (Player player : new ArrayList<>(playersWithTNT)) {
+                        player.sendMessage(ChatColor.RED + "BOOM ! Vous avez explosé !");
+                        player.getWorld().playSound(player.getLocation(), "minecraft:entity.tnt.primed", 1.0F, 1.0F);
+                        player.setHealth(0);
+                        player.getWorld().createExplosion(player.getLocation(), 4.0F, false, false);
+                        playersWithTNT.remove(player);
+                    }
+                    cancel();
+                    return;
+                }
+
+                remainingTicks--;
+            }
+        }.runTaskTimer(plugin, 0, 1); // Exécute toutes les 1 tick
+    }
+    private static void startTNTCountdown1() {
         int delayInSeconds = random.nextInt(95 - 35 + 1) + 35; // Génère un nombre entre 35 et 95
         SquidGame.getInstance().getLogger().info(ChatColor.RED + "" + delayInSeconds + " secondes");
         int delayInTicks = delayInSeconds * 20;

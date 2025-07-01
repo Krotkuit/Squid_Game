@@ -475,7 +475,7 @@ public class GameZoneManager implements Listener {
 
     Zone zoneLTTE = new Zone();
     zoneLTTE.addSubZone(
-        new Location(Bukkit.getWorld("world"), -15.7, -59, -201.3),
+        new Location(Bukkit.getWorld("world"), -15.7, -60, -201.3),
         new Location(Bukkit.getWorld("world"), 72.7, -20.79, -306.7)
     );
     zoneLTTE.addSubZone(
@@ -612,13 +612,62 @@ public class GameZoneManager implements Listener {
         new Location(Bukkit.getWorld("world"), 130.3, -55.79, -162.3)
     );
     BaPZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), 156.3, -50, -245.7),
-        new Location(Bukkit.getWorld("world"), 210.7, -42.79, -165.3)
+        new Location(Bukkit.getWorld("world"), -154.3, -47.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 212.7, -49, -246.7)
     );
     BaPZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), 212.7, -50, -164.3),
-        new Location(Bukkit.getWorld("world"), 154.3, -44.79, -246.7)
+        new Location(Bukkit.getWorld("world"), 211.7, -44.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 155.3, -50, -164.3)
     );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 156.3, -42.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 210.7, -50, -246.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 209.7, -41.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 157.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -158.3, -40.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 208.7, -50, -246.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 207.7, -39.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 159.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 206.7, -38.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 160.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 161.3, -37.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 205.7, -50, -246.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 204.7, -36.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 162.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 164.3, -35.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 202.7, -50, -246.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 200.7, -34.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 166.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 168.3, -33.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 198.7, -50, -246.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 194.7, -32.79, -246.7),
+        new Location(Bukkit.getWorld("world"), 172.3, -50, -164.3)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), 176.3, -31.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 190.7, -50, -246.7)
+    );
+
     gameZones.put("Balle_aux_Prisonniers", BaPZone);
 
     Zone CroqueCarotteZone = new Zone();
@@ -715,13 +764,34 @@ public class GameZoneManager implements Listener {
     gameZones.put("Salle_Blanche", SalleBlancheZone);
     Zone SalleGriseZone = new Zone();
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -215.7, -60, 264),
-        new Location(Bukkit.getWorld("world"), -154.3, -51.79, 177.3)
+        new Location(Bukkit.getWorld("world"), -154.3, -60, 185.3),
+        new Location(Bukkit.getWorld("world"), -208.7, -51.79, 257.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -202.3, -60, -7.3),
-        new Location(Bukkit.getWorld("world"), -211.7, -56.79, -15.7)
+        new Location(Bukkit.getWorld("world"), -155.3, -60, 178.3),
+        new Location(Bukkit.getWorld("world"), -207.7, -56.79, 185.7)
     );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -215.7, -60, 186.3),
+        new Location(Bukkit.getWorld("world"), -208.3, -56.79, 256.7)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -207.7, -60, 264.7),
+        new Location(Bukkit.getWorld("world"), -155.3, -56.79, 257.3)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -145.3, -60, 225.7),
+        new Location(Bukkit.getWorld("world"), -154.7, -56.79, 217.3)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -146.3, -60, 226.7),
+        new Location(Bukkit.getWorld("world"), -151.7, -56.79, 216.3)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -147.3, -60, 227.7),
+        new Location(Bukkit.getWorld("world"), -150.7, -56.79, 215.3)
+    );
+
     gameZones.put("Salle_Grise", SalleGriseZone);
   }
 
@@ -733,6 +803,7 @@ public class GameZoneManager implements Listener {
   public void onPlayerTeleport(PlayerTeleportEvent event) {
     handlePlayerMovement(event.getPlayer(), event.getFrom(), event.getTo(), event);
   }
+
   private void handlePlayerMovement(Player player, Location fromLocation, Location toLocation, Cancellable event) {
     if (toLocation == null) return;
 
@@ -741,32 +812,26 @@ public class GameZoneManager implements Listener {
 
     if (zone == null) return; // Pas de zone définie pour cette épreuve
 
-    boolean isOutsideZone = !zone.isInside(toLocation);
-
-    // Vérifie si un spectateur observe ce joueur
-    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-      if (onlinePlayer.getGameMode() == GameMode.SPECTATOR && onlinePlayer.getSpectatorTarget() == player && isOutsideZone) {
-        onlinePlayer.setSpectatorTarget(null);
-        onlinePlayer.sendActionBar("§cVous suivez un joueur qui ne peut pas quitter la zone !");
-      }
-    }
+    boolean isInsideZone = zone.isInside(toLocation);
 
     // Vérifie si le joueur a le tag "joueur"
     if (!player.getScoreboardTags().contains("joueur")) return;
 
-    if (isOutsideZone) {
-      if (!zone.isInside(fromLocation)) {
-        // Si le joueur est déjà en dehors de la zone, on le téléporte au centre
-        Location center = zone.getCenter();
-        if (center != null) {
-          Bukkit.getLogger().info("Le joueur est en dehors de la zone, téléportation au centre : " + center);
-          player.teleport(center);
-          player.sendActionBar("§cVous avez été téléporté au centre de la zone de jeu !");
-        }
-      } else {
-        // Sinon, on bloque simplement le mouvement
+    if (!isInsideZone) {
+      boolean wasInsideZone = zone.isInside(fromLocation);
+
+      if (wasInsideZone) {
+        // Annule le mouvement si le joueur tente de sortir
         event.setCancelled(true);
-        player.sendActionBar("§cVous ne pouvez pas quitter la zone de l'épreuve !");
+        player.sendActionBar("§cVous ne pouvez pas quitter la zone !");
+      } else {
+        // Téléporte le joueur au centre de la zone s'il est déjà dehors
+        Location zoneCenter = zone.getCenter();
+        if (zoneCenter != null) {
+          Bukkit.getLogger().info("Le joueur est hors de la zone, téléportation au centre : " + zoneCenter);
+          player.teleport(zoneCenter);
+          player.sendActionBar("§cVous avez été téléporté au centre de la zone !");
+        }
       }
     }
   }
@@ -781,11 +846,23 @@ public class GameZoneManager implements Listener {
 
     // Vérifie si une position est dans l'une des sous-zones
     public boolean isInside(Location location) {
+      // Vérifie si la position est dans l'une des sous-zones de cette zone
       for (SubZone subZone : subZones) {
         if (subZone.isInside(location)) {
           return true;
         }
       }
+
+      // Vérifie si la position est dans l'une des sous-zones du lobby
+      Zone lobbyZone = gameZones.get("Lobby");
+      if (lobbyZone != null) {
+        for (SubZone subZone : lobbyZone.subZones) {
+          if (subZone.isInside(location)) {
+            return true;
+          }
+        }
+      }
+
       return false;
     }
 

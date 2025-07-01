@@ -41,7 +41,7 @@ public class BooksMenu extends Menu {
     public @NotNull Map<Integer, ItemStack> getContent() {
         Map<Integer, ItemStack> map = new HashMap<>();
 
-        map.put(1, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(0, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Lobby");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -50,7 +50,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.LOBBY);
         }));
 
-        map.put(9, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(3, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("123 Soleil");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -59,7 +59,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.SOLEIL_GAME);
         }));
 
-        map.put(11, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(5, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Carrousel");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -68,7 +68,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.CARROUSEL);
         }));
 
-        map.put(13, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(7, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Balle aux prisonniers");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -77,7 +77,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.BaP);
         }));
 
-        map.put(15, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(9, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Bras d'Argent");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -86,7 +86,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.BRAS_DARGENT);
         }));
 
-        map.put(17, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(11, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Loup Touche Touche Explosif");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -95,7 +95,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.LTTE);
         }));
 
-        map.put(19, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(13, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Poule Renard Vipère");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -104,7 +104,7 @@ public class BooksMenu extends Menu {
             giveBook(Books.PRV);
         }));
 
-        map.put(21, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(15, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Chaise Musicale");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
@@ -113,13 +113,53 @@ public class BooksMenu extends Menu {
             giveBook(Books.CM);
         }));
 
-        map.put(23, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+        map.put(17, new ItemBuilder(this, Material.BOOK, itemMeta ->{
             itemMeta.setDisplayName("Squid Game");
             List<String> lore = new ArrayList<>();
             lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
             itemMeta.setLore(lore);
         }).setOnClick(inventoryClickEvent ->{
             giveBook(Books.SQUID_GAME);
+        }));
+        map.put(19, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Croque Carotte");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.CROQUE_CAROTTE);
+        }));
+        map.put(21, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Arc-en-Ciel");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.ARC_EN_CIEL);
+        }));
+        map.put(23, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Puissance 4");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.PUISSANCE_4);
+        }));
+        map.put(25, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Billes");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.BILLES);
+        }));
+        map.put(26, new ItemBuilder(this, Material.BOOK, itemMeta ->{
+            itemMeta.setDisplayName("Find the Button");
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
+            itemMeta.setLore(lore);
+        }).setOnClick(inventoryClickEvent ->{
+            giveBook(Books.FIND_THE_BUTTON);
         }));
 
         return map;

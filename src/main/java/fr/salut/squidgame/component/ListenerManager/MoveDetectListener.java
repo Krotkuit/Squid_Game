@@ -31,20 +31,35 @@ public class MoveDetectListener implements Listener {
 
     Team team = player.getScoreboard().getEntryTeam(player.getName());
 
-    if (player.getScoreboardTags().contains("md") && !team.getName().equalsIgnoreCase("garde") && !team.getName().equalsIgnoreCase("mort")) {
-      //player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Vous avez bougé !"));
+    if (player.getScoreboardTags().contains("md")
+        && !team.getName().equalsIgnoreCase("garde")
+        && !team.getName().equalsIgnoreCase("mort")) {
 
-      player.getScoreboardTags().remove("md");
+      // Vérifie si le joueur a bougé de manière significative
+      double deltaX = Math.abs(event.getFrom().getX() - event.getTo().getX());
+      double deltaY = Math.abs(event.getFrom().getY() - event.getTo().getY());
+      double deltaZ = Math.abs(event.getFrom().getZ() - event.getTo().getZ());
 
-      Bukkit.getScheduler().runTaskLater(plugin, () -> {
-        player.setHealth(0);
+      // Vérifie si la caméra a bougé de manière significative
+      float deltaYaw = Math.abs(event.getFrom().getYaw() - event.getTo().getYaw());
+      float deltaPitch = Math.abs(event.getFrom().getPitch() - event.getTo().getPitch());
 
-        // Joue un son de flèche tirée à tous les autres joueurs
-        for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-          // Joue le son de la flèche en direction du joueur tué
-          otherPlayer.playSound(player.getLocation(), "item.crossbow.shoot", 1.0f, 1.0f);
-        }
-      }, 100);
+      double movementTolerance = 0.01; // Seuil de tolérance pour le mouvement
+      float cameraTolerance = 2.0f;   // Seuil de tolérance pour la caméra (en degrés)
+
+      if (deltaX > movementTolerance || deltaY > movementTolerance || deltaZ > movementTolerance
+          || deltaYaw > cameraTolerance || deltaPitch > cameraTolerance) {
+        player.getScoreboardTags().remove("md");
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+          player.setHealth(0);
+
+          // Joue un son de flèche tirée à tous les autres joueurs
+          for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+            otherPlayer.playSound(player.getLocation(), "item.crossbow.shoot", 1.0f, 1.0f);
+          }
+        }, 100);
+      }
     }
   }
 }

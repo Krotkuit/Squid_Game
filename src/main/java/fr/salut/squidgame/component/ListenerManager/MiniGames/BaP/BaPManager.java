@@ -231,6 +231,7 @@ public class BaPManager implements Listener {
       }
 
       if (allImprisoned) {
+        notifyGuardsOfPrisoners();
         BaPCommand.setBaPState(STOP);
         // Exécute la commande pour réinitialiser le timer
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set timer Timer 0");
@@ -238,6 +239,30 @@ public class BaPManager implements Listener {
         return;
       }
     }
+  }
+
+  private void notifyGuardsOfPrisoners() {
+    Team gardeTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("garde");
+    if (gardeTeam == null) return;
+
+    // Compte le nombre de joueurs emprisonnés par équipe
+    int bleuMarinePrisoners = (int) playersInPrison.stream().filter(player -> isPlayerInTeam(player, "bleu_marine")).count();
+    int vertProfondPrisoners = (int) playersInPrison.stream().filter(player -> isPlayerInTeam(player, "vert_profond")).count();
+
+    // Envoie les informations à chaque garde
+    for (String playerName : gardeTeam.getEntries()) {
+      Player gardePlayer = Bukkit.getPlayer(playerName);
+      if (gardePlayer != null && gardePlayer.isOnline()) {
+        gardePlayer.sendMessage(ChatColor.GOLD + "Résumé des joueurs emprisonnés :");
+        gardePlayer.sendMessage(ChatColor.YELLOW + "Bleu Marine : " + ChatColor.RED + bleuMarinePrisoners + " joueur(s)");
+        gardePlayer.sendMessage(ChatColor.YELLOW + "Vert Profond : " + ChatColor.RED + vertProfondPrisoners + " joueur(s)");
+      }
+    }
+  }
+
+  private boolean isPlayerInTeam(Player player, String teamName) {
+    Team team = player.getScoreboard().getEntryTeam(player.getName());
+    return team != null && team.getName().equalsIgnoreCase(teamName);
   }
 
   private boolean isInsideBounds(Location loc, int[] bounds) {

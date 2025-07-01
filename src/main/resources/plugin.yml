@@ -20,7 +20,7 @@ commands:
     usage: /bap <ON|OFF|STOP>
   lifemode:
     description: Commande pour gérer le mode de vie.
-    usage: /<command> <mode|lifenumber|player>
+    usage: /lifemode <mode|lifenumber|player <revive|reset <number>>>
     tab-completer: fr.salut.squidgame.component.commands.LifeModeCommand
   carrousel:
     description: Compte les joueurs dans les salles du carrousel

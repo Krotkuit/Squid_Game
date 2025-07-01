@@ -137,7 +137,26 @@ public class PRVListener implements Listener {
             liberator.sendMessage("Vous avez §blibéré §ftous les joueurs emprisonnés de votre équipe !");
         }
     }
+    private void notifyGuardsOfPrisoners() {
+        Team gardeTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("garde");
+        if (gardeTeam == null) return;
 
+        // Compte le nombre de joueurs emprisonnés par équipe
+        int poulePrisoners = (int) teleportedPlayers.stream().filter(player -> isPlayerInTeam(player, "poule")).count();
+        int viperePrisoners = (int) teleportedPlayers.stream().filter(player -> isPlayerInTeam(player, "vipere")).count();
+        int renardPrisoners = (int) teleportedPlayers.stream().filter(player -> isPlayerInTeam(player, "renard")).count();
+
+        // Envoie les informations à chaque garde
+        for (String playerName : gardeTeam.getEntries()) {
+            Player gardePlayer = Bukkit.getPlayer(playerName);
+            if (gardePlayer != null && gardePlayer.isOnline()) {
+                gardePlayer.sendMessage(ChatColor.GOLD + "Résumé des joueurs emprisonnés :");
+                gardePlayer.sendMessage(ChatColor.YELLOW + "Poules : " + ChatColor.RED + poulePrisoners + " joueur(s)");
+                gardePlayer.sendMessage(ChatColor.YELLOW + "Vipères : " + ChatColor.RED + viperePrisoners + " joueur(s)");
+                gardePlayer.sendMessage(ChatColor.YELLOW + "Renards : " + ChatColor.RED + renardPrisoners + " joueur(s)");
+            }
+        }
+    }
     private boolean isPlayerInTeam(Player player, String team) {
         Team playerTeam = player.getScoreboard().getEntryTeam(player.getName());
         return playerTeam != null && playerTeam.getName().equalsIgnoreCase(team);
@@ -165,6 +184,7 @@ public class PRVListener implements Listener {
     private void checkIfGameShouldStop() {
         for (String teamName : new String[]{"poule", "vipere", "renard"}) {
             if (isTeamFullyImprisoned(teamName)) {
+                notifyGuardsOfPrisoners();
                 plugin.setPrvState(PRVState.STOP);
                 Bukkit.broadcastMessage(ChatColor.RED + "L'équipe " + teamName + " est entièrement emprisonnée ! Le jeu est terminé.");
                 // Exécute la commande pour arrêter le timer

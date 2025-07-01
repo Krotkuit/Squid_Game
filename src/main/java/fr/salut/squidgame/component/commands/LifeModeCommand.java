@@ -48,16 +48,41 @@ public class LifeModeCommand implements TabExecutor {
         break;
 
       case "player":
-        if (args.length < 2 || !args[1].equalsIgnoreCase("revive")) {
-          sender.sendMessage(ChatColor.RED + "Usage: /lifemode player revive");
+        if (args.length < 2) {
+          sender.sendMessage(ChatColor.RED + "Usage: /lifemode player <revive|reset>");
           return true;
         }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-          Integer lives = lifeListener.getPlayerLives().get(player);
-          if (lives != null && lives > 0) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
-            sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " revived.");
-          }
+        switch (args[1].toLowerCase()) {
+          case "revive":
+            for (Player player : Bukkit.getOnlinePlayers()) {
+              Integer lives = lifeListener.getPlayerLives().get(player);
+              if (lives != null && lives > 0) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
+                sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " revived.");
+              }
+            }
+            break;
+
+          case "reset":
+            if (args.length < 3) {
+              sender.sendMessage(ChatColor.RED + "Usage: /lifemode player reset <number>");
+              return true;
+            }
+            try {
+              int resetLives = Integer.parseInt(args[2]);
+              for (Player player : Bukkit.getOnlinePlayers()) {
+                lifeListener.getPlayerLives().put(player, resetLives);
+                lifeListener.updatePlayerXP(player, resetLives); // Met à jour l'XP
+              }
+              sender.sendMessage(ChatColor.GREEN + "All players' lives have been reset to " + resetLives + ".");
+            } catch (NumberFormatException e) {
+              sender.sendMessage(ChatColor.RED + "Invalid number.");
+            }
+            break;
+
+          default:
+            sender.sendMessage(ChatColor.RED + "Unknown subcommand for player.");
+            break;
         }
         break;
 
@@ -81,6 +106,11 @@ public class LifeModeCommand implements TabExecutor {
         completions.add("off");
       } else if (args[0].equalsIgnoreCase("player")) {
         completions.add("revive");
+        completions.add("reset");
+      }
+    } else if (args.length == 3) {
+      if (args[0].equalsIgnoreCase("player") && args[1].equalsIgnoreCase("reset")) {
+        completions.add("<number>");
       }
     }
     return completions;
