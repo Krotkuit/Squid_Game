@@ -88,4 +88,8 @@ public class LifeListener implements Listener {
     player.setLevel(lives); // Met à jour le niveau d'XP au nombre de vies
     SquidGame.getInstance().getLogger().info("Mise à jour des vies pour " + player.getName() + ": " + lives);
   }
+
+  public boolean isLifeModeEnabled() {
+    return lifeModeEnabled;
+  }
 }

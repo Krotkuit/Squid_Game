@@ -54,6 +54,11 @@ public class LifeModeCommand implements TabExecutor {
         }
         switch (args[1].toLowerCase()) {
           case "revive":
+            if (!lifeListener.isLifeModeEnabled()) {
+              sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode player revive.");
+              return true;
+            }
+
             for (Player player : Bukkit.getOnlinePlayers()) {
               Integer lives = lifeListener.getPlayerLives().get(player);
               if (lives != null && lives > 0) {
@@ -115,4 +120,5 @@ public class LifeModeCommand implements TabExecutor {
     }
     return completions;
   }
+
 }

@@ -170,6 +170,10 @@ public class GameZoneManager implements Listener {
 
     Zone zoneCarrousel = new Zone();
     zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("world"), -136, -40, 22),
+        new Location(Bukkit.getWorld("world"), -118.3, -50, 2.3)
+    );
+    zoneCarrousel.addSubZone(
         new Location(Bukkit.getWorld("world"), -121.3, -59, -21.7),
         new Location(Bukkit.getWorld("world"), -131.7, -45.79, 46.7)
     );
@@ -730,8 +734,12 @@ public class GameZoneManager implements Listener {
 
     Zone SquidGameZone = new Zone();
     SquidGameZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -281.7, -43.79, -8.3),
-        new Location(Bukkit.getWorld("world"), -228.3, -500, -92.7)
+        new Location(Bukkit.getWorld("world"), -281.7, -60, -92.7),
+        new Location(Bukkit.getWorld("world"), -228.3, -39.79, -8.3)
+    );
+    SquidGameZone.addSubZone(
+        new Location(Bukkit.getWorld("world"), -281.7, -150, -92.7),
+        new Location(Bukkit.getWorld("world"), -228.3, -43.79, -8.3)
     );
     SquidGameZone.addSubZone(
         new Location(Bukkit.getWorld("world"), -228.7, -60, -54.7),

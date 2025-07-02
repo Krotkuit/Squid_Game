@@ -300,16 +300,16 @@ public class BaPManager implements Listener {
 
   private Location getPrisonSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -232);
-      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -180);
+      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -232, 0, 0);
+      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -180, 180, 0);
       default -> null;
     };
   }
 
   private Location getTeamSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -195);
-      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -217);
+      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -195, 0, 0);
+      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -217, 180, 0);
       default -> null;
     };
   }
