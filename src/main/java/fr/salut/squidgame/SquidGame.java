@@ -9,10 +9,8 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
-import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TAC;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
-import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
@@ -32,15 +30,15 @@ public final class SquidGame extends JavaPlugin{
 
     @Getter static SquidGame instance;
 
-    @Setter
-    @Getter
+    @Setter @Getter
     private TACState tacState = TACState.OFF;
-    @Setter
-    @Getter
+    @Setter @Getter
     private PRVState prvState = PRVState.OFF;
     private LTTEState ltteState = LTTEState.OFF;
     @Getter
     private final List<Player> playersWithTNT = new ArrayList<>();
+
+    @Getter private GlowingEntities glowingEntities;
 
     @Override
     public void onEnable() {
@@ -51,6 +49,8 @@ public final class SquidGame extends JavaPlugin{
         //new PlayerNumberManager();
 
         TeamManager.Team_Instance();
+
+        glowingEntities = new GlowingEntities(this);
 
         // Listener
         registerEvents(
@@ -94,6 +94,9 @@ public final class SquidGame extends JavaPlugin{
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        glowingEntities.disable();
+
         getLogger().info("Le plugin est désactivé !");
     }
 
