@@ -40,13 +40,15 @@ public class CarrouselZoneCounter implements Listener {
     // Définition des 25 salles
     addSalle(1, world, -110.7, -59, -23.7, -108.3, -57.79, -18.3);
     addSalle(2, world, -104.7, -59, -19.7, -102.3, -57.79, -14.3);
+
     addSalle(3, world, -94.3, -59, -9.3, -99.7, -57.79, -11.7);
     addSalle(4, world, -90.3, -59, -3.3, -95.7, -57.79, -5.7);
-    addSalle(5, world, -87.3, -59, 3.3, -91.7, -57.79, 5.7);
-    addSalle(6, world, -86.3, -59, 13.7, -90.7, -57.79, 11.3);
-    addSalle(7, world, -87.3, -59, 21.7, -91.7, -57.79, 19.3);
+    addSalle(5, world, -87.3, -59, 3.3, -92.7, -57.79, 5.7);
+    addSalle(6, world, -86.3, -59, 13.7, -91.7, -57.79, 11.3);
+    addSalle(7, world, -87.3, -59, 21.7, -92.7, -57.79, 19.3);
     addSalle(8, world, -90.3, -59, 28.3, -95.7, -57.79, 30.7);
     addSalle(9, world, -94.3, -59, 34.3, -99.7, -57.79, 36.7);
+
     addSalle(10, world, -104.7, -59, 44.7, -102.3, -57.79, 39.3);
     addSalle(11, world, -110.7, -59, 48.7, -108.3, -57.79, 43.3);
     addSalle(12, world, -119.7, -59, 51.7, -117.3, -57.79, 46.3);
@@ -54,6 +56,7 @@ public class CarrouselZoneCounter implements Listener {
     addSalle(14, world, -135.7, -59, 51.7, -133.3, -57.79, 46.3);
     addSalle(15, world, -142.3, -59, 48.7, -144.7, -57.79, 43.3);
     addSalle(16, world, -148.3, -59, -44.7, -150.7, -57.79, 39.3);
+
     addSalle(17, world, -158.7, -59, 34.3, -153.3, -57.79, 36.7);
     addSalle(18, world, -162.7, -59, 28.3, -157.3, -57.79, 30.7);
     addSalle(19, world, -165.7, -59, 19.3, -160.3, -57.79, 21.7);
@@ -61,6 +64,7 @@ public class CarrouselZoneCounter implements Listener {
     addSalle(21, world, -166.7, -59, 5.7, -160.3, -57.79, 3.3);
     addSalle(22, world, -163.7, -59, -3.3, -157.3, -57.79, -5.7);
     addSalle(23, world, -158.7, -59, -9.3, -153.3, -57.79, -11.7);
+
     addSalle(24, world, -148.3, -59, -19.7, -150.7, -57.79, -14.3);
     addSalle(25, world, -142.3, -59, -237.0, -144.7, -57.79, -18.3);
   }

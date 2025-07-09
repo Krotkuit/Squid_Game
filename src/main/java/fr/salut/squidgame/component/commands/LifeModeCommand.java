@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +55,10 @@ public class LifeModeCommand implements TabExecutor {
         }
         switch (args[1].toLowerCase()) {
           case "revive":
-            if (!lifeListener.isLifeModeEnabled()) {
-              sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode player revive.");
-              return true;
-            }
-
             for (Player player : Bukkit.getOnlinePlayers()) {
+              Team team = player.getScoreboard().getEntryTeam(player.getName());
+              if (team != null && team.getName().equalsIgnoreCase("garde")) continue;
+
               Integer lives = lifeListener.getPlayerLives().get(player);
               if (lives != null && lives > 0) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
@@ -69,6 +68,10 @@ public class LifeModeCommand implements TabExecutor {
             break;
 
           case "reset":
+            if (!lifeListener.isLifeModeEnabled()) {
+              sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode player reset <number>.");
+              return true;
+            }
             if (args.length < 3) {
               sender.sendMessage(ChatColor.RED + "Usage: /lifemode player reset <number>");
               return true;

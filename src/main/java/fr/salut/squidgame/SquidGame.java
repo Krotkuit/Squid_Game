@@ -17,6 +17,7 @@ import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListene
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
+import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;

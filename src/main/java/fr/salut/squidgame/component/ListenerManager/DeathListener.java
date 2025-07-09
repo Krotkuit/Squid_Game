@@ -55,7 +55,15 @@ public class DeathListener implements Listener {
     int Respawn_X;
     int Respawn_Y;
     int Respawn_Z;
-    if (Objects.equals(BlockDetector.getEpreuve(), "123Soleil")) {
+    if (Objects.equals(BlockDetector.getEpreuve(), "Salle_Blanche")) {
+      Respawn_X = -202;
+      Respawn_Y = -54;
+      Respawn_Z = -26;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "Salle_Grise")) {
+      Respawn_X = -181;
+      Respawn_Y = -53;
+      Respawn_Z = 222;
+    } else if (Objects.equals(BlockDetector.getEpreuve(), "123Soleil")) {
       Respawn_X = -79;
       Respawn_Y = -43;
       Respawn_Z = 125;

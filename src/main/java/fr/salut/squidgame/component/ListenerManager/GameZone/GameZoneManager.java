@@ -496,7 +496,7 @@ public class GameZoneManager implements Listener {
     );
     zoneLTTE.addSubZone(
         new Location(Bukkit.getWorld("world"), -19.7, -59, -300.7),
-        new Location(Bukkit.getWorld("world"), -8.3, -51.79, -274.3)
+        new Location(Bukkit.getWorld("world"), -8.3, -52.79, -276.3)
     );
     zoneLTTE.addSubZone(
         new Location(Bukkit.getWorld("world"), -6.7, -55.79, -325.7),
@@ -616,7 +616,7 @@ public class GameZoneManager implements Listener {
         new Location(Bukkit.getWorld("world"), 130.3, -55.79, -162.3)
     );
     BaPZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -154.3, -47.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 154.3, -47.79, -164.3),
         new Location(Bukkit.getWorld("world"), 212.7, -49, -246.7)
     );
     BaPZone.addSubZone(
@@ -632,7 +632,7 @@ public class GameZoneManager implements Listener {
         new Location(Bukkit.getWorld("world"), 157.3, -50, -164.3)
     );
     BaPZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -158.3, -40.79, -164.3),
+        new Location(Bukkit.getWorld("world"), 158.3, -40.79, -164.3),
         new Location(Bukkit.getWorld("world"), 208.7, -50, -246.7)
     );
     BaPZone.addSubZone(
@@ -815,25 +815,34 @@ public class GameZoneManager implements Listener {
   private void handlePlayerMovement(Player player, Location fromLocation, Location toLocation, Cancellable event) {
     if (toLocation == null) return;
 
-    String currentEpreuve = BlockDetector.getEpreuve(); // Récupère l'épreuve actuelle
+    String currentEpreuve = BlockDetector.getEpreuve();
     Zone zone = gameZones.get(currentEpreuve);
 
-    if (zone == null) return; // Pas de zone définie pour cette épreuve
+    if (zone == null) return;
 
     boolean isInsideZone = zone.isInside(toLocation);
-
-    // Vérifie si le joueur a le tag "joueur"
-    if (!player.getScoreboardTags().contains("joueur")) return;
 
     if (!isInsideZone) {
       boolean wasInsideZone = zone.isInside(fromLocation);
 
+      // Gestion des spectateurs
+      for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+        if (onlinePlayer.getGameMode() == GameMode.SPECTATOR
+            && onlinePlayer.getSpectatorTarget() == player) {
+          var team = onlinePlayer.getScoreboard().getEntryTeam(onlinePlayer.getName());
+          if (team != null && team.getName().equalsIgnoreCase("mort")) {
+            onlinePlayer.setSpectatorTarget(null);
+            onlinePlayer.sendMessage("§cVous ne pouvez plus observer ce joueur car il a quitté la zone autorisée.");
+          }
+        }
+      }
+
+      if (!player.getScoreboardTags().contains("joueur")) return;
+
       if (wasInsideZone) {
-        // Annule le mouvement si le joueur tente de sortir
         event.setCancelled(true);
         player.sendActionBar("§cVous ne pouvez pas quitter la zone !");
       } else {
-        // Téléporte le joueur au centre de la zone s'il est déjà dehors
         Location zoneCenter = zone.getCenter();
         if (zoneCenter != null) {
           Bukkit.getLogger().info("Le joueur est hors de la zone, téléportation au centre : " + zoneCenter);
