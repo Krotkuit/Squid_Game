@@ -75,17 +75,19 @@ public final class SquidGame extends JavaPlugin{
 
         // Load les commandes aussi
         CommandManager.getHandler().register(
-            new BaPCommand(),
-            new LTTECommand(this),
-            new MoveDetectionCmd(),
-            new PRVCommand(),
-            //new NickNameCommands(),
-            new MenuCommand(),
-            new ArmorCommand(),
-            new CMCommand(),
-            new TACCommand(),
-            new CarrouselCommand(),
-            new LifeModeCommand()
+                new BaPCommand(),
+                new LTTECommand(this),
+                new MoveDetectionCmd(),
+                new PRVCommand(),
+                //new NickNameCommands(),
+                new MenuCommand(),
+                new ArmorCommand(),
+                new CMCommand(),
+                new TACCommand(),
+                new CarrouselCommand(),
+                new LifeModeCommand(),
+                new SetblockaCommand(),
+                new TpaCommand()
         );
 
         getLogger().info("Le plugin est activé !");
