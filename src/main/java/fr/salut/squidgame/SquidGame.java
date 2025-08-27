@@ -66,7 +66,7 @@ public final class SquidGame extends JavaPlugin{
             new BaPManager(),
             //new TAC(),
             new CarrouselZoneCounter(this),
-            new GameZoneManager(),
+            //new GameZoneManager(),
             new GunListener(),
             new LifeListener()
         );
