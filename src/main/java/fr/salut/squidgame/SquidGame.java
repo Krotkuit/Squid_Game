@@ -68,7 +68,8 @@ public final class SquidGame extends JavaPlugin{
             new CarrouselZoneCounter(this),
             //new GameZoneManager(),
             new GunListener(),
-            new LifeListener()
+            new LifeListener(),
+            new TchatCommad() // contient un listener
         );
 
         loadCommands();
@@ -87,7 +88,8 @@ public final class SquidGame extends JavaPlugin{
                 new CarrouselCommand(),
                 new LifeModeCommand(),
                 new SetblockaCommand(),
-                new TpaCommand()
+                new TpaCommand(),
+                new TchatCommad()
         );
 
         getLogger().info("Le plugin est activé !");
