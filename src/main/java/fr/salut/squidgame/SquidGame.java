@@ -87,8 +87,6 @@ public final class SquidGame extends JavaPlugin{
                 new TACCommand(),
                 new CarrouselCommand(),
                 new LifeModeCommand(),
-                new SetblockaCommand(),
-                new TpaCommand(),
                 new TchatCommad()
         );
 
