@@ -40,18 +40,18 @@ public class BaPManager implements Listener {
 
   // ** Initialisation des zones **
   public void initializeZones() {
-    teamZones.put("bleu_marine", new int[]{173, -59, -205, 194, -56, -184});
-    teamZones.put("vert_profond", new int[]{173, -59, -227, 194, -56, -206});
+    teamZones.put("bleu_marine", new int[]{39, 65, -35, 60, 68, -14});
+    teamZones.put("vert_profond", new int[]{39, 65, -57, 60, 68, -36});
 
     prisonZones.put("vert_profond", Arrays.asList(
-        new int[]{165, -59, -205, 172, -56, -176},
-        new int[]{165, -59, -183, 202, -56, -176},
-        new int[]{195, -59, -205, 202, -56, -176}
+        new int[]{31, 65, -35, 38, 68, -6},
+        new int[]{31, 65, -13, 68, 68, -6},
+        new int[]{61, 65, -35, 68, 68, -6}
     ));
     prisonZones.put("bleu_marine", Arrays.asList(
-        new int[]{165, -59, -235, 172, -56, -206},
-        new int[]{165, -59, -235, 202, -56, -228},
-        new int[]{195, -59, -235, 202, -56, -206}
+        new int[]{31, 65, -65, 38, 68, -36},
+        new int[]{31, 65, -65, 68, 68, -58},
+        new int[]{61, 65, -65, 68, 68, -36}
     ));
   }
 
@@ -300,17 +300,18 @@ public class BaPManager implements Listener {
 
   private Location getPrisonSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -232, 0, 0);
-      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -180, 180, 0);
+      case "bleu_marine" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -62, 0, 0);
+      case "vert_profond" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -10, 180, 0);
       default -> null;
     };
   }
 
   private Location getTeamSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("world"), 183, -59, -195, 0, 0);
-      case "vert_profond" -> new Location(Bukkit.getWorld("world"), 183, -59, -217, 180, 0);
+      case "bleu_marine" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -25, 0, 0);
+      case "vert_profond" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -47, 180, 0);
       default -> null;
     };
   }
+
 }
