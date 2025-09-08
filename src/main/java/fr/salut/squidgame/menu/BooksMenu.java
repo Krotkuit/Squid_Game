@@ -1,176 +1,73 @@
 package fr.salut.squidgame.menu;
 
-import dev.xernas.menulib.Menu;
-import dev.xernas.menulib.utils.InventorySize;
-import dev.xernas.menulib.utils.ItemBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BooksMenu extends Menu {
+public class BooksMenu {
 
+    private final Player owner;
+    private final Inventory inventory;
 
     public BooksMenu(Player owner) {
-        super(owner);
+        this.owner = owner;
+        this.inventory = Bukkit.createInventory(null, 27, Component.text("Commands")); // 27 slots = InventorySize.NORMAL
+        initContent();
     }
 
-    @Override
-    public @NotNull String getName() {
-        return "Commands";
+    private void initContent() {
+        addBook(0, "Lobby");
+        addBook(3, "123 Soleil");
+        addBook(5, "Carrousel");
+        addBook(7, "Balle aux prisonniers");
+        addBook(9, "Bras d'Argent");
+        addBook(11, "Loup Touche Touche Explosif");
+        addBook(13, "Poule Renard Vipère");
+        addBook(15, "Chaise Musicale");
+        addBook(17, "Squid Game");
+        addBook(19, "Croque Carotte");
+        addBook(21, "Arc-en-Ciel");
+        addBook(23, "Puissance 4");
+        addBook(25, "Billes");
+        addBook(26, "Find the Button");
     }
 
-    @Override
-    public @NotNull InventorySize getInventorySize() {
-        return InventorySize.NORMAL;
+    private void addBook(int slot, String name) {
+        ItemStack item = new ItemStack(Material.BOOK);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(name);
+            List<String> lore = new ArrayList<>();
+            lore.add("§ldonne le livre du " + name);
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+        }
+        inventory.setItem(slot, item);
     }
 
-    @Override
-    public void onInventoryClick(InventoryClickEvent inventoryClickEvent) {}
-
-    @Override
-    public @NotNull Map<Integer, ItemStack> getContent() {
-        Map<Integer, ItemStack> map = new HashMap<>();
-
-        map.put(0, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Lobby");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.LOBBY);
-        }));
-
-        map.put(3, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("123 Soleil");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.SOLEIL_GAME);
-        }));
-
-        map.put(5, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Carrousel");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.CARROUSEL);
-        }));
-
-        map.put(7, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Balle aux prisonniers");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.BaP);
-        }));
-
-        map.put(9, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Bras d'Argent");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.BRAS_DARGENT);
-        }));
-
-        map.put(11, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Loup Touche Touche Explosif");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.LTTE);
-        }));
-
-        map.put(13, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Poule Renard Vipère");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.PRV);
-        }));
-
-        map.put(15, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Chaise Musicale");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.CM);
-        }));
-
-        map.put(17, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Squid Game");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.SQUID_GAME);
-        }));
-        map.put(19, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Croque Carotte");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.CROQUE_CAROTTE);
-        }));
-        map.put(21, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Arc-en-Ciel");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.ARC_EN_CIEL);
-        }));
-        map.put(23, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Puissance 4");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.PUISSANCE_4);
-        }));
-        map.put(25, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Billes");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.BILLES);
-        }));
-        map.put(26, new ItemBuilder(this, Material.BOOK, itemMeta ->{
-            itemMeta.setDisplayName("Find the Button");
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + itemMeta.getDisplayName());
-            itemMeta.setLore(lore);
-        }).setOnClick(inventoryClickEvent ->{
-            giveBook(Books.FIND_THE_BUTTON);
-        }));
-
-        return map;
+    public void open() {
+        owner.openInventory(inventory);
     }
 
-    private void giveBook (Books books){
-        getOwner().addScoreboardTag("tempBook");
+    public static void giveBook(Books books, Player owner) {
+        owner.addScoreboardTag("tempBook");
         World world = Bukkit.getWorld("world");
-        if (world==null) world = getOwner().getWorld();
+        if (world == null) world = owner.getWorld();
         world.getBlockAt(books.getLoc()).setType(Material.REDSTONE_BLOCK);
         world.getBlockAt(books.getLoc()).setType(Material.AIR);
-        getOwner().closeInventory();
+        owner.closeInventory();
     }
 }

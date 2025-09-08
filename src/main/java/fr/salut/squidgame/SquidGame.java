@@ -1,6 +1,5 @@
 package fr.salut.squidgame;
 
-import dev.xernas.menulib.MenuLib;
 import fr.salut.squidgame.component.ListenerManager.*;
 import fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager;
 import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
@@ -15,6 +14,8 @@ import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListene
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
+import fr.salut.squidgame.menu.BookMenuListener;
+import fr.salut.squidgame.menu.BooksMenu;
 import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +44,6 @@ public final class SquidGame extends JavaPlugin{
     @Override
     public void onEnable() {
         instance = this;
-        MenuLib.init(this);
         // Manager
         new CommandManager();
         //new PlayerNumberManager();
@@ -66,10 +66,11 @@ public final class SquidGame extends JavaPlugin{
             new BaPManager(),
             //new TAC(),
             new CarrouselZoneCounter(this),
-            //new GameZoneManager(),
+            new GameZoneManager(),
             new GunListener(),
             new LifeListener(),
-            new TchatCommad() // contient un listener
+            new TchatCommad(), // contient un listener
+            new BookMenuListener()
         );
 
         loadCommands();

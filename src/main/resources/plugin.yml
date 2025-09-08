@@ -2,6 +2,10 @@ name: SquidGame
 version: '1.0-SNAPSHOT'
 main: fr.salut.squidgame.SquidGame
 api-version: '1.20'
+
+depend:
+  - Multiverse-Core
+
 commands:
   movedetection:
     description: "Command for switch move detection"

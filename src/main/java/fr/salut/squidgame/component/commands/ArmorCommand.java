@@ -14,10 +14,12 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
 import revxrsal.commands.annotation.Optional;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.List;
 
 @Command("armor")
+@CommandPermission("sqg.admins.commands.armor")
 public class ArmorCommand {
 
     @DefaultFor("~")
