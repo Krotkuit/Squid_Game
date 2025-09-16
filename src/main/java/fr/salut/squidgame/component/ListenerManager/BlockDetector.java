@@ -48,7 +48,7 @@ public class BlockDetector implements Listener {
         epreuve = "123Soleil";
       } else if (x == 6 && y == 65 && z == 12) {
         epreuve = "ArcEnCiel";
-      } else if (x == 0 && y == 0 && z == 0) {
+      } else if (x == 6 && y == 65 && z == 30) {
         epreuve = "BAP";
       } else if (x == 6 && y == 65 && z == 18) {
         epreuve = "CacheCache";
@@ -56,11 +56,11 @@ public class BlockDetector implements Listener {
         epreuve = "Carrousel";
       } else if (x == 6 && y == 65 && z == 21) {
         epreuve = "CordeASauter";
-      } else if (x == 0 && y == 0 && z == 0) {
+      } else if (x == 6 && y == 65 && z == 27) {
         epreuve = "LTTE";
       } else if (x == 0 && y == 0 && z == 0) {
         epreuve = "PRV";
-      } else if (x == 0 && y == 0 && z == 0) {
+      } else if (x == 6 && y == 65 && z == 33) {
         epreuve = "Puissance4";
       } else if (x == 6 && y == 65 && z == 24) {
         epreuve = "SquidGameAerien";
@@ -68,6 +68,8 @@ public class BlockDetector implements Listener {
         epreuve = "Salle_Grise";
       } else if ((x == 15 || x == 18 || x == 21) && y == 65 && z == 6) {
         epreuve = "Escaliers";
+      } else if (x == -46 && y == -35 && z == -16) {
+          epreuve = "ChaiseMusicale";
       }
       /*if (x == -24 && y == -38 && z == -22) {
         epreuve = "Lobby";
