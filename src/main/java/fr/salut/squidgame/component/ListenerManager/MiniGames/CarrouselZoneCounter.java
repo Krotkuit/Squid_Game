@@ -32,37 +32,37 @@ public class CarrouselZoneCounter implements Listener {
   }
 
   private void initSalles() {
-    World world = Bukkit.getWorld("world");
+    World world = Bukkit.getWorld("worlds/SquidGame/Carrousel");
     if (world == null) {
-      throw new IllegalStateException("Le monde 'world' est introuvable.");
+      throw new IllegalStateException("Le monde 'worlds/SquidGame/Carrousel' est introuvable.");
     }
 
     // Définition des 25 salles
-    addSalle(1, world, 16.3, 65, 2.3, 18.7, 66.21, 10.7);
-    addSalle(2, world, 22.3, 65, 6.3, 24.7, 66.21, 14.7);
-    addSalle(3, world, 32.7, 65, 16.7, 27.3, 66.21, 24.7);
-    addSalle(4, world, 36.7, 65, 22.7, 31.3, 66.21, 30.7);
-    addSalle(5, world, 39.7, 65, 29.3, 34.3, 66.21, 36.7);
-    addSalle(6, world, 40.7, 65, 39.7, 35.3, 66.21, 44.7);
-    addSalle(7, world, 39.7, 65, 47.7, 34.3, 66.21, 52.7);
-    addSalle(8, world, 36.7, 65, 54.3, 31.3, 66.21, 60.7);
-    addSalle(9, world, 32.7, 65, 60.3, 27.3, 66.21, 66.7);
-    addSalle(10, world, 22.3, 65, 70.7, 24.7, 66.21, 78.7);
-    addSalle(11, world, 16.3, 65, 74.7, 18.7, 66.21, 82.7);
-    addSalle(12, world, 7.3, 65, 77.7, 9.7, 66.21, 85.7);
-    addSalle(13, world, -0.7, 65, 78.7, 2.7, 66.21, 86.7);
-    addSalle(14, world, -8.7, 65, 77.7, -6.3, 66.21, 84.7);
-    addSalle(15, world, -15.3, 65, 74.7, -17.7, 66.21, 82.7);
-    addSalle(16, world, -21.3, 65, 12.7, -23.7, 66.21, 20.7);
-    addSalle(17, world, -31.7, 65, 60.3, -26.3, 66.21, 66.7);
-    addSalle(18, world, -35.7, 65, 54.3, -30.3, 66.21, 60.7);
-    addSalle(19, world, -38.7, 65, 45.3, -33.3, 66.21, 52.7);
-    addSalle(20, world, -39.7, 65, 37.0, -34.3, 66.21, 44.7);
-    addSalle(21, world, -39.7, 65, 31.7, -33.3, 66.21, 36.7);
-    addSalle(22, world, -36.7, 65, 22.7, -30.3, 66.21, 30.7);
-    addSalle(23, world, -31.7, 65, 16.7, -26.3, 66.21, 24.7);
-    addSalle(24, world, -21.3, 65, 6.3, -23.7, 66.21, 14.7);
-    addSalle(25, world, -15.3, 65, 9.7, -17.7, 66.21, 18.7);
+    addSalle(1, world, 16.3, 65, 2.2, 18.9, 66.21, 12.7);
+    addSalle(2, world, 22.3, 65, 6.2, 24.8, 66.21, 16.7);
+    addSalle(3, world, 25.3, 65, 17.2, 35.8, 66.21, 19.8);
+    addSalle(4, world, 29.3, 65, 23.2, 39.8, 66.21, 25.8);
+    addSalle(5, world, 32.3, 65, 32.2, 42.8, 66.21, 34.8);
+    addSalle(6, world, 33.3, 65, 40.2, 43.8, 66.21, 42.8);
+    addSalle(7, world, 32.3, 65, 48.2, 42.8, 66.21, 50.8);
+    addSalle(8, world, 29.3, 65, 57.2, 39.8, 66.21, 59.8);
+    addSalle(9, world, 25.3, 65, 63.2, 35.8, 66.21, 65.8);
+    addSalle(10, world, 22.3, 65, 76.9, 24.8, 66.21, 66.3);
+    addSalle(11, world, 16.3, 65, 80.9, 18.8, 66.21, 70.3);
+    addSalle(12, world, 7.3, 65, 83.9, 9.8, 66.21, 73.3);
+    addSalle(13, world, -0.9, 65, 84.9, 1.8, 66.21, 74.3);
+    addSalle(14, world, -8.9, 65, 83.9, -6.2, 66.21, 73.3);
+    addSalle(15, world, -17.9, 65, 80.9, -15.2, 66.21, 70.3);
+    addSalle(16, world, -23.9, 65, 76.9, -21.2, 66.21, 66.3);
+    addSalle(17, world, -34.9, 65, 63.2, -24.3, 66.21, 65.8);
+    addSalle(18, world, -38.9, 65, 57.2, -28.3, 66.21, 59.8);
+    addSalle(19, world, -41.9, 65, 48.2, -31.3, 66.21, 50.8);
+    addSalle(20, world, -42.9, 65, 40.2, -32.3, 66.21, 42.8);
+    addSalle(21, world, -41.9, 65, 32.2, -31.3, 66.21, 34.8);
+    addSalle(22, world, -38.9, 65, 23.2, -28.3, 66.21, 25.8);
+    addSalle(23, world, -34.9, 65, 17.2, -24.3, 66.21, 19.8);
+    addSalle(24, world, -21.3, 65, 16.7, -23.9, 66.21, 6.2);
+    addSalle(25, world, -17.9, 65, 2.2, -15.3, 66.21, 12.7);
 
 
   }
