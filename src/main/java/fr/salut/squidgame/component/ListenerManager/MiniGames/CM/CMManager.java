@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CMManager {
-    static int[] zone = {161, 51, 118, 8};
+    static int[] zone = {-22, -23, 21, -66};
     private static final List<Location> chairsLoc = new ArrayList<>();
 
     public static void putChairs(){
@@ -68,7 +68,7 @@ public class CMManager {
         }
 
         int x = new Random().nextInt(minX, maxX);
-        int y = -56; // Coordonnée Y fixe
+        int y = 62; // Coordonnée Y fixe
         int z = new Random().nextInt(minZ, maxZ);
 
         Location location = new Location(Bukkit.getWorld("world"), x, y, z);
