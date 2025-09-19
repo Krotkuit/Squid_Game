@@ -2,7 +2,9 @@ package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
@@ -33,6 +35,12 @@ public class BaPCommand {
     public void bapOFF(CommandSender sender){
         bapState = BaPState.OFF;
         BaPManager.getPlayersInPrison().clear();
+        // Retirer le glowing de tous les joueurs
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            if (onlinePlayer.isGlowing()) {
+                onlinePlayer.setGlowing(false);
+            }
+        }
         sender.sendMessage("§cBaP désactivé : le jeu est maintenant inactif.");
     }
 

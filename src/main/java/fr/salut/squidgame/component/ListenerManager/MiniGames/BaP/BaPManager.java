@@ -191,6 +191,14 @@ public class BaPManager implements Listener {
     }
     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+
+    // Retirer le glowing de tous les joueurs
+    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+      if (onlinePlayer.isGlowing()) {
+        onlinePlayer.setGlowing(false);
+      }
+    }
+    player.setGlowing(true);
   }
 
   private void releasePlayer(Player player) {
