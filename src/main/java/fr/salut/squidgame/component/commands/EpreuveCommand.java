@@ -42,7 +42,7 @@ public class EpreuveCommand implements TabExecutor, TabCompleter {
       }
 
       setEpreuve(newEpreuve);
-      Bukkit.broadcastMessage("§aL'épreuve a été définie sur : " + newEpreuve);
+      Bukkit.getLogger().info("L'épreuve a été définie sur : " + newEpreuve);
       return true;
     }
 
