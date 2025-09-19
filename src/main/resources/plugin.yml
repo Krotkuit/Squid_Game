@@ -29,6 +29,12 @@ commands:
   carrousel:
     description: Compte les joueurs dans les salles du carrousel
     usage: /carrousel room
+  setepreuve:
+    description: Définit l'épreuve actuelle.
+    usage: /setepreuve <nom_de_l_epreuve>
+  getepreuve:
+    description: Affiche l'épreuve actuelle.
+    usage: /getepreuve
 permissions:
   sqg.admins.commands.*:
     description: "Donne l'accès aux commandes d'administration"

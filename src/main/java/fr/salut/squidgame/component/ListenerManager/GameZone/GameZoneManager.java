@@ -1,6 +1,7 @@
 package fr.salut.squidgame.component.ListenerManager.GameZone;
 
 import fr.salut.squidgame.component.ListenerManager.BlockDetector;
+import fr.salut.squidgame.component.commands.EpreuveCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -117,15 +118,18 @@ public class GameZoneManager implements Listener {
     Zone StairsZone = new Zone();
     StairsZone.addSubZone(
         new Location(Bukkit.getWorld("world"), 216.3, -60, 25.7),
-        new Location(Bukkit.getWorld("world"), 279.7, 12.2, -36.7)
+        new Location(Bukkit.getWorld("world"), 279.7, 12.201, -36.7)
     );
     gameZones.put("Escaliers", StairsZone);
 
     Zone zone123Soleil = new Zone();
+    // [ Aire de jeu ] //
     zone123Soleil.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 25.7, 1, 17.3),
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -23.7, 21, 203.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 35.7, 1, 17.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -33.7, 21, 203.7)
     );
+
+    // [ Transition ascenseur / aire de jeu ] //
     zone123Soleil.addSubZone(
         new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 21.7, 1, 21),
         new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -20.7, 4.21, 6.3)
@@ -137,36 +141,67 @@ public class GameZoneManager implements Listener {
 
     // [ Ascenseur ] //
     zone123Soleil.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 6, 1, -9.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -4.7, 4.21, -1.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -3.7, 1, 5.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 4.7, 4.201, -9.7)
     );
     zone123Soleil.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -5.7, 1, 2.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 6.7, 4.21, -0.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -4.7, 1, 4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 5.7, 4.201, -9.7)
     );
     zone123Soleil.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 5.7, 1, -1.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -4.7, 4.2, 3.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -7.7, 1, 3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 8.7, 4.201, -9.7)
+    );
+    zone123Soleil.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -8.7, 1, 2.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 9.7, 4.201, -8.7)
+    );
+    zone123Soleil.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -9.7, 1, 1.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 10.7, 4.201, -7.7)
+    );
+    zone123Soleil.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), -10.7, 1, 0.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/123Soleil"), 11.7, 4.201, -6.7)
     );
 
     gameZones.put("123Soleil", zone123Soleil);
 
     Zone zoneArcenCiel = new Zone();
-
-    // [ Ascenseur ] //
+    // [ Aire de jeu ] //
     zoneArcenCiel.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -4.7, 65, -10.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 5.7, 68, 3.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 55.7, 65, 6.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -54.7, 86.201, 90.7)
     );
 
     // [ Ascenseur ] //
     zoneArcenCiel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 3.7, 65, 7.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -2.7, 68, 3.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -2.7, 65, 7.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 3.7, 68.201, 4.3)
     );
     zoneArcenCiel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 54.7, 65, 7.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -53.7, 86, 89.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -3.7, 65, 4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 4.7, 68.201, -10.7)
+    );
+    zoneArcenCiel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -4.7, 65, 3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 5.7, 68.201, -10.7)
+    );
+    zoneArcenCiel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -7.7, 65, 2.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 8.7, 68.201, -10.7)
+    );
+    zoneArcenCiel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -8.7, 65, 1.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 9.7, 68.201, -9.7)
+    );
+    zoneArcenCiel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -9.7, 65, 0.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 10.7, 68.201, -8.7)
+    );
+    zoneArcenCiel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -10.7, 65, -0.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 11.7, 68.201, -7.7)
     );
 
     gameZones.put("ArcEnCiel", zoneArcenCiel);
@@ -176,138 +211,185 @@ public class GameZoneManager implements Listener {
     // [ Ascenseur ] //
     zoneCarrousel.addSubZone(
         new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -2.7, 65, 9.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 3.7, 69, -13.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 3.7, 69, -0.7)
     );
 
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -17.9, 67, 2.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -15.3, 65, 12.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -3.7, 65, 0.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 4.7, 68.2, -14.7)
+    );
+    zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -4.7, 65, -0.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 5.7, 68.201, -14.7)
+    );
+    zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -7.7, 65, -1.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 8.7, 68.201, -14.7)
+    );
+    zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -8.7, 65, -2.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 9.7, 68.201, -13.7)
+    );
+    zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -9.7, 65, -3.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 10.7, 68.201, -12.7)
+    );
+    zoneCarrousel.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -10.7, 65, -4.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 11.7, 68.201, -11.7)
     );
 
+
+    // [ Salle 1 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -21.3, 65, 16.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -23.9, 67, 6.2)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 18.7, 66.201, 2.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 16.3, 65, 12.7)
     );
 
+    // [ Salle 2 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -34.9, 67, 17.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -24.3, 65, 19.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 24.7, 65, 6.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 22.3, 66.201, 16.7)
     );
 
+    // [ Salle 3 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -38.9, 67, 23.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -28.3, 65, 25.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 25.3, 65, 17.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 35.7, 66.201, 19.7)
     );
 
+    // [ Salle 4 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -41.9, 67, 32.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -31.3, 65, 34.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 29.3, 65, 23.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 39.7, 66.201, 25.7)
     );
 
+    // [ Salle 5 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -42.9, 67, 40.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -32.3, 65, 42.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 32.3, 65, 32.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 42.7, 66.201, 34.7)
     );
 
+    // [ Salle 6 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -41.9, 67, 48.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -31.3, 65, 50.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 33.3, 65, 40.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 43.7, 66.201, 42.7)
     );
 
+    // [ Salle 7 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -38.9, 67, 57.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -28.3, 65, 59.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 32.3, 65, 48.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 42.7, 66.201, 50.7)
     );
 
+    // [ Salle 8 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -34.9, 67, 63.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -24.3, 65, 65.8)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 29.3, 65, 57.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 39.7, 66.201, 59.7)
     );
 
+    // [ Salle 9 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -23.9, 67, 76.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -21.2, 65, 66.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 25.3, 65, 63.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 35.7, 66.201, 65.7)
     );
 
+    // [ Salle 10 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -17.9, 67, 80.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -15.2, 65, 70.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 22.3, 66.201, 76.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 24.7, 65, 66.3)
     );
 
+    // [ Salle 11 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -8.9, 67, 83.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -6.2, 65, 73.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 16.3, 66.201, 80.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 18.7, 65, 70.3)
     );
 
+    // [ Salle 12 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -0.9, 67, 84.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 1.8, 65, 74.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 7.3, 66.201, 83.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 9.7, 65, 73.3)
     );
 
+    // [ Salle 13 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 7.3, 67, 83.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 9.8, 65, 73.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -0.7, 66.201, 84.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 1.7, 65, 74.3)
     );
 
+    // [ Salle 14 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 16.3, 67, 80.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 18.8, 65, 70.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -8.7, 66.201, 83.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -6.3, 65, 73.3)
     );
 
+    // [ Salle 15 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 22.3, 67, 76.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 24.8, 65, 66.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -17.7, 66.201, 80.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -15.3, 65, 70.3)
     );
 
+    // [ Salle 16 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 22.3, 67, 76.9),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 24.8, 65, 66.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -23.7, 66.201, 76.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -21.3, 65, 66.3)
     );
 
+    // [ Salle 17 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 25.3, 65, 63.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 35.8, 67, 65.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -34.7, 66.201, 63.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -24.3, 65, 65.7)
     );
 
+    // [ Salle 18 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 29.3, 65, 57.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 39.8, 67, 59.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -38.7, 66.201, 57.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -28.3, 65, 59.7)
     );
 
+    // [ Salle 19 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 32.3, 65, 48.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 42.8, 67, 50.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -41.7, 66.201, 48.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -31.3, 65, 50.7)
     );
 
+    // [ Salle 20 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 33.3, 65, 40.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 43.8, 67, 42.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -42.7, 66.201, 40.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -32.3, 65, 42.7)
     );
 
+    // [ Salle 21 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 32.3, 65, 32.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 42.8, 67, 34.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -41.7, 66.201, 32.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -31.3, 65, 34.7)
     );
 
+    // [ Salle 22 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 29.3, 65, 23.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 39.8, 67, 25.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -38.7, 66.201, 23.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -28.3, 65, 25.7)
     );
 
+    // [ Salle 23 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 25.3, 65, 17.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 35.8, 67, 19.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -34.7, 66.201, 17.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -24.3, 65, 19.7)
     );
 
+    // [ Salle 24 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 24.8, 65, 16.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 22.3, 67, 6.2)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -21.3, 65, 16.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -23.7, 66.201, 6.3)
     );
 
+    // [ Salle 25 ] //
     zoneCarrousel.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 18.9, 67, 2.2),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 16.3, 65, 12.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -17.7, 66.201, 2.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), -15.3, 65, 12.7)
     );
+
 
     gameZones.put("Carrousel", zoneCarrousel);
 
@@ -417,47 +499,63 @@ public class GameZoneManager implements Listener {
     gameZones.put("Poule_Renard_Vipere", zonePRV);
 
     Zone zoneLTTE = new Zone();
-
+    // [ Aire de jeu ] //
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -0.7, 65, 107.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 87.7, 104.21, 2.3)
+            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 7.3, 64.5, 117.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 95.7, 109.201, 12.3)
+    );
+    zoneLTTE.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 77.7, 65, 12.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 16.3, 68.201, -6.7)
+    );
+    zoneLTTE.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 3.3, 65, 42.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 14.3, 68.201, 12.3)
+    );
+    zoneLTTE.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 4.2, 65, 11.8),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -3.2, 68.201, 16.2)
+    );
+    zoneLTTE.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -3.7, 65, 13.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 6.7, 68.201, 15.7)
     );
 
     // [ Ascenseur ] //
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -11.7, 65, -1.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -3.3, 69, -15.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -2.7, 65, 12.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 3.7, 68.201, 8.3)
     );
-
-    // [ Ascenseur ] //
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -11.7, 65, -2.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -4.3, 69, 3.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -3.7, 65, 9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 4.7, 68.201, -5.7)
     );
-
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -4.7, 66, 8.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 6.7, 72.21, 32.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -4.7, 65, 8.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 5.7, 68.201, -5.7)
     );
-
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 8.3, 69.21, -16.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 69.7, 66, 2.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -7.7, 65, 7.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 8.7, 68.201, -5.7)
     );
-
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 26.3, 72, 2.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 37.7, 80.21, -3.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -8.7, 65, 6.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 9.7, 68.201, -4.7)
     );
-
     zoneLTTE.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -11.7, 69, 2.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 0.7, 65, 6.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -9.7, 65, 5.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 10.7, 68.201, -3.7)
+    );
+    zoneLTTE.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), -10.7, 65, 4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/LTTE"), 11.7, 68.201, -2.7)
     );
 
     gameZones.put("LTTE", zoneLTTE);
 
     Zone zoneP4 = new Zone();
+
+    // [ Aire de jeu ] //
     zoneP4.addSubZone(
             new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), -0.3, 65, -39.7),
             new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), -56.7, 84.21, 40.7)
@@ -465,20 +563,38 @@ public class GameZoneManager implements Listener {
 
     // [ Ascenseur ] //
     zoneP4.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), -1.7, 65, -1.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 4.7, 69, 2.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), -0.7, 65, -2.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 3.7, 68.201, 3.7)
     );
-
-    // [ Ascenseur ] //
     zoneP4.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"),3.3, 65, -3.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 18.7, 68, 4.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 3.3, 65, -3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 18.7, 68.201, 4.7)
     );
-
+    zoneP4.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 4.3, 65, -4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 18.7, 68.201, 5.7)
+    );
+    zoneP4.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 5.3, 65, -7.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 18.7, 68.201, 8.7)
+    );
+    zoneP4.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 6.3, 65, -8.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 17.7, 68.201, 9.7)
+    );
+    zoneP4.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 7.3, 65, -9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 16.7, 68.201, 10.7)
+    );
+    zoneP4.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 8.3, 65, -10.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/Puissance4"), 15.7, 68.201, 11.7)
+    );
 
     gameZones.put("Puissance4", zoneP4);
 
     Zone zoneBilles = new Zone();
+    // [ Aire de jeu ] //
     zoneBilles.addSubZone(
         new Location(Bukkit.getWorld("world"), 179.7, -60, -93.7),
         new Location(Bukkit.getWorld("world"), 116.3, -37.79, -36.3)
@@ -503,39 +619,78 @@ public class GameZoneManager implements Listener {
     gameZones.put("Billes", zoneBilles);
 
     Zone CordeASauterZone = new Zone();
-
-    // [ Ascenseur ] //
+    // [ Aire de jeu ] //
     CordeASauterZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 2.3, 135, 3.8),
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 17.7, 139, -3.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -0.3, 127, -99.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -110.7, 171.201, 100.7)
     );
 
     // [ Ascenseur ] //
     CordeASauterZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 5.7, 135, 2.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -0.7, 138, -1.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -0.7, 135, -2.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 3.7, 138.201, 3.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 3.3, 135, -3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 18.7, 138.201, 4.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 4.3, 135, -4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 18.7, 138.201, 5.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 5.3, 135, -7.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 18.7, 138.201, 8.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 6.3, 135, -8.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 17.7, 138.201, 9.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 7.3, 135, -9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 16.7, 138.201, 10.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 8.3, 135, -10.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), 15.7, 138.201, 11.7)
     );
 
-    CordeASauterZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -0.3, 172, 100.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -110.7, 127, -99.7)
-    );
 
     // [ Ascenseur 2 ] //
     CordeASauterZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -129.7, 138, -3.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -115.3, 135, 4.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -110.3, 135, 3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -114.7, 138.201, -2.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -114.3, 135, 4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -129.7, 138.201, -3.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -115.3, 135, 5.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -129.7, 138.201, -4.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -116.3, 135, 8.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -129.7, 138.201, -7.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -117.3, 135, 9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -128.7, 138.201, -8.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -118.3, 135, 10.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -127.7, 138.201, -9.7)
+    );
+    CordeASauterZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -119.3, 135, 11.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -126.7, 138.201, -10.7)
     );
 
-    // [ Ascenseur 2 ] //
-    CordeASauterZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -116.7, 138, -1.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -109.3, 135, 2.7)
-    );
 
     gameZones.put("CordeASauter", CordeASauterZone);
 
     Zone zoneFtB = new Zone();
+    // [ Aire de jeu ] //
     zoneFtB.addSubZone(
         new Location(Bukkit.getWorld("world"), 144.3, -35, 265.3),
         new Location(Bukkit.getWorld("world"), 223.7, 43.21, 504.7)
@@ -574,101 +729,118 @@ public class GameZoneManager implements Listener {
     gameZones.put("Find_the_Button", zoneFtB);
 
     Zone BaPZone = new Zone();
+    // [ Aire de jeu ] //
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 19.3, 65.79, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 79.7, 76, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 19.3, 65, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 79.7, 76.201, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 20.3, 77, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 78.7, 75.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 20.3, 70, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 78.7, 79.201, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 77.7, 80, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 21.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 77.7, 81.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 21.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 22.3, 82, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 76.7, 74.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 22.3, 82.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 76.7, 70, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 75.7, 83, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 23.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 75.7, 83.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 23.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 24.3, 84, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 74.7, 74.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 24.3, 84.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 74.7, 70, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 73.7, 85, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 25.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 73.7, 85.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 25.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 72.7, 86, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 26.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 72.7, 86.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 26.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 27.3, 87, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 71.7, 74.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 27.3, 87.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 71.7, 70, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 70.7, 88, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 28.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 70.7, 88.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 28.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 30.3, 89, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 68.7, 74.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 30.3, 89.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 68.7, 70, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 66.7, 90, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 32.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 66.7, 90.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 32.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 34.3, 91, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 64.7, 74.79, -76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 34.3, 91.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 64.7, 70, -76.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 60.7, 92, -76.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 38.3, 74.79, 5.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 60.7, 92.201, -76.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 38.3, 70, 5.7)
     );
 
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 42.3, 93, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 56.7, 74.79, -76.7)
-    );
-
-    BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 20.7, 65, 3.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 15.3, 68, -0.7)
-    );
-
-    BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 16.7, 70, 6.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 1.3, 65, -3.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 42.3, 93.201, 5.7),
+            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 56.7, 70, -76.7)
     );
 
     // [ Ascenseur ] //
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 2.7, 65, 4.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -1.7, 69, -1.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 19.7, 65, 3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -0.7, 67.201, -0.7)
     );
-
-    // [ Ascenseur ] //
     BaPZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -0.3, 65, 5.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -15.7, 68, -2.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 16.7, 65, 6.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 1.3, 69.201, -3.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -0.7, 65, -1.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 1.7, 68.201, 4.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -0.3, 65, 5.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -15.7, 68.201, -2.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -1.3, 65, 6.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -15.7, 68.201, -3.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -2.3, 65, 9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -15.7, 68.201, -6.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -3.3, 65, 10.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -14.7, 68.201, -7.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -4.3, 65, 11.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -13.7, 68.201, -8.7)
+    );
+    BaPZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -5.3, 65, 12.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), -12.7, 68.201, -9.7)
     );
 
     gameZones.put("BAP", BaPZone);
@@ -714,14 +886,51 @@ public class GameZoneManager implements Listener {
     Zone CMZone = new Zone();
     CMZone.addSubZone(
             new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 26.7, 62, -69.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -24.7, 76.21, -2.3)
+            new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -26.7, 76.201, -2.3)
     );
 
     // [ Ascenseur ] //
     CMZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 11.7, 65, 16.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -11.7, 69.201, -2.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 5.2, 65, -1.8),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -5.2, 68.701, -2.7)
     );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 4.7, 65, -0.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -4.7, 68.201, -2.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 3.7, 65, 1.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -3.7, 68.201, -0.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 3.7, 65, -0.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -3.7, 68.201, 1.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 4.7, 65, 1.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -4.7, 68.201, 16.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 5.7, 65, 2.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -5.7, 68.201, 16.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 8.7, 65, 3.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -8.7, 68.201, 16.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 9.7, 65, 4.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -9.7, 68.201, 15.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 10.7, 65, 5.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -10.7, 68.201, 14.7)
+    );
+    CMZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), 11.7, 65, 6.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), -11.7, 68.201, 13.7)
+    );
+
 
     gameZones.put("ChaiseMusicale", CMZone);
 
@@ -754,22 +963,71 @@ public class GameZoneManager implements Listener {
     gameZones.put("Squid_Game", SquidGameZone);
 
     Zone SquidGameAerienZone = new Zone();
+    // [ Aire de jeu ] //
     SquidGameAerienZone.addSubZone(
             new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 25.7, 65, 1.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -95.7, 160, 76.7)
+            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -96.7, 160.201, 76.7)
+    );
+
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -94.7, 160.201, 75.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 25.7, 100, 2.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -93.7, 162.201, 74.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 24.7, 100, 3.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -92.7, 166.201, 73.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 23.7, 100, 4.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -92.7, 100, 72.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 22.7, 172.201, 5.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -91.7, 100, 71.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 21.7, 174.201, 6.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -90.7, 100, 70.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 20.7, 178.201, 7.3)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -89.7, 100, 69.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 19.7, 181.201, 8.3)
     );
 
     // [ Ascenseur ] //
     SquidGameAerienZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -2.7, 65, 3.7),
-            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 3.7, 69, -4.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -2.7, 65, 2.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 3.7, 68.201, -3.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -3.7, 65, -3.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 4.7, 68.201, -18.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -4.7, 65, -4.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 5.7, 68.201, -18.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -7.7, 65, -5.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 8.7, 68.201, -18.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -8.7, 65, -6.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 9.7, 68.201, -17.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -9.7, 65, -7.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 10.7, 68.201, -16.7)
+    );
+    SquidGameAerienZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -10.7, 65, -8.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 11.7, 68.201, -15.7)
     );
 
-    // [ Ascenseur ] //
-    SquidGameAerienZone.addSubZone(
-            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), -3.7, 65, -3.3),
-            new Location(Bukkit.getWorld("worlds/SquidGame/SquidGameAerien"), 4.7, 68, -18.7)
-    );
 
     gameZones.put("SquidGameAerien", SquidGameAerienZone);
 
@@ -786,32 +1044,46 @@ public class GameZoneManager implements Listener {
     gameZones.put("Salle_Blanche", SalleBlancheZone);
     Zone SalleGriseZone = new Zone();
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -154.3, -60, 185.3),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -208.7, -51.79, 257.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -1.3, 65, 36.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -55.7, 73.201, -35.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -155.3, -60, 178.3),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -207.7, -56.79, 185.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -2.3, 65, -42.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -54.7, 68.201, 43.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -215.7, -60, 186.3),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -208.3, -56.79, 256.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -50, 65, -34.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -62.7, 68.201, 35.7)
+    );
+
+    // [ Ascenseur ] //
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -1.7, 65, -1.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 2.7, 68.201, 2.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -207.7, -60, 264.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -155.3, -56.79, 257.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 2.3, 65, -3.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 17.7, 68.201, 4.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -145.3, -60, 225.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -154.7, -56.79, 217.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 3.3, 65, -4.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 17.7, 68.201, 5.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -146.3, -60, 226.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -151.7, -56.79, 216.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 4.3, 65, -7.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 17.7, 68.201, 8.7)
     );
     SalleGriseZone.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -147.3, -60, 227.7),
-        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), -150.7, -56.79, 215.3)
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 5.3, 65, -8.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 16.7, 68.201, 9.7)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 6.3, 65, -9.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 15.7, 68.201, 10.7)
+    );
+    SalleGriseZone.addSubZone(
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 7.3, 65, -10.7),
+        new Location(Bukkit.getWorld("worlds/SquidGame/SalleGrise"), 14.7, 68.201, 11.7)
     );
 
     gameZones.put("SalleGrise", SalleGriseZone);
@@ -821,18 +1093,20 @@ public class GameZoneManager implements Listener {
   public void onPlayerMove(PlayerMoveEvent event) {
     handlePlayerMovement(event.getPlayer(), event.getFrom(), event.getTo(), event);
   }
-//  @EventHandler
-//  public void onPlayerTeleport(PlayerTeleportEvent event) {
-//    handlePlayerMovement(event.getPlayer(), event.getFrom(), event.getTo(), event);
-//  }
+  @EventHandler
+  public void onPlayerTeleport(PlayerTeleportEvent event) {
+    handlePlayerMovement(event.getPlayer(), event.getFrom(), event.getTo(), event);
+  }
 
   private void handlePlayerMovement(Player player, Location fromLocation, Location toLocation, Cancellable event) {
     if (toLocation == null) return;
 
-    String currentEpreuve = BlockDetector.getEpreuve();
+    String currentEpreuve = EpreuveCommand.getEpreuve();
     Zone zone = gameZones.get(currentEpreuve);
 
     if (zone == null) return;
+
+
 //    Bukkit.getLogger().info("toLocation : " + toLocation);
 //    Bukkit.getLogger().info("zone : " + zone.subZones);
 
@@ -861,7 +1135,7 @@ public class GameZoneManager implements Listener {
       } else {
         Location zoneCenter = zone.getCenter();
         if (zoneCenter != null) {
-//          Bukkit.getLogger().info("worlds/SquidGame/" + BlockDetector.getEpreuve());
+//          Bukkit.getLogger().info("worlds/SquidGame/" + EpreuveCommand.getEpreuve());
 //          Bukkit.getLogger().info("zoneCenter.getWorld().getName() : " + zoneCenter.getWorld().getName());
 //          Bukkit.getLogger().info("Le joueur est hors de la zone, téléportation au centre : " + zoneCenter);
           player.teleport(zoneCenter);
@@ -896,6 +1170,16 @@ public class GameZoneManager implements Listener {
         }
       }
 
+      // Vérifie si la position est dans l'une des sous-zones de la salle grise
+      Zone SalleGriseZone = gameZones.get("SalleGrise");
+      if (SalleGriseZone != null) {
+        for (SubZone subZone : SalleGriseZone.subZones) {
+          if (subZone.isInside(location)) {
+            return true;
+          }
+        }
+      }
+
       Zone carrouselZone = gameZones.get("Carrousel");
       if (carrouselZone != null) {
         for (SubZone subZone : carrouselZone.subZones) {
@@ -903,7 +1187,7 @@ public class GameZoneManager implements Listener {
             return true;
           }
         }
-        if (isInCylinder(location, centerCarrousel, 34, centerCarrousel.getY(), 80)) return true;
+        if (isInCylinder(location, centerCarrousel, 34.7, centerCarrousel.getY(), 80)) return true;
       }
 
       Zone cordeASauterZone = gameZones.get("CordeASauter");
@@ -913,16 +1197,23 @@ public class GameZoneManager implements Listener {
             return true;
           }
         }
-        if (isInCylinder(location, centerCordeASauter, 50, centerCordeASauter.getY(), 134)) return true;
+        if (isInCylinder(location, centerCordeASauter, 50.7, centerCordeASauter.getY(), 134)) return true;
       }
 
 //      String worldName = location.getWorld().getName();
 //      Bukkit.getLogger().info("Vérification de la zone pour le monde : " + worldName);
 
       // Vérifie si le monde est valide et correspond à l'épreuve actuelle
-      if (location.getWorld() == null || !location.getWorld().getName().equals("worlds/SquidGame/" + BlockDetector.getEpreuve())) {
-        return false;
+      if ("Lobby".equalsIgnoreCase(EpreuveCommand.getEpreuve())) {
+        if (location.getWorld() == null || !location.getWorld().getName().equals("world")) {
+          return false;
+        }
+      } else {
+        if (location.getWorld() == null || !location.getWorld().getName().equals("worlds/SquidGame/" + EpreuveCommand.getEpreuve())) {
+          return false;
+        }
       }
+
 
       // Vérifie si la position est dans l'une des sous-zones de cette zone
       for (SubZone subZone : subZones) {
@@ -979,7 +1270,14 @@ public class GameZoneManager implements Listener {
         double centerY = (corner1.getY() + corner2.getY()) / 2;
         double centerZ = (corner1.getZ() + corner2.getZ()) / 2;
 
-        return new Location(Bukkit.getWorld("worlds/SquidGame/" + BlockDetector.getEpreuve()), centerX, centerY, centerZ);
+        return new Location(
+            "Lobby".equalsIgnoreCase(EpreuveCommand.getEpreuve())
+                ? Bukkit.getWorld("world")
+                : Bukkit.getWorld("worlds/SquidGame/" + EpreuveCommand.getEpreuve()),
+            centerX,
+            centerY,
+            centerZ
+        );
       }
     }
   }

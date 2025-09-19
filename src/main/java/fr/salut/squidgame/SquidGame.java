@@ -55,7 +55,7 @@ public final class SquidGame extends JavaPlugin{
 
         // Listener
         registerEvents(
-            new BlockDetector(),
+            //new BlockDetector(),
             new JoinListener(),
             new NoMoveTagListener(),
             //new PlayerRightListener(),
@@ -113,6 +113,9 @@ public final class SquidGame extends JavaPlugin{
         getCommand("lifemode").setExecutor(new LifeModeCommand());
         getCommand("lifemode").setTabCompleter(new LifeModeCommand());
         getCommand("carrousel").setExecutor(new CarrouselCommand());
+        getCommand("setepreuve").setExecutor(new EpreuveCommand());
+        getCommand("setepreuve").setTabCompleter(new EpreuveCommand());
+        getCommand("getepreuve").setExecutor(new EpreuveCommand());
     }
 
     public void teleportPlayer(Player player, double x, double y, double z) {
