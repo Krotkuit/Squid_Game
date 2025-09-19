@@ -41,7 +41,14 @@ public class CMManager {
             int x = loc.getBlockX();
             int y = loc.getBlockY();
             int z = loc.getBlockZ();
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "setblock " + x + " " + y + " " + z + " cfm:stripped_oak_chair");
+
+            String worldName = loc.getWorld().getName();
+            String dimension = "minecraft:" + worldName.toLowerCase();
+            String cmd = "execute in " + dimension + " run setblock " + x + " " + y + " " + z + " cfm:stripped_oak_chair";
+            Bukkit.getLogger().info("Placement d'une chaise dans le monde '" + worldName + "' aux coordonnées : x=" + x + ", y=" + y + ", z=" + z);
+            Bukkit.getLogger().info("Commande exécutée : " + cmd);
+
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
         }
     }
 
@@ -52,7 +59,10 @@ public class CMManager {
             int x = loc.getBlockX();
             int y = loc.getBlockY();
             int z = loc.getBlockZ();
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "setblock " + x + " " + y + " " + z + " air");
+            String worldName = loc.getWorld().getName();
+            String dimension = "minecraft:" + worldName.toLowerCase();
+            String cmd = "execute in " + dimension + " run setblock " + x + " " + y + " " + z + " air";
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
             iterator.remove(); // Supprime l'élément en toute sécurité
         }
     }
@@ -71,7 +81,7 @@ public class CMManager {
         int y = 62; // Coordonnée Y fixe
         int z = new Random().nextInt(minZ, maxZ);
 
-        Location location = new Location(Bukkit.getWorld("world"), x, y, z);
+        Location location = new Location(Bukkit.getWorld("worlds/SquidGame/ChaiseMusicale"), x, y, z);
         if (chairsLoc.contains(location)) {
             generateRandomPos();
         } else {
