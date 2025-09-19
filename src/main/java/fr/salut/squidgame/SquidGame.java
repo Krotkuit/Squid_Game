@@ -14,6 +14,7 @@ import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListene
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
+import fr.salut.squidgame.extern.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookMenuListener;
 import fr.salut.squidgame.menu.BooksMenu;
 import fr.skytasul.glowingentities.GlowingEntities;
@@ -70,7 +71,10 @@ public final class SquidGame extends JavaPlugin{
             new GunListener(),
             new LifeListener(),
             new TchatCommad(), // contient un listener
-            new BookMenuListener()
+            new BookMenuListener(),
+
+            // [ extern folder ] //
+            new MVCFix(this)
         );
 
         loadCommands();
