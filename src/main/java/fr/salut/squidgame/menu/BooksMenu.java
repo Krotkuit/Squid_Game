@@ -31,7 +31,9 @@ public class BooksMenu {
     private void initContent() {
         addBook(0, "Lobby");
         addBook(3, "123 Soleil");
+        addBook(4, "Corde à Sauter");
         addBook(5, "Carrousel");
+        addBook(6, "Squid Game Aerien");
         addBook(7, "Balle aux prisonniers");
         addBook(9, "Bras d'Argent");
         addBook(11, "Loup Touche Touche Explosif");

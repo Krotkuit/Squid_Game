@@ -38,6 +38,8 @@ public class BookMenuListener implements Listener {
             case "Puissance 4" -> BooksMenu.giveBook(Books.PUISSANCE_4, player);
             case "Billes" -> BooksMenu.giveBook(Books.BILLES, player);
             case "Find the Button" -> BooksMenu.giveBook(Books.FIND_THE_BUTTON, player);
+            case "Corde à Sauter" -> BooksMenu.giveBook(Books.CORDE_A_SAUTER, player);
+            case "Squid Game Aerien" -> BooksMenu.giveBook(Books.SQUID_GAME_AERIEN, player);
         }
     }
 }

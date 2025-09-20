@@ -19,7 +19,10 @@ public enum Books {
     ARC_EN_CIEL(new Location(Bukkit.getWorld("world"),-14, -31, 10)),
     PUISSANCE_4(new Location(Bukkit.getWorld("world"),-15, -31, 11)),
     BILLES(new Location(Bukkit.getWorld("world"),-13, -31, 11)),
-    FIND_THE_BUTTON(new Location(Bukkit.getWorld("world"),-8, -31, 10)),;
+    FIND_THE_BUTTON(new Location(Bukkit.getWorld("world"),-8, -31, 10)),
+    CORDE_A_SAUTER(new Location(Bukkit.getWorld("world"),-7, -31, 9)),
+    SQUID_GAME_AERIEN(new Location(Bukkit.getWorld("world"),-7, -31, 11)),
+    ;
 
     private final Location loc;
 
