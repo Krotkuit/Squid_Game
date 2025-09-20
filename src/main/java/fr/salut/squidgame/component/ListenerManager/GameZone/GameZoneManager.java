@@ -1,6 +1,5 @@
 package fr.salut.squidgame.component.ListenerManager.GameZone;
 
-import fr.salut.squidgame.component.ListenerManager.BlockDetector;
 import fr.salut.squidgame.component.commands.EpreuveCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -170,7 +169,7 @@ public class GameZoneManager implements Listener {
     Zone zoneArcenCiel = new Zone();
     // [ Aire de jeu ] //
     zoneArcenCiel.addSubZone(
-        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 55.7, 65, 6.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), 55.7, 64.5, 6.3),
         new Location(Bukkit.getWorld("worlds/SquidGame/ArcEnCiel"), -54.7, 86.201, 90.7)
     );
 
