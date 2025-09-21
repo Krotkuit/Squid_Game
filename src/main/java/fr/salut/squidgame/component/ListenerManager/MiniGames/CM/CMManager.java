@@ -1,6 +1,7 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.CM;
 
 import fr.salut.squidgame.SquidGame;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,7 +18,10 @@ public class CMManager {
     static int[] zone = {-22, -23, 21, -66};
     private static final List<Location> chairsLoc = new ArrayList<>();
 
-    public static void putChairs(){
+    @Setter
+    private static double chairProp = 0.95; // Valeur par défaut
+
+  public static void putChairs(){
         int chairs = 0;
 
         ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -30,7 +34,14 @@ public class CMManager {
             }
         }
 
-        chairs = (int) Math.floor(chairs*0.7);
+
+        // Calcul du nombre de chaises
+        if (chairProp > 0 && chairProp < 1) {
+            chairs = (int) Math.floor(chairs * chairProp);
+        } else if (chairProp >= 1) {
+            chairs = Math.max(0, chairs - (int) chairProp);
+        }
+
 
         while (chairs > 0){
             generateRandomPos();

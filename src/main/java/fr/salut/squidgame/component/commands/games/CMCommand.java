@@ -17,4 +17,16 @@ public class CMCommand {
     void onRemove(CommandSender sender){
         CMManager.removeChair();
     }
+
+    @Subcommand("prob")
+    void onSetProb(CommandSender sender, double score) {
+        if (score < 0) {
+            sender.sendMessage("§cLa valeur doit être positive ou nulle.");
+            return;
+        }
+
+        CMManager.setChairProp(score);
+        sender.sendMessage("§aChair probability set to: " + score);
+    }
+
 }
