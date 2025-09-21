@@ -158,6 +158,9 @@ public class BaPManager implements Listener {
       double closestDistance = Double.MAX_VALUE;
 
       for (Player player : Bukkit.getOnlinePlayers()) {
+        // Vérifie si les mondes sont identiques
+        if (!player.getWorld().equals(snowball.getWorld())) continue;
+
         Team team = player.getScoreboard().getEntryTeam(player.getName());
         if (team == null) continue;
 
@@ -192,13 +195,7 @@ public class BaPManager implements Listener {
     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
 
-    // Retirer le glowing de tous les joueurs
-    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-      if (onlinePlayer.isGlowing()) {
-        onlinePlayer.setGlowing(false);
-      }
-    }
-    player.setGlowing(true);
+    applyGlowingToPlayersWithSnowball();
   }
 
   private void releasePlayer(Player player) {
@@ -239,7 +236,6 @@ public class BaPManager implements Listener {
       }
 
       if (allImprisoned) {
-        notifyGuardsOfPrisoners();
         BaPCommand.setBaPState(STOP);
         // Exécute la commande pour réinitialiser le timer
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set timer Timer 0");
@@ -249,7 +245,7 @@ public class BaPManager implements Listener {
     }
   }
 
-  private void notifyGuardsOfPrisoners() {
+  public void notifyGuardsOfPrisoners() {
     Team gardeTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("garde");
     if (gardeTeam == null) return;
 
@@ -264,6 +260,22 @@ public class BaPManager implements Listener {
         gardePlayer.sendMessage(ChatColor.GOLD + "Résumé des joueurs emprisonnés :");
         gardePlayer.sendMessage(ChatColor.YELLOW + "Bleu Marine : " + ChatColor.RED + bleuMarinePrisoners + " joueur(s)");
         gardePlayer.sendMessage(ChatColor.YELLOW + "Vert Profond : " + ChatColor.RED + vertProfondPrisoners + " joueur(s)");
+      }
+    }
+  }
+
+  public static void applyGlowingToPlayersWithSnowball() {
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      Team team = player.getScoreboard().getEntryTeam(player.getName());
+      if (team == null) continue;
+
+      player.setGlowing(false);
+      String teamName = team.getName().toLowerCase();
+      if ((teamName.equals("bleu_marine") || teamName.equals("vert_profond"))
+          && player.getInventory().contains(Material.SNOWBALL)) {
+        player.setGlowing(true);
+      } else {
+        player.setGlowing(false);
       }
     }
   }

@@ -3,8 +3,10 @@ package fr.salut.squidgame.component.commands.games;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPState;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
@@ -35,18 +37,27 @@ public class BaPCommand {
     public void bapOFF(CommandSender sender){
         bapState = BaPState.OFF;
         BaPManager.getPlayersInPrison().clear();
-        // Retirer le glowing de tous les joueurs
+
+        // Supprime les snowballs uniquement pour les joueurs des équipes bleu_marine et vert_profond
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer.isGlowing()) {
-                onlinePlayer.setGlowing(false);
+            Team team = onlinePlayer.getScoreboard().getEntryTeam(onlinePlayer.getName());
+            if (team == null) continue;
+
+            String teamName = team.getName().toLowerCase();
+            if (teamName.equals("bleu_marine") || teamName.equals("vert_profond")) {
+                onlinePlayer.getInventory().remove(Material.SNOWBALL);
+                BaPManager.applyGlowingToPlayersWithSnowball();
             }
         }
+
         sender.sendMessage("§cBaP désactivé : le jeu est maintenant inactif.");
     }
 
     @Subcommand("STOP")
     public void bapSTOP(CommandSender sender){
         bapState = BaPState.STOP;
+        BaPManager manager = new BaPManager();
+        manager.notifyGuardsOfPrisoners();
         sender.sendMessage("§eBaP en pause : le jeu est temporairement suspendu.");
     }
 
