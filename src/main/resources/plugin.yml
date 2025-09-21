@@ -16,9 +16,9 @@ commands:
   prv:
     description: Commande pour gérer les états PRV.
     usage: /prv <ON|OFF|STOP>
-  ltte:
-    description: Commande pour gérer les états LTTE.
-    usage: /ltte <ON|OFF|STOP>
+ltte:
+  description: Commande pour gérer les états LTTE.
+  usage: /ltte <ON|OFF|STOP|timer <score>|prob <score>>
   bap:
     description: Commande pour gérer les états BaP.
     usage: /bap <ON|OFF|STOP>

@@ -16,17 +16,17 @@ public class LTTECommand {
 
     private final SquidGame plugin;
 
-    public LTTECommand(SquidGame plugin){
+    public LTTECommand(SquidGame plugin) {
         this.plugin = plugin;
     }
 
     @DefaultFor("~")
-    public void bapDefault(CommandSender sender){
+    public void bapDefault(CommandSender sender) {
         sender.sendMessage("§cÉtat invalide. Utilisez ON, OFF ou STOP.");
     }
 
     @Subcommand("ON")
-    public void ltteON(CommandSender sender){
+    public void ltteON(CommandSender sender) {
         LTTEManager.clearPlayersWithTNT();
         plugin.setLTTEState(LTTEState.ON);
         LTTEManager.startGame();
@@ -34,14 +34,14 @@ public class LTTECommand {
     }
 
     @Subcommand("OFF")
-    public void ltteOFF(CommandSender sender){
+    public void ltteOFF(CommandSender sender) {
         plugin.setLTTEState(LTTEState.OFF);
         LTTEManager.clearPlayersWithTNT();
         sender.sendMessage("§cLTTE désactivé : aucune procédure ne fonctionne.");
     }
 
     @Subcommand("STOP")
-    public void ltteSTOP(CommandSender sender){
+    public void ltteSTOP(CommandSender sender) {
         plugin.setLTTEState(LTTEState.STOP);
         sender.sendMessage("§eLTTE en mode STOP : seules les prisons fonctionnent.");
         for (Player player : Bukkit.getOnlinePlayers()) {
