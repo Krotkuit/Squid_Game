@@ -85,7 +85,7 @@ public class GameZoneManager implements Listener {
         new Location(Bukkit.getWorld("world"), -71.3, -57.79, -32.3)
     );
     LobbyZone.addSubZone(
-        new Location(Bukkit.getWorld("world"), -28.3, -59, -18.3),
+        new Location(Bukkit.getWorld("world"), -27.3, -59, -18.3),
         new Location(Bukkit.getWorld("world"), -30.7, -57.79, -23.7)
     );
     LobbyZone.addSubZone(
