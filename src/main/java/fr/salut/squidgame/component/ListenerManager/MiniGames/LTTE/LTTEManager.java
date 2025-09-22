@@ -101,17 +101,17 @@ public class LTTEManager implements Listener {
         try {
           SquidGame.getInstance().getGlowingEntities().setGlowing(receiver, TNTPlayers, ChatColor.RED);
           SquidGame.getInstance().getGlowingEntities().setGlowing(TNTPlayers, receiver, ChatColor.RED);
-          plugin.getLogger().info("joueur :" + receiver.getName() + " est visible par "+ TNTPlayers.getName());
+          //plugin.getLogger().info("joueur :" + receiver.getName() + " est visible par "+ TNTPlayers.getName());
         } catch (ReflectiveOperationException e) {
-          plugin.getLogger().warning("Erreur lors du setGlowing : " + e.getMessage());
+          //plugin.getLogger().warning("Erreur lors du setGlowing : " + e.getMessage());
           e.printStackTrace();
         }
         try {
           SquidGame.getInstance().getGlowingEntities().unsetGlowing(giver, TNTPlayers);
           SquidGame.getInstance().getGlowingEntities().unsetGlowing(TNTPlayers, giver);
-          plugin.getLogger().info("joueur :" + giver.getName() + " n'est plus visible par "+ TNTPlayers.getName());
+          //plugin.getLogger().info("joueur :" + giver.getName() + " n'est plus visible par "+ TNTPlayers.getName());
         } catch (ReflectiveOperationException e) {
-          plugin.getLogger().warning("Erreur lors du unsetGlowing entre " + giver.getName() + " et " + TNTPlayers.getName() + " : " + e.getMessage());
+          //plugin.getLogger().warning("Erreur lors du unsetGlowing entre " + giver.getName() + " et " + TNTPlayers.getName() + " : " + e.getMessage());
           e.printStackTrace();
         }
       }
@@ -180,6 +180,7 @@ public class LTTEManager implements Listener {
                 e.printStackTrace();
               }
             }
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ltte off");
             cancel();
             return;
           }

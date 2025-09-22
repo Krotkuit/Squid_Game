@@ -38,6 +38,12 @@ public class LTTECommand {
         plugin.setLTTEState(LTTEState.OFF);
         LTTEManager.clearPlayersWithTNT();
         sender.sendMessage("§cLTTE désactivé : aucune procédure ne fonctionne.");
+        for (Player player1 : Bukkit.getOnlinePlayers()) {
+            for (Player player2 : Bukkit.getOnlinePlayers()) {
+                SquidGame.getInstance().getGlowingEntities().unsetGlowing(player1, player2);
+                SquidGame.getInstance().getGlowingEntities().unsetGlowing(player2, player1);
+            }
+        }
     }
 
     @Subcommand("STOP")
