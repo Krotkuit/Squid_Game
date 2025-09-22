@@ -66,6 +66,16 @@ public class LifeListener implements Listener {
   }
 
   @EventHandler
+  public void onPlayerTeleport(org.bukkit.event.player.PlayerTeleportEvent event) {
+    Player player = event.getPlayer();
+    int lives = playerLives.getOrDefault(player, defaultLives); // Utilise une valeur par défaut
+    if (playerLives.containsKey(player)) {
+      playerLives.put(player, lives);
+      updatePlayerXP(player, lives); // Met à jour le niveau d'XP
+    }
+  }
+
+  @EventHandler
   public void onPlayerExpChange(PlayerExpChangeEvent event) {
     event.setAmount(0);
   }
