@@ -55,15 +55,20 @@ public class LifeModeCommand implements TabExecutor {
         }
         switch (args[1].toLowerCase()) {
           case "revive":
-            for (Player player : Bukkit.getOnlinePlayers()) {
-              Team team = player.getScoreboard().getEntryTeam(player.getName());
-              if (team != null && team.getName().equalsIgnoreCase("garde")) continue;
+            if (lifeListener.isLifeModeEnabled()) {
+              for (Player player : Bukkit.getOnlinePlayers()) {
+                Team team = player.getScoreboard().getEntryTeam(player.getName());
+                if (team != null && team.getName().equalsIgnoreCase("garde")) continue;
 
-              Integer lives = lifeListener.getPlayerLives().get(player);
-              if (lives != null && lives > 0) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
-                sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " revived.");
+                Integer lives = lifeListener.getPlayerLives().get(player);
+                if (lives != null && lives > 0) {
+                  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
+                  sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " revived.");
+                }
               }
+            }
+            else {
+              sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode player revive.");
             }
             break;
 
