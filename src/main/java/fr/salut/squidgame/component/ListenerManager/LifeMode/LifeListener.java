@@ -1,14 +1,11 @@
 package fr.salut.squidgame.component.ListenerManager.LifeMode;
 
 import fr.salut.squidgame.SquidGame;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
-import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +50,7 @@ public class LifeListener implements Listener {
   }
 
   @EventHandler
-  public void onPlayerRespawn(PlayerRespawnEvent event) {
+  public void onPlayerDeath(PlayerDeathEvent event) {
     Player player = event.getPlayer();
     int lives = playerLives.getOrDefault(player, defaultLives); // Utilise une valeur par défaut
     if (playerLives.containsKey(player)) {
