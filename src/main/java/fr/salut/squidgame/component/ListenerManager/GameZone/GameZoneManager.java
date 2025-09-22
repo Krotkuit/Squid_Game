@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public class GameZoneManager implements Listener {
 
-  private final Map<String, Zone> gameZones = new HashMap<>();
+  public static final Map<String, Zone> gameZones = new HashMap<>();
 
   private final Location centerCarrousel = new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 0.5, 65, 41.5);
   private final Location centerCordeASauter = new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -56.5, -52, 0.5);

@@ -1,5 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
+import fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
 import fr.salut.squidgame.component.commands.EpreuveCommand;
 import net.kyori.adventure.text.Component;
@@ -14,6 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import java.util.Objects;
+
+import static fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager.gameZones;
 
 public class DeathListener implements Listener {
 
@@ -53,7 +56,13 @@ public class DeathListener implements Listener {
 
     player.setGameMode(GameMode.ADVENTURE);
 
-    int Respawn_X;
+    String currentEpreuve = EpreuveCommand.getEpreuve();
+    GameZoneManager.Zone zone = gameZones.get(currentEpreuve);
+    if (zone == null) return;
+    Location zoneCenter = zone.getCenter();
+
+
+    /*int Respawn_X;
     int Respawn_Y;
     int Respawn_Z;
     if (Objects.equals(EpreuveCommand.getEpreuve(), "123Soleil")) {
@@ -79,6 +88,7 @@ public class DeathListener implements Listener {
     } else {
       Respawn_X = -41;  Respawn_Y = -46; Respawn_Z = -3;
     }
+    */
     /*if (Objects.equals(EpreuveCommand.getEpreuve(), "Salle_Blanche")) {
       Respawn_X = -202; Respawn_Y = -54; Respawn_Z = -26;
     } else if (Objects.equals(EpreuveCommand.getEpreuve(), "Salle_Grise")) {
@@ -132,9 +142,9 @@ public class DeathListener implements Listener {
     }*/
     Bukkit.getScheduler().runTaskLater(
       Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, false));
+        //player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false, false));
         player.setGameMode(GameMode.SPECTATOR);
-        player.teleport(new Location(Bukkit.getWorld("worlds/SquidGame/" + EpreuveCommand.getEpreuve()), Respawn_X, Respawn_Y, Respawn_Z));
+        player.teleport(zoneCenter);
       }, 1L);
   }
 }
