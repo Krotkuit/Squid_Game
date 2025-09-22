@@ -40,8 +40,12 @@ public class LTTECommand {
         sender.sendMessage("§cLTTE désactivé : aucune procédure ne fonctionne.");
         for (Player player1 : Bukkit.getOnlinePlayers()) {
             for (Player player2 : Bukkit.getOnlinePlayers()) {
+              try {
                 SquidGame.getInstance().getGlowingEntities().unsetGlowing(player1, player2);
                 SquidGame.getInstance().getGlowingEntities().unsetGlowing(player2, player1);
+              } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+              }
             }
         }
     }
