@@ -37,9 +37,9 @@ public class CMManager {
 
         // Calcul du nombre de chaises
         if (chairProp > 0 && chairProp < 1) {
-            chairs = (int) Math.floor(chairs * chairProp);
+            chairs = (int) Math.floor(chairs * chairProp); // prob de chaises selon le nb de joueurs
         } else if (chairProp >= 1) {
-            chairs = Math.max(0, chairs - (int) chairProp);
+            chairs = Math.max(0, chairs - (int) chairProp); // nb de joueurs à éliminer
         }
 
 

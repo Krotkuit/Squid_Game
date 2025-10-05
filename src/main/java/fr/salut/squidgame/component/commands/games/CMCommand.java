@@ -28,5 +28,4 @@ public class CMCommand {
         CMManager.setChairProp(score);
         sender.sendMessage("§aChair probability set to: " + score);
     }
-
 }

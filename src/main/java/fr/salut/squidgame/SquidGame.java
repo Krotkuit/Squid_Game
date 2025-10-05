@@ -13,6 +13,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
+import fr.salut.squidgame.component.commands.LTTECommandExecutor;
 import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.extern.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookMenuListener;
@@ -83,6 +84,7 @@ public final class SquidGame extends JavaPlugin{
         CommandManager.getHandler().register(
                 new BaPCommand(),
                 new LTTECommand(this),
+                new LTTECommandExecutor(),
                 new MoveDetectionCmd(),
                 new PRVCommand(),
                 //new NickNameCommands(),

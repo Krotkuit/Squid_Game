@@ -1,6 +1,7 @@
 package fr.salut.squidgame.component.commands;
 
 import fr.salut.squidgame.SquidGame;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,7 +9,9 @@ import org.bukkit.command.CommandSender;
 
 public class LTTECommandExecutor implements CommandExecutor {
   private static final SquidGame plugin = SquidGame.getInstance();
+  @Setter
   private static int bombTimer = 150; // Temps par défaut en secondes (2min30)
+  @Setter
   private static double bombProbability = 0.05; // Probabilité par défaut (5%)
 
   @Override
