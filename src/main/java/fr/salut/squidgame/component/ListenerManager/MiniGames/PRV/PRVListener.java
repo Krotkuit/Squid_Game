@@ -21,9 +21,9 @@ public class PRVListener implements Listener {
     SquidGame plugin = SquidGame.getInstance();
     private static final Set<Player> teleportedPlayers = new HashSet<>();
 
-    private final Location poulePrisonCenter = new Location(Bukkit.getWorld("world"), -55.5, -60, -228.5);
-    private final Location renardPrisonCenter = new Location(Bukkit.getWorld("world"), -99.5, -60, -215.5);
-    private final Location viperePrisonCenter = new Location(Bukkit.getWorld("world"), -88.5, -60, -259.5);
+    private final Location poulePrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), 37.5, 65, -34.5);
+    private final Location renardPrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), -49.5, 65, -9.5);
+    private final Location viperePrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), 16.5, 65, 46.5);
 
     @EventHandler
     public void onPlayerInteract(EntityDamageByEntityEvent event) {
@@ -171,7 +171,7 @@ public class PRVListener implements Listener {
             return false;
         }
         double distanceSquared = playerLocation.distanceSquared(prisonCenter);
-        double prisonRadiusSquared = 25;
+        double prisonRadiusSquared = 51.85;
         return distanceSquared <= prisonRadiusSquared;
     }
 
