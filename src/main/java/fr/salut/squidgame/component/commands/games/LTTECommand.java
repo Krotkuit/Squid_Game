@@ -3,7 +3,6 @@ package fr.salut.squidgame.component.commands.games;
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
-import fr.salut.squidgame.component.commands.LTTECommandExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE;
 
 import fr.salut.squidgame.SquidGame;
-import fr.salut.squidgame.component.commands.LTTECommandExecutor;
+import fr.salut.squidgame.component.commands.games.LTTECommandExecutor;
 import fr.salut.squidgame.component.commands.games.LTTECommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
