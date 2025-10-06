@@ -13,11 +13,9 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
-import fr.salut.squidgame.component.commands.LTTECommandExecutor;
 import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.extern.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookMenuListener;
-import fr.salut.squidgame.menu.BooksMenu;
 import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,7 +54,6 @@ public final class SquidGame extends JavaPlugin{
 
         // Listener
         registerEvents(
-            //new BlockDetector(),
             new JoinListener(),
             new NoMoveTagListener(),
             //new PlayerRightListener(),
@@ -110,8 +107,6 @@ public final class SquidGame extends JavaPlugin{
     }
 
     private void loadCommands() {
-        getCommand("test").setExecutor(new TestCmd());
-        getCommand("rblocktoggle").setExecutor(new RBlockUseCommand());
         getCommand("lifemode").setExecutor(new LifeModeCommand());
         getCommand("lifemode").setTabCompleter(new LifeModeCommand());
         getCommand("carrousel").setExecutor(new CarrouselCommand());

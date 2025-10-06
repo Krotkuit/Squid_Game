@@ -9,10 +9,6 @@ depend:
 commands:
   movedetection:
     description: "Command for switch move detection"
-  test:
-    description: "Command for test"
-  rblocktoggle:
-    description: "Command to toggle rblocks"
   prv:
     description: Commande pour gérer les états PRV.
     usage: /prv <ON|OFF|STOP>
