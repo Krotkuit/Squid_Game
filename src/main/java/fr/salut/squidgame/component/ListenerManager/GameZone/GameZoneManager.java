@@ -20,6 +20,7 @@ public class GameZoneManager implements Listener {
 
   private final Location centerCarrousel = new Location(Bukkit.getWorld("worlds/SquidGame/Carrousel"), 0.5, 65, 41.5);
   private final Location centerCordeASauter = new Location(Bukkit.getWorld("worlds/SquidGame/CordeASauter"), -56.5, -52, 0.5);
+  private final Location centerPRV = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), 0.5, 46, 0.5);
 
   public GameZoneManager() {
     // Définir les zones pour chaque épreuve
@@ -394,108 +395,11 @@ public class GameZoneManager implements Listener {
 
     Zone zonePRV = new Zone();
     zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -53.3, -60, -206.3),
-        new Location(Bukkit.getWorld("world"), -109.7, -32.79, -262.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -54.3, -60, -263.7),
-        new Location(Bukkit.getWorld("world"), -108.7, -32.79, -205.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -55.3, -60, -264.7),
-        new Location(Bukkit.getWorld("world"), -107.7, -32.79, -204.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -57.3, -60, -265.7),
-        new Location(Bukkit.getWorld("world"), -105.7, -32.79, -203.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -104.7, -60, -202.3),
-        new Location(Bukkit.getWorld("world"), -58.3, -32.79, -266.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -59.3, -60, -267.7),
-        new Location(Bukkit.getWorld("world"), -103.7, -32.79, -201.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -101.7, -60, -200.3),
-        new Location(Bukkit.getWorld("world"), -61.3, -32.79, -268.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -63.3, -60, -269.7),
-        new Location(Bukkit.getWorld("world"), -99.7, -32.79, -199.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -97.7, -60, -198.3),
-        new Location(Bukkit.getWorld("world"), -65.3, -32.79, -270.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -67.3, -60, -271.7),
-        new Location(Bukkit.getWorld("world"), -95.7, -32.79, -197.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -91.7, -60, -196.3),
-        new Location(Bukkit.getWorld("world"), -71.3, -32.79, -272.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -75.3, -60, -273.7),
-        new Location(Bukkit.getWorld("world"), -87.7, -32.79, -195.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -110.7, -60, -207.3),
-        new Location(Bukkit.getWorld("world"), -52.3, -32.79, -261.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -51.3, -60, -260.7),
-        new Location(Bukkit.getWorld("world"), -111.7, -32.79, -208.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -112.7, -60, -210.3),
-        new Location(Bukkit.getWorld("world"), -50.3, -32.79, -258.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -49.3, -60, -257.7),
-        new Location(Bukkit.getWorld("world"), -113.7, -32.79, -211.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -114.7, -60, -212.3),
-        new Location(Bukkit.getWorld("world"), -48.3, -32.79, -256.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -47.3, -60, -254.7),
-        new Location(Bukkit.getWorld("world"), -115.7, -32.8, -214.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -116.7, -60, -216.3),
-        new Location(Bukkit.getWorld("world"), -46.3, -32.79, -252.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -45.3, -60, -250.7),
-        new Location(Bukkit.getWorld("world"), -117.7, -32.79, -218.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -118.7, -60, -220.3),
-        new Location(Bukkit.getWorld("world"), -44.3, -32.79, -248.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -43.3, -60, -244.7),
-        new Location(Bukkit.getWorld("world"), -119.7, -32.79, -224.3)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -120.7, -60, -228.3),
-        new Location(Bukkit.getWorld("world"), -42.3, -32.79, -240.7)
+        new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), -53.3, -60, -206.3),
+        new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), -109.7, -32.79, -262.7)
     );
 
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -87.3, -59, -228.7),
-        new Location(Bukkit.getWorld("world"), -75.3, -32.79, -240.7)
-    );
-    zonePRV.addSubZone(
-        new Location(Bukkit.getWorld("world"), -98.7, -62, -206.3),
-        new Location(Bukkit.getWorld("world"), -55.3, -55, -274.7)
-    );
-
-    gameZones.put("Poule_Renard_Vipere", zonePRV);
+    gameZones.put("PRV", zonePRV);
 
     Zone zoneLTTE = new Zone();
     // [ Aire de jeu ] //
@@ -1197,6 +1101,16 @@ public class GameZoneManager implements Listener {
           }
         }
         if (isInCylinder(location, centerCordeASauter, 50.7, centerCordeASauter.getY(), 134)) return true;
+      }
+
+      Zone PRVZone = gameZones.get("PRV");
+      if (PRVZone != null) {
+        for (SubZone subZone : PRVZone.subZones) {
+          if (subZone.isInside(location)) {
+            return true;
+          }
+        }
+        if (isInCylinder(location, centerPRV, 60.7, centerPRV.getY(), 101.201)) return true;
       }
 
 //      String worldName = location.getWorld().getName();
