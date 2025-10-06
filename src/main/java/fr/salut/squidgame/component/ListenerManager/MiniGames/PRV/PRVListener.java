@@ -22,7 +22,7 @@ public class PRVListener implements Listener {
     private static final Set<Player> teleportedPlayers = new HashSet<>();
 
     private final Location poulePrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), 37.5, 65, -34.5);
-    private final Location renardPrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), -49.5, 65, -9.5);
+    private final Location renardPrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), -48.5, 65, -8.5);
     private final Location viperePrisonCenter = new Location(Bukkit.getWorld("worlds/SquidGame/PRV"), 16.5, 65, 46.5);
 
     @EventHandler
