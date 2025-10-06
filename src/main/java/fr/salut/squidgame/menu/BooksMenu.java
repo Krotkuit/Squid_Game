@@ -1,21 +1,12 @@
 package fr.salut.squidgame.menu;
 
+import fr.salut.squidgame.SquidGame;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class BooksMenu {
 
@@ -29,47 +20,46 @@ public class BooksMenu {
     }
 
     private void initContent() {
-        addBook(0, "Lobby");
-        addBook(3, "123 Soleil");
-        addBook(4, "Corde à Sauter");
-        addBook(5, "Carrousel");
-        addBook(6, "Squid Game Aerien");
-        addBook(7, "Balle aux prisonniers");
-        addBook(9, "Bras d'Argent");
-        addBook(11, "Loup Touche Touche Explosif");
-        addBook(13, "Poule Renard Vipère");
-        addBook(15, "Chaise Musicale");
-        addBook(17, "Squid Game");
-        addBook(19, "Croque Carotte");
-        addBook(21, "Arc-en-Ciel");
-        addBook(23, "Puissance 4");
-        addBook(25, "Billes");
-        addBook(26, "Find the Button");
-    }
 
-    private void addBook(int slot, String name) {
-        ItemStack item = new ItemStack(Material.BOOK);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(name);
-            List<String> lore = new ArrayList<>();
-            lore.add("§ldonne le livre du " + name);
-            meta.setLore(lore);
+        for (BookData book : BookManager.books.values()) {
+            if (book.slot() < 0 || book.slot() >= inventory.getSize()) continue;
+
+            ItemStack item = new ItemStack(book.material());
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(ChatColor.YELLOW + book.name());
             item.setItemMeta(meta);
+
+            BookData.setBookKey(item, book.key());
+
+            inventory.setItem(book.slot(), item);
         }
-        inventory.setItem(slot, item);
     }
 
     public void open() {
         owner.openInventory(inventory);
     }
 
-    public static void giveBook(Books books, Player owner) {
+    public static void giveBook(String key, Player owner) {
+
+        BookData data = BookManager.books.get(key);
+
+        if (data==null){
+            SquidGame.getInstance().getLogger().warning("Aucun data trouvé pour la key: " + key);
+            return;
+        }
+
         owner.addScoreboardTag("tempBook");
         World world = Bukkit.getWorld("world");
         if (world == null) world = owner.getWorld();
-        world.getBlockAt(books.getLoc()).setType(Material.REDSTONE_BLOCK);
-        world.getBlockAt(books.getLoc()).setType(Material.AIR);
+        Location loc = new Location(world, data.x(), data.y(), data.z());
+
+        if (loc == null) {
+            SquidGame.getInstance().getLogger().warning("la location n'a pas été bien initialisée");
+            return;
+        }
+
+        world.getBlockAt(loc).setType(Material.REDSTONE_BLOCK);
+        world.getBlockAt(loc).setType(Material.AIR);
         owner.closeInventory();
     }
 }
