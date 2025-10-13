@@ -18,6 +18,9 @@ commands:
   bap:
     description: Commande pour gérer les états BaP.
     usage: /bap <ON|OFF|STOP>
+  bg:
+    description: Place 20 blocs de commande avec des commandes aléatoires.
+    usage: /bg random
   lifemode:
     description: Commande pour gérer le mode de vie.
     usage: /lifemode <mode|lifenumber|player <revive|reset <number>>>

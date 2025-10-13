@@ -100,6 +100,7 @@ public final class SquidGame extends JavaPlugin{
                 new CMCommand(),
                 new TACCommand(),
                 new CarrouselCommand(),
+                new BGCommand(),
                 new LifeModeCommand(),
                 new TchatCommad()
         );
@@ -120,6 +121,7 @@ public final class SquidGame extends JavaPlugin{
         getCommand("lifemode").setExecutor(new LifeModeCommand());
         getCommand("lifemode").setTabCompleter(new LifeModeCommand());
         getCommand("carrousel").setExecutor(new CarrouselCommand());
+        getCommand("bg").setExecutor(new BGCommand());
         getCommand("setepreuve").setExecutor(new EpreuveCommand());
         getCommand("setepreuve").setTabCompleter(new EpreuveCommand());
         getCommand("getepreuve").setExecutor(new EpreuveCommand());
