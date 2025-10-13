@@ -18,7 +18,7 @@ public class BookMenuListener implements Listener {
         event.setCancelled(true);
 
         ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || clicked.getType() != Material.BOOK) return;
+        if (clicked == null) return;
 
         String key = BookData.getBookKey(clicked);
 

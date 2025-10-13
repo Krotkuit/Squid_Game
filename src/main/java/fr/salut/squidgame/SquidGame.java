@@ -47,14 +47,17 @@ public final class SquidGame extends JavaPlugin{
     @Getter private GlowingEntities glowingEntities;
 
     @Getter
-    BookManager booksManager = new BookManager(this);
+    BookManager booksManager;
+
+    @Getter
+    GameZoneManager gameZoneManager;
 
     @Override
     public void onEnable() {
         instance = this;
         // Manager
         new CommandManager();
-
+        booksManager = new BookManager(this);
         booksManager.loadBooks(false);
         //new PlayerNumberManager();
 
@@ -75,7 +78,7 @@ public final class SquidGame extends JavaPlugin{
             new BaPManager(),
             //new TAC(),
             new CarrouselZoneCounter(this),
-            new GameZoneManager(),
+            gameZoneManager = new GameZoneManager(this),
             new GunListener(),
             new LifeListener(),
             new TchatCommad(), // contient un listener
@@ -102,7 +105,8 @@ public final class SquidGame extends JavaPlugin{
                 new CarrouselCommand(),
                 new BGCommand(),
                 new LifeModeCommand(),
-                new TchatCommad()
+                new TchatCommad(),
+                new ConfigsCommand()
         );
 
         getLogger().info("Le plugin est activé !");
