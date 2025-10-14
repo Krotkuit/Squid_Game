@@ -13,7 +13,7 @@ import java.util.List;
 public class EpreuveCommand implements TabExecutor, TabCompleter {
 
   private static final List<String> EPREUVES = Arrays.asList(
-      "Lobby", "123Soleil", "ArcEnCiel", "BAP", "CacheCache", "Carrousel", "ChaiseMusicale",
+      "Lobby", "123Soleil", "ArcEnCiel", "BAP", "Bille", "BriseGlace", "CacheCache", "Carrousel", "ChaiseMusicale",
       "CordeASauter", "LTTE", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise"
   );
 
