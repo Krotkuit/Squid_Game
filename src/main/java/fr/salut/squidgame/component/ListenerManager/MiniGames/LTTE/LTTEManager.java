@@ -44,7 +44,7 @@ public class LTTEManager implements Listener {
 
       int tntCount = (LTTECommandExecutor.getBombProbability() > 1)
           ? (int) LTTECommandExecutor.getBombProbability()
-          : Math.max((int) Math.ceil(onlinePlayers.size() * (1 - LTTECommandExecutor.getBombProbability())), 1);
+          : Math.max((int) Math.floor(onlinePlayers.size() * (1 - LTTECommandExecutor.getBombProbability())), 1);
 
       for (int i = 0; i < tntCount && !onlinePlayers.isEmpty(); i++) {
         Player selectedPlayer = onlinePlayers.remove(random.nextInt(onlinePlayers.size()));
@@ -60,17 +60,24 @@ public class LTTEManager implements Listener {
         }
       }
 
+      Set<UUID> viewers = new HashSet<>(playersWithTNT);
+      for (Player player : Bukkit.getOnlinePlayers()) {
+        Team team = player.getScoreboard().getEntryTeam(player.getName());
+        if (team != null && (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort"))) {
+          viewers.add(player.getUniqueId());
+        }
+      }
+
       // Appliquer les effets de glowing uniquement aux joueurs ayant la TNT
       for (UUID glowingUUID : playersWithTNT) {
         Player glowingPlayer = Bukkit.getPlayer(glowingUUID);
         if (glowingPlayer == null || !glowingPlayer.isOnline()) continue;
 
-        for (UUID viewerUUID : playersWithTNT) {
+        for (UUID viewerUUID : viewers) {
           Player viewer = Bukkit.getPlayer(viewerUUID);
           if (viewer == null || !viewer.isOnline()) continue;
           try {
             plugin.getGlowingEntities().setGlowing(glowingPlayer, viewer, ChatColor.RED);
-            plugin.getLogger().info("joueur :" + glowingPlayer + " n'est visible que par " + viewer);
           } catch (ReflectiveOperationException e) {
             plugin.getLogger().warning("Erreur lors du setGlowing : " + e.getMessage());
             e.printStackTrace();
@@ -283,9 +290,9 @@ public class LTTEManager implements Listener {
           Player player = Bukkit.getPlayer(uuid);
           if (player == null || !player.isOnline()) continue;
           player.sendActionBar(ChatColor.RED + "Vous avez une TNT !");
-          player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 21, 1, true, false, false));
+          player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2, 1, true, false, false));
         }
       }
-    }.runTaskTimer(plugin, 0, 20); // Exécute toutes les secondes (20 ticks)
+    }.runTaskTimer(plugin, 0, 1); // Exécute toutes les secondes (20 ticks)
   }
 }
