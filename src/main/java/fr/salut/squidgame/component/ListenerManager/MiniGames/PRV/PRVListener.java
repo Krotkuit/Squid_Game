@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,17 +47,20 @@ public class PRVListener implements Listener {
         if (isPlayerInTeam(player, "poule") && isPlayerInTeam(target, "vipere")) {
             plugin.teleportPlayer(target, poulePrisonCenter.getX(), poulePrisonCenter.getY(), poulePrisonCenter.getZ());
             teleportedPlayers.add(target);
-            player.sendMessage("Vous avez envoyé " + target.getName() + " dans votre prison !");
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§aVous avez envoyé " + target.getName() + " dans votre prison !"));
         } else if (isPlayerInTeam(player, "vipere") && isPlayerInTeam(target, "renard")) {
             plugin.teleportPlayer(target, viperePrisonCenter.getX(), viperePrisonCenter.getY(), viperePrisonCenter.getZ());
             teleportedPlayers.add(target);
-            player.sendMessage("Vous avez envoyé " + target.getName() + " dans votre prison !");
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§aVous avez envoyé " + target.getName() + " dans votre prison !"));
         } else if (isPlayerInTeam(player, "renard") && isPlayerInTeam(target, "poule")) {
             plugin.teleportPlayer(target, renardPrisonCenter.getX(), renardPrisonCenter.getY(), renardPrisonCenter.getZ());
             teleportedPlayers.add(target);
-            player.sendMessage("Vous avez envoyé " + target.getName() + " dans votre prison !");
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§aVous avez envoyé " + target.getName() + " dans votre prison !"));
         } else {
-            player.sendMessage("Vous ne pouvez pas interagir avec ce joueur.");
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§cVous ne pouvez pas interagir avec ce joueur."));
         }
         checkIfGameShouldStop();
     }
@@ -125,7 +129,8 @@ public class PRVListener implements Listener {
         // Parcourt les joueurs emprisonnés
         teleportedPlayers.removeIf(player -> {
             if (isPlayerInTeam(player, team)) {
-                player.sendMessage("Vous avez été §blibéré §fde la prison !");
+                player.sendTitle("§bLibéré !", "§fVous êtes sorti de prison", 10, 70, 20);
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
                 hasFreedPlayers[0] = true; // Indique qu'un joueur a été libéré
                 return true; // Retire le joueur de la liste des emprisonnés
             }
@@ -134,7 +139,8 @@ public class PRVListener implements Listener {
 
         // Envoie un message au libérateur uniquement si des joueurs ont été libérés
         if (hasFreedPlayers[0]) {
-            liberator.sendMessage("Vous avez §blibéré §ftous les joueurs emprisonnés de votre équipe !");
+            liberator.sendTitle("Vous avez §blibéré", "§ftous les joueurs emprisonnés de votre équipe !", 10, 70, 20);
+            liberator.playSound(liberator.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         }
     }
     private void notifyGuardsOfPrisoners() {
