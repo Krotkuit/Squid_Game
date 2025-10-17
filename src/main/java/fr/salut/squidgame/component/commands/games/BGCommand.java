@@ -52,13 +52,13 @@ public class BGCommand implements CommandExecutor {
       Location greenWoolLocation;
 
       if (random == 0) {
-        blockCommand = "/execute positioned ~-13 ~-30 ~-20 if entity @a[dx=0,dy=0,dz=0] run fill ~ ~-1 ~1 ~1 ~-1 ~ air destroy";
+        blockCommand = "/execute positioned ~-13 ~-30 ~-20 if entity @a[team=joueur,dx=0,dy=0,dz=0] run fill ~ ~-1 ~1 ~1 ~-1 ~ air destroy";
         // Placer les blocs de laine rouge et verte
         redWoolLocation = new Location(world, x, y - 1, RightSafe);
         greenWoolLocation = new Location(world, x, y - 1, LeftSafe);
       }
       else {
-        blockCommand = "/execute positioned ~-13 ~-30 ~-17 if entity @a[dx=0,dy=0,dz=0] run fill ~ ~-1 ~1 ~1 ~-1 ~ air destroy";
+        blockCommand = "/execute positioned ~-13 ~-30 ~-17 if entity @a[team=joueur,dx=0,dy=0,dz=0] run fill ~ ~-1 ~1 ~1 ~-1 ~ air destroy";
         // Placer les blocs de laine rouge et verte
         redWoolLocation = new Location(world, x, y - 1, LeftSafe);
         greenWoolLocation = new Location(world, x, y - 1, RightSafe);
