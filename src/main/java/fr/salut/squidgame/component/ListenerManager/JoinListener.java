@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.scoreboard.Team;
 
+import java.util.Objects;
+
 @Getter
 public class JoinListener implements Listener {
 
@@ -21,9 +23,19 @@ public class JoinListener implements Listener {
     Player player = event.getPlayer();
 
     Team team = Bukkit.getScoreboardManager().getMainScoreboard().getEntryTeam(player.getName());
-    if (team != null && team.getName().equalsIgnoreCase("garde")) return;
+    if (team != null && team.getName().equalsIgnoreCase("garde")) {
+      Bukkit.getScheduler().runTaskLater(
+          Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
+            player.setGameMode(GameMode.SPECTATOR);
+          }, 10L);
+      return;
+    }
     //PlayerRightListener.giveRight(player);
     player.teleport(new Location(Bukkit.getWorld("world"), -35.5, -57, 31.5));
+    Bukkit.getScheduler().runTaskLater(
+        Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
+          player.setGameMode(GameMode.ADVENTURE);
+        }, 10L);
     // Vérifier si c'est la première connexion du joueur
     if (!player.hasPlayedBefore()) {
       // attribuer un nombre au joueur
@@ -52,7 +64,12 @@ public class JoinListener implements Listener {
       GiveArmorPlayer.giveUnbreakableArmor(player);
 
       // Forcer le joueur en mode Adventure
-      player.setGameMode(GameMode.ADVENTURE);
+      Bukkit.getScheduler().runTaskLater(
+          Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
+            player.setGameMode(GameMode.ADVENTURE);
+          }, 10L);
+
+
 
       // Ajouter le tag "joueur"
       player.addScoreboardTag("joueur");
@@ -74,6 +91,10 @@ public class JoinListener implements Listener {
     if (team_p == null) return;
     if (team_p.getName().equalsIgnoreCase("mort")){
       player.teleport(new Location(Bukkit.getWorld("world"), -41, -46, -3));
+      Bukkit.getScheduler().runTaskLater(
+          Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
+            player.setGameMode(GameMode.SPECTATOR);
+          }, 10L);
     }
   }
   @EventHandler
