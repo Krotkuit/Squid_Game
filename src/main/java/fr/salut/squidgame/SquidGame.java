@@ -124,11 +124,6 @@ public final class SquidGame extends JavaPlugin{
     }
 
     private void loadCommands() {
-        getCommand("lifemode").setExecutor(new LifeModeCommand());
-        getCommand("lifemode").setTabCompleter(new LifeModeCommand());
-        getCommand("setepreuve").setExecutor(new EpreuveCommand());
-        getCommand("setepreuve").setTabCompleter(new EpreuveCommand());
-        getCommand("getepreuve").setExecutor(new EpreuveCommand());
     }
 
     public void teleportPlayer(Player player, double x, double y, double z) {
