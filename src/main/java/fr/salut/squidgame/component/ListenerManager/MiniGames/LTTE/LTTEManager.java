@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -113,10 +112,6 @@ public class LTTEManager implements Listener {
       // Démarre le compte à rebours
       startTNTCountdown();
     }
-  }
-
-  public static void clearViewers() {
-    viewers.clear();
   }
 
   @EventHandler
@@ -294,6 +289,9 @@ public class LTTEManager implements Listener {
     return playersWithTNT;
   }
 
+  public static void clearViewers() {
+    viewers.clear();
+  }
   public static void clearPlayersWithTNT() {
     for (UUID uuid : new ArrayList<>(playersWithTNT)) {
       Player player = Bukkit.getPlayer(uuid);
