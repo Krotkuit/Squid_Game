@@ -12,6 +12,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCount
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
+import fr.salut.squidgame.component.ListenerManager.intance.WorldManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.extern.MVC.MVCFix;
@@ -21,6 +22,7 @@ import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -62,6 +64,7 @@ public final class SquidGame extends JavaPlugin{
         //new PlayerNumberManager();
 
         TeamManager.Team_Instance();
+        new WorldManager().applyRuleToAllWorlds();
 
         glowingEntities = new GlowingEntities(this);
 
@@ -94,7 +97,6 @@ public final class SquidGame extends JavaPlugin{
         CommandManager.getHandler().register(
                 new BaPCommand(),
                 new LTTECommand(this),
-                new LTTECommandExecutor(),
                 new MoveDetectionCmd(),
                 new PRVCommand(),
                 //new NickNameCommands(),
@@ -124,8 +126,6 @@ public final class SquidGame extends JavaPlugin{
     private void loadCommands() {
         getCommand("lifemode").setExecutor(new LifeModeCommand());
         getCommand("lifemode").setTabCompleter(new LifeModeCommand());
-        getCommand("carrousel").setExecutor(new CarrouselCommand());
-        getCommand("bg").setExecutor(new BGCommand());
         getCommand("setepreuve").setExecutor(new EpreuveCommand());
         getCommand("setepreuve").setTabCompleter(new EpreuveCommand());
         getCommand("getepreuve").setExecutor(new EpreuveCommand());
