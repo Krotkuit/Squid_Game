@@ -1,0 +1,45 @@
+package fr.salut.squidgame.component.ListenerManager.intance;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+
+import java.io.File;
+
+public class WorldManager {
+
+  private static final String SQUID_GAME_WORLDS_FOLDER = "worlds/SquidGame";
+
+  public void applyRuleToAllWorlds() {
+    File folder = new File(SQUID_GAME_WORLDS_FOLDER);
+
+    if (!folder.exists() || !folder.isDirectory()) {
+      Bukkit.getLogger().warning("[SquidGame] Le dossier " + SQUID_GAME_WORLDS_FOLDER + " n'existe pas ou n'est pas un dossier.");
+      return;
+    }
+
+    File[] worldDirs = folder.listFiles(File::isDirectory);
+    if (worldDirs == null) {
+      Bukkit.getLogger().warning("[SquidGame] Aucun monde trouvé dans le dossier " + SQUID_GAME_WORLDS_FOLDER + ".");
+      return;
+    }
+
+    for (File worldDir : worldDirs) {
+      String worldName = worldDir.getName();
+
+      // Charger ou récupérer le monde
+      World world = Bukkit.getWorld(worldName);
+      if (world == null) {
+        Bukkit.getLogger().info("[SquidGame] Chargement du monde : " + worldName);
+        world = Bukkit.createWorld(new WorldCreator(worldName));
+      }
+
+      if (world != null) {
+        world.setDifficulty(Difficulty.PEACEFUL);
+      } else {
+        Bukkit.getLogger().warning("[SquidGame] Impossible de charger le monde : " + worldName);
+      }
+    }
+  }
+}
