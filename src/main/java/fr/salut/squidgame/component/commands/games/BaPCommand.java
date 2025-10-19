@@ -10,8 +10,10 @@ import org.bukkit.scoreboard.Team;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @Command("bap")
+@CommandPermission("sqg.admins.commands.bap")
 public class BaPCommand {
     private static BaPState bapState = BaPState.OFF; // État initial
 

@@ -8,32 +8,66 @@ depend:
 
 commands:
   movedetection:
-    description: "Command for switch move detection"
+    description: Commande pour gérer la move detection.
+    usage: /movedetection <true|false>
+    permission: sqg.admins.commands.movedetection
   prv:
     description: Commande pour gérer les états PRV.
     usage: /prv <ON|OFF|STOP>
+    permission: sqg.admins.commands.prv
   ltte:
     description: Commande pour gérer les états LTTE.
     usage: /ltte <ON|OFF|STOP|timer <score>|prob <score>>
+    permission: sqg.admins.commands.ltte
   bap:
     description: Commande pour gérer les états BaP.
     usage: /bap <ON|OFF|STOP>
+    permission: sqg.admins.commands.bap
   bg:
     description: Place 20 blocs de commande avec des commandes aléatoires.
     usage: /bg random
+    permission: sqg.admins.commands.bg
+  cm:
+    description: Commande pour gérer le mode CM.
+    usage: /cm <prob|timer> <score>
+    permission: sqg.admins.commands.cm
   lifemode:
     description: Commande pour gérer le mode de vie.
     usage: /lifemode <mode|lifenumber|player <revive|reset <number>>>
     tab-completer: fr.salut.squidgame.component.commands.LifeModeCommand
+    permission: sqg.admins.commands.lifemode
   carrousel:
     description: Compte les joueurs dans les salles du carrousel
     usage: /carrousel room
+    permission: sqg.admins.commands.carrousel
   setepreuve:
     description: Définit l'épreuve actuelle.
     usage: /setepreuve <nom_de_l_epreuve>
+    permission: sqg.admins.commands.setepreuve
   getepreuve:
     description: Affiche l'épreuve actuelle.
     usage: /getepreuve
+    permission: sqg.admins.commands.getepreuve
+  tac:
+    description: Commande pour gérer le mode TAC.
+    usage: /tac <ON|OFF|STOP|RESET|select>
+    permission: sqg.admins.commands.tac
+  armor:
+    description: Commande pour gérer les armures colorées.
+    usage: /armor <<target> <color>> <player>
+    permission: sqg.admins.commands.armor
+  sgreload:
+    description: Recharge la configuration du plugin SquidGame.
+    usage: /sgreload <books|spec>
+    permission: sqg.admins.commands.sgreload
+  books:
+    description: Donne les livres de règles aux joueurs.
+    usage: /books
+    permission: sqg.admins.commands.books
+  tchat:
+    description: Commande pour gérer le tchat.
+    usage: /tchat <lock|unlock>
+    permission: sqg.admins.commands.tchat
 permissions:
   sqg.admins.commands.*:
     description: "Donne l'accès aux commandes d'administration"

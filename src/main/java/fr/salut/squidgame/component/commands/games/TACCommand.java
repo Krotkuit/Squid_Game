@@ -12,12 +12,14 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Command("tac")
+@CommandPermission("spg.admins.commands.tac")
 public class TACCommand {
 
     SquidGame plugin = SquidGame.getInstance();

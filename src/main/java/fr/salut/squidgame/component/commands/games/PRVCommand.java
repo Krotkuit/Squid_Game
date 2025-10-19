@@ -7,8 +7,10 @@ import org.bukkit.command.CommandSender;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @Command("prv")
+@CommandPermission("spg.admins.commands.prv")
 public class PRVCommand {
 
     SquidGame plugin = SquidGame.getInstance();

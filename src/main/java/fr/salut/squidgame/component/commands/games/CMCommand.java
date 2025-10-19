@@ -4,8 +4,10 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.CM.CMManager;
 import org.bukkit.command.CommandSender;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @Command("cm")
+@CommandPermission("sgq.admins.commands.cm")
 public class CMCommand {
 
     @Subcommand("load")
