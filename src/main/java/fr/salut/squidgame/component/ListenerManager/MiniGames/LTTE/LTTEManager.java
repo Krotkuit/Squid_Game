@@ -5,7 +5,9 @@ import fr.salut.squidgame.component.commands.games.LTTECommandExecutor;
 import fr.salut.squidgame.component.commands.games.LTTECommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -20,6 +22,11 @@ import java.util.*;
 
 
 public class LTTEManager implements Listener {
+  @Setter
+  @Getter
+  private static int bombTimer = 150; // Temps par défaut en secondes (2min30)
+  @Setter @Getter
+  private static double bombProbability = 0.05; // Probabilité par défaut (5%)
   private static final SquidGame plugin = SquidGame.getInstance();
   private static final List<UUID> playersWithTNT = new ArrayList<>();
   private static final Random random = new Random();
@@ -42,15 +49,16 @@ public class LTTEManager implements Listener {
         return;
       }
 
-      int tntCount = (LTTECommandExecutor.getBombProbability() > 1)
-          ? (int) LTTECommandExecutor.getBombProbability()
-          : Math.max((int) Math.floor(onlinePlayers.size() * (1 - LTTECommandExecutor.getBombProbability())), 1);
+      int tntCount = (getBombProbability() > 1)
+          ? (int) getBombProbability()
+          : Math.max((int) Math.floor(onlinePlayers.size() * getBombProbability()), 1);
 
       for (int i = 0; i < tntCount && !onlinePlayers.isEmpty(); i++) {
         Player selectedPlayer = onlinePlayers.remove(random.nextInt(onlinePlayers.size()));
         playersWithTNT.add(selectedPlayer.getUniqueId());
         selectedPlayer.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 70, 20);
         selectedPlayer.sendMessage(ChatColor.RED + "Vous avez une TNT ! Touchez un autre joueur pour la lui donner !");
+        selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
       }
 
       for (Player onlinePlayer : onlinePlayers) {
@@ -103,6 +111,10 @@ public class LTTEManager implements Listener {
     }
   }
 
+  public static void clearViewers() {
+    viewers.clear();
+  }
+
   @EventHandler
   public void onPlayerInteract(EntityDamageByEntityEvent event) {
     LTTEState state = plugin.getLTTEState();
@@ -113,6 +125,14 @@ public class LTTEManager implements Listener {
 
     UUID giverUUID = giver.getUniqueId();
     UUID receiverUUID = receiver.getUniqueId();
+
+    Set<UUID> viewers = new HashSet<>();
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      Team team = player.getScoreboard().getEntryTeam(player.getName());
+      if (team != null && (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort"))) {
+        viewers.add(player.getUniqueId());
+      }
+    }
 
     if (playersWithTNT.contains(giverUUID) && !playersWithTNT.contains(receiverUUID)) {
       playersWithTNT.add(receiverUUID);
@@ -138,7 +158,35 @@ public class LTTEManager implements Listener {
       }
 
       playersWithTNT.remove(giverUUID);
+
+
+      // Appliquer glowing du receiver vers tous les viewers
+      for (UUID viewerUUID : viewers) {
+        Player viewer = Bukkit.getPlayer(viewerUUID);
+        if (viewer == null || !viewer.isOnline()) continue;
+        try {
+          SquidGame.getInstance().getGlowingEntities().setGlowing(receiver, viewer, ChatColor.RED);
+        } catch (ReflectiveOperationException e) {
+          e.printStackTrace();
+        }
+      }
+
+      // Retirer glowing de giver vers tous les viewers
+      for (UUID viewerUUID : viewers) {
+        Player viewer = Bukkit.getPlayer(viewerUUID);
+        if (viewer == null || !viewer.isOnline()) continue;
+
+        try {
+          SquidGame.getInstance().getGlowingEntities().unsetGlowing(giver, viewer);
+        } catch (ReflectiveOperationException e) {
+          e.printStackTrace();
+        }
+      }
+
+
+      giver.playSound(giver.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
       giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
+      giver.playSound(giver.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
       receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
     }
   }
@@ -147,7 +195,7 @@ public class LTTEManager implements Listener {
 
 
   private static void startTNTCountdown() {
-    int totalTicks = LTTECommandExecutor.getBombTimer() * 20; // Temps total en ticks
+    int totalTicks = getBombTimer() * 20; // Temps total en ticks
     new BukkitRunnable() {
       int remainingTicks = totalTicks;
 
@@ -214,34 +262,6 @@ public class LTTEManager implements Listener {
         }
       }
     }.runTaskTimer(plugin, 0, 1); // Exécute toutes les 1 tick
-  }
-  private static void startTNTCountdown1() {
-    int delayInSeconds = random.nextInt(95 - 35 + 1) + 35; // Génère un nombre entre 35 et 95
-    plugin.getLogger().info(ChatColor.RED + "" + delayInSeconds + " secondes");
-    int delayInTicks = delayInSeconds * 20;
-    new BukkitRunnable() {
-      @Override
-      public void run() {
-        LTTEState state = plugin.getLTTEState();
-        if (state != LTTEState.ON || playersWithTNT.isEmpty()) {
-          cancel();
-          return;
-        }
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stopsound @a");
-
-        for (UUID uuid : new ArrayList<>(playersWithTNT)) {
-          Player player = Bukkit.getPlayer(uuid);
-          if (player == null || !player.isOnline()) continue;
-          player.sendMessage(ChatColor.RED + "BOOM ! Vous avez explosé !");
-          player.getWorld().playSound(player.getLocation(), "minecraft:entity.tnt.primed", 1.0F, 1.0F);
-          player.setHealth(0);
-          player.getWorld().createExplosion(player.getLocation(), 4.0F, false, false);
-          playersWithTNT.remove(player);
-        }
-
-      }
-    }.runTaskLater(plugin, delayInTicks);
   }
 
   public Collection<UUID> getPlayersWithTNT() {

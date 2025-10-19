@@ -10,8 +10,10 @@ import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @Command("ltte")
+@CommandPermission("spg.admins.commands.ltte")
 public class LTTECommand {
 
     private final SquidGame plugin;
@@ -37,6 +39,8 @@ public class LTTECommand {
     public void ltteOFF(CommandSender sender) {
         plugin.setLTTEState(LTTEState.OFF);
         LTTEManager.clearPlayersWithTNT();
+        LTTEManager.clearViewers();
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur @a[team=joueur]");
         sender.sendMessage("§cLTTE désactivé : aucune procédure ne fonctionne.");
         for (Player player1 : Bukkit.getOnlinePlayers()) {
             for (Player player2 : Bukkit.getOnlinePlayers()) {
@@ -66,7 +70,7 @@ public class LTTECommand {
             return;
         }
 
-        LTTECommandExecutor.setBombTimer(score);
+        LTTEManager.setBombTimer(score);
         sender.sendMessage("§aLe temps de la bombe a été défini à : " + score + " secondes.");
     }
 
@@ -77,7 +81,7 @@ public class LTTECommand {
             return;
         }
 
-        LTTECommandExecutor.setBombProbability(score);
+        LTTEManager.setBombProbability(score);
         sender.sendMessage("§aLa probabilité de la bombe a été définie à : " + score + ".");
     }
 }
