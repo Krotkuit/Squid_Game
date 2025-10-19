@@ -1,8 +1,8 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE;
 
 import fr.salut.squidgame.SquidGame;
-import fr.salut.squidgame.component.commands.games.LTTECommandExecutor;
-import fr.salut.squidgame.component.commands.games.LTTECommand;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -11,12 +11,12 @@ import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import fr.skytasul.glowingentities.GlowingEntities;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -29,6 +29,7 @@ public class LTTEManager implements Listener {
   private static double bombProbability = 0.05; // Probabilité par défaut (5%)
   private static final SquidGame plugin = SquidGame.getInstance();
   private static final List<UUID> playersWithTNT = new ArrayList<>();
+  private static final List<UUID> viewers = new ArrayList<>();
   private static final Random random = new Random();
 
   public static void startGame() {
@@ -68,20 +69,23 @@ public class LTTEManager implements Listener {
         }
       }
 
-      Set<UUID> viewers = new HashSet<>(playersWithTNT);
-      for (Player player : Bukkit.getOnlinePlayers()) {
-        Team team = player.getScoreboard().getEntryTeam(player.getName());
-        if (team != null && (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort"))) {
-          viewers.add(player.getUniqueId());
-        }
-      }
+      final var viewersList = Bukkit.getOnlinePlayers().stream().filter(p -> {
+        if (p == null || !p.isOnline()) return false;
+        final var team = p.getScoreboard().getEntryTeam(p.getName());
+        return team != null && (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort"));
+      }).toList();
+
+      viewersList.forEach(v -> viewers.add(v.getUniqueId()));
+
+      final var allViewers = new ArrayList<>(viewers);
+      allViewers.addAll(playersWithTNT);
 
       // Appliquer les effets de glowing uniquement aux joueurs ayant la TNT
       for (UUID glowingUUID : playersWithTNT) {
         Player glowingPlayer = Bukkit.getPlayer(glowingUUID);
         if (glowingPlayer == null || !glowingPlayer.isOnline()) continue;
 
-        for (UUID viewerUUID : viewers) {
+        for (UUID viewerUUID : allViewers) {
           Player viewer = Bukkit.getPlayer(viewerUUID);
           if (viewer == null || !viewer.isOnline()) continue;
           try {
@@ -116,8 +120,8 @@ public class LTTEManager implements Listener {
   }
 
   @EventHandler
-  public void onPlayerInteract(EntityDamageByEntityEvent event) {
-    LTTEState state = plugin.getLTTEState();
+  public void onPlayerInteract(final @NotNull EntityDamageByEntityEvent event) {
+    final var state = plugin.getLTTEState();
     if (state == LTTEState.OFF || state == LTTEState.STOP) return;
 
     if (!(event.getDamager() instanceof Player giver)) return;
@@ -126,73 +130,82 @@ public class LTTEManager implements Listener {
     UUID giverUUID = giver.getUniqueId();
     UUID receiverUUID = receiver.getUniqueId();
 
-    Set<UUID> viewers = new HashSet<>();
-    for (Player player : Bukkit.getOnlinePlayers()) {
-      Team team = player.getScoreboard().getEntryTeam(player.getName());
-      if (team != null && (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort"))) {
-        viewers.add(player.getUniqueId());
+    Player receiverPlayer = Bukkit.getPlayer(receiverUUID);
+    Player giverPlayer = Bukkit.getPlayer(giverUUID);
+
+    Team teamReceiver = receiver.getScoreboard().getEntryTeam(receiver.getName());
+
+    if (!playersWithTNT.contains(giverUUID) || playersWithTNT.contains(receiverUUID)) return;
+    if (teamReceiver != null && !teamReceiver.getName().equals("joueur")) return;
+
+    playersWithTNT.add(receiverUUID);
+    playersWithTNT.remove(giverUUID);
+
+    try {
+      SquidGame.getInstance().getGlowingEntities().unsetGlowing(giverPlayer, giverPlayer);
+    } catch (ReflectiveOperationException e) {
+      SquidGame.getInstance().getLogger().warning(String.format("Error glowing join viewer : %s", e.getMessage()));
+    }
+
+    // Applique le glowing aux loups
+    for (final var uuid : playersWithTNT) {
+      final var tntPlayer = Bukkit.getPlayer(uuid);
+      if (tntPlayer == null || !tntPlayer.isOnline()) continue; // Le joueur n'est pas connecté
+      try {
+        SquidGame.getInstance().getGlowingEntities().unsetGlowing(giverPlayer, tntPlayer);
+        SquidGame.getInstance().getGlowingEntities().unsetGlowing(tntPlayer, giverPlayer);
+        SquidGame.getInstance().getGlowingEntities().setGlowing(tntPlayer, receiverPlayer, ChatColor.RED);
+        SquidGame.getInstance().getGlowingEntities().setGlowing(receiverPlayer, tntPlayer, ChatColor.RED);
+      } catch (ReflectiveOperationException e) {
+        SquidGame.getInstance().getLogger().warning(String.format("Error glowing join viewer : %s", e.getMessage()));
       }
     }
 
-    if (playersWithTNT.contains(giverUUID) && !playersWithTNT.contains(receiverUUID)) {
-      playersWithTNT.add(receiverUUID);
-
-
-      for (UUID uuid : playersWithTNT) {
-        Player tntPlayer = Bukkit.getPlayer(uuid);
-        if (tntPlayer == null) continue; // Le joueur n'est pas connecté
-
-        try {
-          SquidGame.getInstance().getGlowingEntities().setGlowing(receiver, tntPlayer, ChatColor.RED);
-          SquidGame.getInstance().getGlowingEntities().setGlowing(tntPlayer, receiver, ChatColor.RED);
-        } catch (ReflectiveOperationException e) {
-          e.printStackTrace();
-        }
-
-        try {
-          SquidGame.getInstance().getGlowingEntities().unsetGlowing(giver, tntPlayer);
-          SquidGame.getInstance().getGlowingEntities().unsetGlowing(tntPlayer, giver);
-        } catch (ReflectiveOperationException e) {
-          e.printStackTrace();
-        }
+    // Applique le glowing aux viewers
+    for (final var uuid : viewers) {
+      final var viewer = Bukkit.getPlayer(uuid);
+      if (viewer == null || !viewer.isOnline()) continue; // Le joueur n'est pas connecté
+      try {
+        SquidGame.getInstance().getGlowingEntities().unsetGlowing(giverPlayer, viewer);
+        SquidGame.getInstance().getGlowingEntities().setGlowing(receiverPlayer, viewer, ChatColor.RED);
+      } catch (ReflectiveOperationException e) {
+        SquidGame.getInstance().getLogger().warning(String.format("Error glowing join viewer : %s", e.getMessage()));
       }
-
-      playersWithTNT.remove(giverUUID);
-
-
-      // Appliquer glowing du receiver vers tous les viewers
-      for (UUID viewerUUID : viewers) {
-        Player viewer = Bukkit.getPlayer(viewerUUID);
-        if (viewer == null || !viewer.isOnline()) continue;
-        try {
-          SquidGame.getInstance().getGlowingEntities().setGlowing(receiver, viewer, ChatColor.RED);
-        } catch (ReflectiveOperationException e) {
-          e.printStackTrace();
-        }
-      }
-
-      // Retirer glowing de giver vers tous les viewers
-      for (UUID viewerUUID : viewers) {
-        Player viewer = Bukkit.getPlayer(viewerUUID);
-        if (viewer == null || !viewer.isOnline()) continue;
-
-        try {
-          SquidGame.getInstance().getGlowingEntities().unsetGlowing(giver, viewer);
-        } catch (ReflectiveOperationException e) {
-          e.printStackTrace();
-        }
-      }
-
-
-      giver.playSound(giver.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
-      giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
-      giver.playSound(giver.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
-      receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
     }
+
+    giver.playSound(giver.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
+    giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
+    giver.playSound(giver.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
+    receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
   }
 
+  @EventHandler
+  public void onJoin(final @NotNull PlayerJoinEvent event) {
+    final var state = plugin.getLTTEState();
+    if (state == LTTEState.OFF || state == LTTEState.STOP) return;
 
-
+    final var player = event.getPlayer();
+    final var team = player.getScoreboard().getEntryTeam(player.getName());
+    if (viewers.contains(player.getUniqueId())) {
+      setViewerGlowing(player);
+    }
+    else if (team != null && (team.getName() == "garde" || team.getName() == "mort")) {
+        viewers.add(player.getUniqueId());
+        setViewerGlowing(player);
+    }
+    else if (playersWithTNT.contains(player.getUniqueId())) {
+      for (final var uuid : playersWithTNT) {
+        final var tntPlayer = Bukkit.getPlayer(uuid);
+        if (tntPlayer == null || !tntPlayer.isOnline()) continue; // Le joueur n'est pas connecté
+        try {
+          SquidGame.getInstance().getGlowingEntities().setGlowing(tntPlayer, player, ChatColor.RED);
+          SquidGame.getInstance().getGlowingEntities().setGlowing(player, tntPlayer, ChatColor.RED);
+        } catch (ReflectiveOperationException e) {
+          SquidGame.getInstance().getLogger().warning(String.format("Error glowing join viewer : %s", e.getMessage()));
+        }
+      }
+    }
+  }
 
   private static void startTNTCountdown() {
     int totalTicks = getBombTimer() * 20; // Temps total en ticks
@@ -262,6 +275,19 @@ public class LTTEManager implements Listener {
         }
       }
     }.runTaskTimer(plugin, 0, 1); // Exécute toutes les 1 tick
+  }
+
+  private void setViewerGlowing(final @NotNull Player player) {
+
+    for (final var uuid : playersWithTNT) {
+      final var tntPlayer = Bukkit.getPlayer(uuid);
+      if (tntPlayer == null || !tntPlayer.isOnline()) continue; // Le joueur n'est pas connecté
+      try {
+        SquidGame.getInstance().getGlowingEntities().setGlowing(tntPlayer, player, ChatColor.RED);
+      } catch (ReflectiveOperationException e) {
+        SquidGame.getInstance().getLogger().warning(String.format("Error glowing join viewer : %s", e.getMessage()));
+      }
+    }
   }
 
   public Collection<UUID> getPlayersWithTNT() {
