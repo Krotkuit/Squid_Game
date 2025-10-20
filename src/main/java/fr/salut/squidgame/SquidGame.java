@@ -33,6 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class SquidGame extends JavaPlugin{
 
@@ -67,6 +68,7 @@ public final class SquidGame extends JavaPlugin{
         new WorldManager().applyRuleToAllWorlds();
 
         glowingEntities = new GlowingEntities(this);
+
 
         // Listener
         registerEvents(
@@ -109,6 +111,7 @@ public final class SquidGame extends JavaPlugin{
                 new LifeModeCommand(),
                 new TchatCommad(),
                 new ConfigsCommand()
+
         );
 
         getLogger().info("Le plugin est activé !");
@@ -124,6 +127,9 @@ public final class SquidGame extends JavaPlugin{
     }
 
     private void loadCommands() {
+        getCommand("setepreuve").setExecutor(new EpreuveCommand());
+        getCommand("setepreuve").setTabCompleter(new EpreuveCommand());
+        getCommand("getepreuve").setExecutor(new EpreuveCommand());
     }
 
     public void teleportPlayer(Player player, double x, double y, double z) {

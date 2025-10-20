@@ -71,8 +71,9 @@ public class JoinListener implements Listener {
 
 
 
-      // Ajouter le tag "joueur"
+      // Ajouter les tags "joueur" et "vivant"
       player.addScoreboardTag("joueur");
+      player.addScoreboardTag("vivant");
 
       // Ajouter le joueur dans l'équipe "joueur"
       team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("joueur");
