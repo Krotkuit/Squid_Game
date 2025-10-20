@@ -33,7 +33,7 @@ commands:
     permission: sqg.admins.commands.cm
   lifemode:
     description: Commande pour gérer le mode de vie.
-    usage: /lifemode <mode|lifenumber|player <revive|reset <number>>>
+    usage: /lifemode <mode <ON|OFF>|lifenumber <number>|player <revive|reset <number>>>
     tab-completer: fr.salut.squidgame.component.commands.LifeModeCommand
     permission: sqg.admins.commands.lifemode
   carrousel:
