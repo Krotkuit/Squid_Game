@@ -1,6 +1,7 @@
 package fr.salut.squidgame.component.commands;
 
 import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
+import org.bukkit.entity.Entity;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 import org.bukkit.Bukkit;
@@ -8,6 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+
+import java.util.List;
 
 @Command("lifemode")
 @CommandPermission("spg.admin.lifemode")
@@ -84,6 +87,59 @@ public class LifeModeCommand {
     }
 
     sender.sendMessage(ChatColor.GREEN + "All players' lives have been reset to " + number + ".");
+  }
+
+  @Subcommand("lifeadd")
+  public void addLifePlayers(CommandSender sender, @Named("targets") String selector, Integer number) {
+    if (number == null) {
+      sender.sendMessage(ChatColor.RED + "Usage: /lifemode lifeadd <number>");
+      return;
+    }
+    if (!lifeListener.isLifeModeEnabled()) {
+      sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode lifeadd <number>.");
+      return;
+    }
+
+    List<Entity> entities = Bukkit.selectEntities(sender, selector);
+    for (Entity entity : entities) {
+      Player player = (Player) entity;
+      Integer currentLives = lifeListener.getPlayerLives().getOrDefault(player, 0);
+      int newLives = currentLives + number;
+      lifeListener.getPlayerLives().put(player, newLives);
+      lifeListener.updatePlayerXP(player, newLives); // Met à jour l'XP
+      sender.sendMessage(ChatColor.GREEN + "Added " + number + " lives to " + player.getName() + ". New total: " + newLives + ".");
+    }
+  }
+
+  @Subcommand("getlifenumber")
+  public void getLifeNumber(CommandSender sender, @Named("targets") String selector) {
+    if (!lifeListener.isLifeModeEnabled()) {
+      sender.sendMessage(ChatColor.RED + "Le mode de vie est désactivé. Impossible d'exécuter la commande /lifemode getlifenumber <player>.");
+      return;
+    }
+
+    List<Entity> entities = Bukkit.selectEntities(sender, selector);
+    if (entities.isEmpty()) {
+      sender.sendMessage(ChatColor.RED + "No players found for the given selector.");
+      return;
+    }
+    for (Entity entity : entities) {
+      Player player = (Player) entity;
+      Team team = player.getScoreboard().getEntryTeam(player.getName());
+      if (team != null && team.getName().equalsIgnoreCase("garde")) return;
+
+      Integer lives = lifeListener.getPlayerLives().get(player);
+      if (lives == null) {
+        sender.sendMessage(ChatColor.RED + "Player " + player.getName() + " has no recorded lives.");
+      }
+      else if (lives == LifeListener.defaultLives) {
+        sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " has " + lives + " lives.");
+      } else if (lives > 0) {
+        sender.sendMessage(ChatColor.YELLOW + "Player " + player.getName() + " has " + lives + " lives.");
+      } else {
+        sender.sendMessage(ChatColor.RED + "Player " + player.getName() + " has " + lives + " lives left.");
+      }
+    }
   }
 
 }

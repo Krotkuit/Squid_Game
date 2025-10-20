@@ -13,33 +13,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class CMManager {
     static int[] zone = {-22, -23, 21, -66};
     private static final List<Location> chairsLoc = new ArrayList<>();
-
+    private static List <Player> cmPlayers = new ArrayList<>();
     @Setter
     private static double chairProp = 0.95; // Valeur par défaut
 
   public static void putChairs(){
-        int chairs = 0;
 
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        Scoreboard scoreboard = manager.getMainScoreboard();
-        Team team = scoreboard.getTeam("joueur");
-
-        for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
-            if (team.hasEntry(player.getName())) {
-                chairs += 1;
-            }
-        }
-
-
+        int nbPlayersAlive = getNombreChairs();
+        int chairs = 1;
         // Calcul du nombre de chaises
         if (chairProp > 0 && chairProp < 1) {
-            chairs = (int) Math.floor(chairs * chairProp); // prob de chaises selon le nb de joueurs
+            chairs = (int) Math.max(1, Math.floor(nbPlayersAlive * chairProp)); // prob de chaises selon le nb de joueurs
         } else if (chairProp >= 1) {
-            chairs = Math.max(0, chairs - (int) chairProp); // nb de joueurs à éliminer
+            chairs = Math.max(1, nbPlayersAlive - (int) chairProp); // nb de joueurs à éliminer
         }
 
 
@@ -62,6 +55,23 @@ public class CMManager {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
         }
     }
+
+  public static int getNombreChairs() {
+    // Récupère les joueurs en ligne avec le tag "vivant"
+    List<Player> vivants = Bukkit.getOnlinePlayers().stream()
+      .filter(player -> player.getScoreboardTags().contains("vivant"))
+      .collect(Collectors.toList());
+
+    // Compteur
+    int chairs = 0;
+
+    // Vérifie si chaque joueur est dans l'équipe spécifiée
+    for (Player player : vivants) {
+        chairs++;
+    }
+
+    return chairs;
+  }
 
     public static void removeChair() {
         Iterator<Location> iterator = chairsLoc.iterator();

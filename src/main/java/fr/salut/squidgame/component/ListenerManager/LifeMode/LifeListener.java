@@ -16,7 +16,7 @@ public class LifeListener implements Listener {
 
   private final Map<Player, Integer> playerLives = new HashMap<>();
   private boolean lifeModeEnabled = false;
-  private int defaultLives = 2;
+  public static int defaultLives = 2;
 
   public LifeListener() {
     instance = this; // Initialise l'instance statique

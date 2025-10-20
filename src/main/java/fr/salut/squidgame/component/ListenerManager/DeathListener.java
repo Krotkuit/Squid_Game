@@ -36,6 +36,12 @@ public class DeathListener implements Listener {
     if (team.getName().equalsIgnoreCase("garde") || team.getName().equalsIgnoreCase("mort")) return;
 
     team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mort");
+
+    // Ajouter les tags de l'épreuve et de la mort
+    player.addScoreboardTag(EpreuveCommand.getEpreuve());
+    player.addScoreboardTag("mort");
+    player.removeScoreboardTag("vivant");
+
     // Ajouter le joueur à l'équipe "mort"
     team.addEntry(player.getName());
 

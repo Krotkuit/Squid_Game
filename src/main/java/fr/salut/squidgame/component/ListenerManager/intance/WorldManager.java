@@ -26,19 +26,14 @@ public class WorldManager {
     }
 
     for (File worldDir : worldDirs) {
-      String worldName = worldDir.getName();
+      String worldName = worldDir.toString();
 
       // Charger ou récupérer le monde
       World world = Bukkit.getWorld(worldName);
       if (world == null) {
-        Bukkit.getLogger().info("[SquidGame] Chargement du monde : " + worldName);
-        world = Bukkit.createWorld(new WorldCreator(worldName));
-      }
-
-      if (world != null) {
-        world.setDifficulty(Difficulty.PEACEFUL);
+        Bukkit.getLogger().info("[SquidGame] Impossible de charger le monde : " + worldName);
       } else {
-        Bukkit.getLogger().warning("[SquidGame] Impossible de charger le monde : " + worldName);
+        world.setDifficulty(Difficulty.PEACEFUL);
       }
     }
   }

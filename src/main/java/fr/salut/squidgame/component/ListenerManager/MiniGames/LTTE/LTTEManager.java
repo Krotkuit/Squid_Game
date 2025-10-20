@@ -18,6 +18,7 @@ import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class LTTEManager implements Listener {
@@ -38,30 +39,28 @@ public class LTTEManager implements Listener {
 
     if (playersWithTNT.isEmpty()) {
       // Filtre les joueurs pour exclure ceux des équipes "mort" et "garde"
-      List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
-      onlinePlayers.removeIf(player -> {
-        Team team = player.getScoreboard().getEntryTeam(player.getName());
-        return team == null || !team.getName().equalsIgnoreCase("joueur");
-      });
+      List<Player> vivants = Bukkit.getOnlinePlayers().stream()
+        .filter(player -> player.getScoreboardTags().contains("vivant"))
+        .collect(Collectors.toList());
 
-      if (Bukkit.getOnlinePlayers().isEmpty()) {
+      if (vivants.isEmpty()) {
         plugin.getLogger().warning("Aucun joueur en ligne pour démarrer LTTE !");
         return;
       }
 
       int tntCount = (getBombProbability() > 1)
           ? (int) getBombProbability()
-          : Math.max((int) Math.floor(onlinePlayers.size() * getBombProbability()), 1);
+          : Math.max((int) Math.floor(vivants.size() * getBombProbability()), 1);
 
-      for (int i = 0; i < tntCount && !onlinePlayers.isEmpty(); i++) {
-        Player selectedPlayer = onlinePlayers.remove(random.nextInt(onlinePlayers.size()));
+      for (int i = 0; i < tntCount && !vivants.isEmpty(); i++) {
+        Player selectedPlayer = vivants.remove(random.nextInt(vivants.size()));
         playersWithTNT.add(selectedPlayer.getUniqueId());
         selectedPlayer.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 70, 20);
         selectedPlayer.sendMessage(ChatColor.RED + "Vous avez une TNT ! Touchez un autre joueur pour la lui donner !");
         selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
       }
 
-      for (Player onlinePlayer : onlinePlayers) {
+      for (Player onlinePlayer : vivants) {
         if (!playersWithTNT.contains(onlinePlayer.getUniqueId())) {
           onlinePlayer.sendMessage(ChatColor.YELLOW + "Vous n'avez pas reçu de TNT. Restez vigilant !");
           onlinePlayer.sendTitle(ChatColor.BLUE + "Vous n'avez pas de TNT !", "Fuyez les loups !", 10, 70, 20);
@@ -128,10 +127,10 @@ public class LTTEManager implements Listener {
     Player receiverPlayer = Bukkit.getPlayer(receiverUUID);
     Player giverPlayer = Bukkit.getPlayer(giverUUID);
 
-    Team teamReceiver = receiver.getScoreboard().getEntryTeam(receiver.getName());
+    String tagReceiver = receiver.getScoreboardTags().toString();
 
     if (!playersWithTNT.contains(giverUUID) || playersWithTNT.contains(receiverUUID)) return;
-    if (teamReceiver != null && !teamReceiver.getName().equals("joueur")) return;
+    if (tagReceiver != null && !tagReceiver.equals("joueur")) return;
 
     playersWithTNT.add(receiverUUID);
     playersWithTNT.remove(giverUUID);
