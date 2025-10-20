@@ -1,49 +1,70 @@
 package fr.salut.squidgame.component.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import revxrsal.commands.annotation.AutoComplete;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EpreuveCommand {
+public class EpreuveCommand implements TabExecutor, TabCompleter {
 
-  @Getter
   private static final List<String> EPREUVES = Arrays.asList(
-      "Lobby", "123Soleil", "ArcEnCiel", "BAP", "Bille", "BriseGlace", "CacheCache", "Carrousel",
-      "ChaiseMusicale", "CordeASauter", "LTTE", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise"
+    "Lobby", "123Soleil", "ArcEnCiel", "BAP", "CacheCache", "Carrousel", "ChaiseMusicale",
+    "CordeASauter", "LTTE", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise"
   );
 
-  @Getter
-  @Setter
-  private static String epreuve = "Lobby";
+  private static String epreuve = "Lobby"; // Valeur par défaut
 
-  @Command("setepreuve")
-  @CommandPermission("sg.admin.setepreuve")
-  @AutoComplete("@epreuves")
-  public void onSetEpreuve(CommandSender sender, String epreuve) {
-    if (epreuve == null || EPREUVES.stream().noneMatch(e -> e.equalsIgnoreCase(epreuve))) {
-      sender.sendMessage(ChatColor.RED + "Épreuve invalide. Utilisez une des épreuves suivantes : " + String.join(", ", EPREUVES));
-      return;
-    }
-
-    // On choisit la forme exacte depuis la liste (corrige la casse)
-    String selected = EPREUVES.stream().filter(e -> e.equalsIgnoreCase(epreuve)).findFirst().orElse("Lobby");
-
-    setEpreuve(selected);
-    Bukkit.getLogger().info("L'épreuve a été définie sur : " + selected);
-    sender.sendMessage(ChatColor.GREEN + "L'épreuve a été définie sur : " + selected);
+  public static void setEpreuve(String newEpreuve) {
+    epreuve = newEpreuve;
   }
 
-  @Command("getepreuve")
-  @CommandPermission("sg.admin.getepreuve")
-  public void onGetEpreuve(CommandSender sender) {
-    sender.sendMessage("§aL'épreuve actuelle est : " + getEpreuve());
+  public static String getEpreuve() {
+    return epreuve;
+  }
+
+  @Override
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    if (label.equalsIgnoreCase("setepreuve")) {
+      if (args.length < 1) {
+        sender.sendMessage("§cVeuillez spécifier une épreuve !");
+        return false;
+      }
+
+      String newEpreuve = args[0];
+      if (!EPREUVES.contains(newEpreuve)) {
+        sender.sendMessage("§cÉpreuve invalide. Utilisez une des épreuves suivantes : " + String.join(", ", EPREUVES));
+        return false;
+      }
+
+      setEpreuve(newEpreuve);
+      Bukkit.broadcastMessage("§aL'épreuve a été définie sur : " + newEpreuve);
+      return true;
+    }
+
+    if (label.equalsIgnoreCase("getepreuve")) {
+      sender.sendMessage("§aL'épreuve actuelle est : " + getEpreuve());
+      return true;
+    }
+
+    return false;
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    if (alias.equalsIgnoreCase("setepreuve") && args.length == 1) {
+      List<String> completions = new ArrayList<>();
+      for (String epreuve : EPREUVES) {
+        if (epreuve.toLowerCase().startsWith(args[0].toLowerCase())) {
+          completions.add(epreuve);
+        }
+      }
+      return completions;
+    }
+    return null;
   }
 }
