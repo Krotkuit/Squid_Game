@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import java.util.List;
+import java.util.UUID;
 
 @Command("lifemode")
 @CommandPermission("spg.admin.lifemode")
@@ -82,7 +83,8 @@ public class LifeModeCommand {
     }
 
     for (Player player : Bukkit.getOnlinePlayers()) {
-      lifeListener.getPlayerLives().put(player, number);
+      UUID uuid = player.getUniqueId();
+      lifeListener.getPlayerLives().put(uuid, number);
       lifeListener.updatePlayerXP(player, number); // Met à jour l'XP
     }
 
@@ -103,9 +105,10 @@ public class LifeModeCommand {
     List<Entity> entities = Bukkit.selectEntities(sender, selector);
     for (Entity entity : entities) {
       Player player = (Player) entity;
+      UUID uuid = player.getUniqueId();
       Integer currentLives = lifeListener.getPlayerLives().getOrDefault(player, 0);
       int newLives = currentLives + number;
-      lifeListener.getPlayerLives().put(player, newLives);
+      lifeListener.getPlayerLives().put(uuid, newLives);
       lifeListener.updatePlayerXP(player, newLives); // Met à jour l'XP
       sender.sendMessage(ChatColor.GREEN + "Added " + number + " lives to " + player.getName() + ". New total: " + newLives + ".");
     }
@@ -123,16 +126,35 @@ public class LifeModeCommand {
       sender.sendMessage(ChatColor.RED + "No players found for the given selector.");
       return;
     }
-    for (Entity entity : entities) {
-      Player player = (Player) entity;
-      Team team = player.getScoreboard().getEntryTeam(player.getName());
-      if (team != null && team.getName().equalsIgnoreCase("garde")) return;
+    // Récupère les joueurs de la liste 'entities' qui sont bien des Player
+    List<Player> sortedPlayers = entities.stream()
+        .filter(entity -> entity instanceof Player)
+        .map(entity -> (Player) entity)
+        .filter(player -> {
+          Team team = player.getScoreboard().getEntryTeam(player.getName());
+          // Exclure les joueurs dans l'équipe "garde"
+          return team == null || !team.getName().equalsIgnoreCase("garde");
+        })
+        .sorted((p1, p2) -> {
+          // Récupère les vies, avec valeur par défaut pour éviter le null
+          Integer lives1 = lifeListener.getPlayerLives().getOrDefault(p1.getUniqueId(), 0);
+          Integer lives2 = lifeListener.getPlayerLives().getOrDefault(p2.getUniqueId(), 0);
 
-      Integer lives = lifeListener.getPlayerLives().get(player);
+          // Tri par nombre de vies (ordre décroissant)
+          int livesCompare = Integer.compare(lives2, lives1);
+          if (livesCompare != 0) return livesCompare;
+
+          // Si égalité, tri alphabétique croissant du pseudo
+          return p1.getName().compareToIgnoreCase(p2.getName());
+        })
+        .toList();
+
+// Envoie les messages triés
+    for (Player player : sortedPlayers) {
+      Integer lives = lifeListener.getPlayerLives().get(player.getUniqueId());
       if (lives == null) {
         sender.sendMessage(ChatColor.RED + "Player " + player.getName() + " has no recorded lives.");
-      }
-      else if (lives == LifeListener.defaultLives) {
+      } else if (lives == LifeListener.defaultLives) {
         sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " has " + lives + " lives.");
       } else if (lives > 0) {
         sender.sendMessage(ChatColor.YELLOW + "Player " + player.getName() + " has " + lives + " lives.");
@@ -140,6 +162,7 @@ public class LifeModeCommand {
         sender.sendMessage(ChatColor.RED + "Player " + player.getName() + " has " + lives + " lives left.");
       }
     }
+
   }
 
 }

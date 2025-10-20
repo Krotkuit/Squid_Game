@@ -9,12 +9,13 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class LifeListener implements Listener {
 
   private static LifeListener instance;
 
-  private final Map<Player, Integer> playerLives = new HashMap<>();
+  private final Map<UUID, Integer> playerLives = new HashMap<>();
   private boolean lifeModeEnabled = false;
   public static int defaultLives = 2;
 
@@ -31,9 +32,12 @@ public class LifeListener implements Listener {
 
     if (!enabled) {
       // Met à jour les vies de tous les joueurs à 1
-      for (Player player : playerLives.keySet()) {
-        playerLives.put(player, 1);
-        updatePlayerXP(player, 1); // Met à jour la barre d'XP
+      for (UUID uuid : playerLives.keySet()) {
+        Player player = SquidGame.getInstance().getServer().getPlayer(uuid);
+        playerLives.put(uuid, 1);
+        if (player != null && player.isOnline()) {
+          updatePlayerXP(player, 1); // Met à jour la barre d'XP
+        }
       }
       SquidGame.getInstance().getLogger().info("Mode de vie désactivé : tous les joueurs ont maintenant 1 vie.");
     } else {
@@ -45,21 +49,35 @@ public class LifeListener implements Listener {
     this.defaultLives = lives;
   }
 
-  public Map<Player, Integer> getPlayerLives() {
+  public Map<UUID, Integer> getPlayerLives() {
     return playerLives;
   }
 
   @EventHandler
+  public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent event) {
+    Player player = event.getPlayer();
+    UUID uuid = player.getUniqueId();
+
+    if (!playerLives.containsKey(uuid)) {
+      int lives = lifeModeEnabled ? defaultLives : 1; // Si le mode de vie est désactivé, définir les vies à 1
+      playerLives.put(uuid, lives);
+    }
+    updatePlayerXP(player, playerLives.get(uuid));
+  }
+
+
+  @EventHandler
   public void onPlayerDeath(PlayerDeathEvent event) {
     Player player = event.getPlayer();
-    int lives = playerLives.getOrDefault(player, defaultLives); // Utilise une valeur par défaut
-    if (playerLives.containsKey(player)) {
+    UUID uuid = player.getUniqueId();
+    int lives = playerLives.getOrDefault(uuid, defaultLives); // Utilise une valeur par défaut
+    if (playerLives.containsKey(uuid)) {
       lives = lives - 1;
       if (lives > 0) {
-        playerLives.put(player, lives);
+        playerLives.put(uuid, lives);
         updatePlayerXP(player, lives); // Met à jour le niveau d'XP
       } else {
-        playerLives.remove(player);
+        playerLives.remove(uuid);
         updatePlayerXP(player, 0);
       }
     }
@@ -68,9 +86,10 @@ public class LifeListener implements Listener {
   @EventHandler
   public void onPlayerTeleport(org.bukkit.event.player.PlayerTeleportEvent event) {
     Player player = event.getPlayer();
-    int lives = playerLives.getOrDefault(player, defaultLives); // Utilise une valeur par défaut
-    if (playerLives.containsKey(player)) {
-      playerLives.put(player, lives);
+    UUID uuid = player.getUniqueId();
+    int lives = playerLives.getOrDefault(uuid, defaultLives); // Utilise une valeur par défaut
+    if (playerLives.containsKey(uuid)) {
+      playerLives.put(uuid, lives);
       updatePlayerXP(player, lives); // Met à jour le niveau d'XP
     }
   }
@@ -81,9 +100,10 @@ public class LifeListener implements Listener {
   }
 
   public void addPlayerWithDefaultLives(Player player) {
+    UUID uuid = player.getUniqueId();
     int lives = lifeModeEnabled ? defaultLives : 1; // Si le mode de vie est désactivé, définir les vies à 1
-    if (!playerLives.containsKey(player)) {
-      playerLives.put(player, lives);
+    if (!playerLives.containsKey(uuid)) {
+      playerLives.put(uuid, lives);
       updatePlayerXP(player, lives); // Met à jour la barre d'XP
     }
   }
