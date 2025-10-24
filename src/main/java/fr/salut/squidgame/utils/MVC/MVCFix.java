@@ -1,7 +1,6 @@
-package fr.salut.squidgame.extern.MVC;
+package fr.salut.squidgame.utils.MVC;
 
 import fr.salut.squidgame.SquidGame;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

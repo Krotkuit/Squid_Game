@@ -15,25 +15,19 @@ import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.ListenerManager.intance.WorldManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
-import fr.salut.squidgame.extern.MVC.MVCFix;
+import fr.salut.squidgame.utils.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookManager;
 import fr.salut.squidgame.menu.BookMenuListener;
 import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class SquidGame extends JavaPlugin{
 
