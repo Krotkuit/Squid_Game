@@ -31,6 +31,14 @@ commands:
     description: Commande pour gérer le mode CM.
     usage: /cm <prob|timer> <score>
     permission: sqg.admins.commands.cm
+  tac:
+    description: Commande pour gérer le mode TAC.
+    usage: /tac <ON|OFF|STOP|RESET|select>
+    permission: sqg.admins.commands.tac
+  splatoon:
+    description: Commande pour gérer le mode Splatoon.
+    usage: /splatoon <ON|OFF|STOP>
+    permission: sqg.admins.commands.splatoon
   lifemode:
     description: Commande pour gérer le mode de vie.
     usage: /lifemode <mode <ON|OFF>|getlifenumber <player>|lifeadd <player> <number>|lifenumber <number>|player <revive|reset <number>>>
@@ -48,10 +56,6 @@ commands:
     description: Affiche l'épreuve actuelle.
     usage: /getepreuve
     permission: sqg.admins.commands.getepreuve
-  tac:
-    description: Commande pour gérer le mode TAC.
-    usage: /tac <ON|OFF|STOP|RESET|select>
-    permission: sqg.admins.commands.tac
   armor:
     description: Commande pour gérer les armures colorées.
     usage: /armor <<target> <color>> <player>

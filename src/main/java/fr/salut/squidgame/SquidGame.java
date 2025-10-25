@@ -9,6 +9,8 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonManager;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
@@ -22,18 +24,12 @@ import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class SquidGame extends JavaPlugin{
 
@@ -44,6 +40,8 @@ public final class SquidGame extends JavaPlugin{
     @Setter @Getter
     private PRVState prvState = PRVState.OFF;
     private LTTEState ltteState = LTTEState.OFF;
+    @Setter @Getter
+    private SplatoonState splatoonState = SplatoonState.OFF;
     @Getter
     private final List<Player> playersWithTNT = new ArrayList<>();
 
@@ -88,6 +86,7 @@ public final class SquidGame extends JavaPlugin{
             new LifeListener(),
             new TchatCommad(), // contient un listener
             new BookMenuListener(),
+            new SplatoonManager(this),
 
             // [ extern folder ] //
             new MVCFix(this)
@@ -108,6 +107,7 @@ public final class SquidGame extends JavaPlugin{
                 new TACCommand(),
                 new CarrouselCommand(),
                 new BGCommand(),
+                new SplatoonCommand(),
                 new LifeModeCommand(),
                 new TchatCommad(),
                 new ConfigsCommand()
