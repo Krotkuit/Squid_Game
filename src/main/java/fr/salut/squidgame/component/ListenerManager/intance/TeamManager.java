@@ -7,7 +7,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 public class TeamManager {
-  public static void Team_Instance()  {
+  public static void Team_Instance() {
 
     ScoreboardManager manager = Bukkit.getScoreboardManager();
     Scoreboard scoreboard = manager.getMainScoreboard();
@@ -31,9 +31,8 @@ public class TeamManager {
     }
 
 
-
     // Team garde
-     team = scoreboard.getTeam("garde");
+    team = scoreboard.getTeam("garde");
     if (team == null) {
       team = scoreboard.registerNewTeam("garde");
       team.setPrefix(ChatColor.LIGHT_PURPLE + "[Garde] ");

@@ -17,7 +17,7 @@ import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.ListenerManager.intance.WorldManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
-import fr.salut.squidgame.extern.MVC.MVCFix;
+import fr.salut.squidgame.utils.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookManager;
 import fr.salut.squidgame.menu.BookMenuListener;
 import fr.skytasul.glowingentities.GlowingEntities;
