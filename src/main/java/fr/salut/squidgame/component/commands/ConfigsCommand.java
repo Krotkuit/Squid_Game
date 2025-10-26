@@ -19,4 +19,10 @@ public class ConfigsCommand {
     public void onSGReloadSpec(){
         SquidGame.getInstance().getGameZoneManager().loadSpectator(true);
     }
+
+    @Subcommand("splatoon")
+    @CommandPermission("sqg.admins.commands.sgreload.splatoon")
+    public void onSGReloadSplatoon(){
+        SquidGame.getInstance().getSplatoonZoneManager().loadSplatoonZones(true);
+    }
 }

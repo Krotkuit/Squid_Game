@@ -34,8 +34,12 @@ public class WorldManager {
         Bukkit.getLogger().info("[SquidGame] Impossible de charger le monde : " + worldName);
       } else {
         //world.setDifficulty(Difficulty.PEACEFUL);
+        Bukkit.getLogger().info("world is charged ? : " + (Bukkit.getWorld(worldName.toLowerCase()) != null));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"execute in minecraft:" + worldName.toLowerCase() + " run difficulty peaceful");
         Bukkit.getLogger().info("MONDE : " + world);
+        Bukkit.getLogger().info("NOM DU MONDE : " + world.getName());
+        Bukkit.getLogger().info("DIFFICULTY DU MONDE : " + world.getDifficulty());
+        Bukkit.getLogger().info("monde : " + worldName.toLowerCase());
         Bukkit.getLogger().info("[SquidGame] Règle appliquée au monde : " + worldName);
       }
     }

@@ -11,6 +11,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
@@ -53,6 +54,9 @@ public final class SquidGame extends JavaPlugin{
     @Getter
     GameZoneManager gameZoneManager;
 
+    @Getter
+    ZoneManager splatoonZoneManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -63,10 +67,10 @@ public final class SquidGame extends JavaPlugin{
         //new PlayerNumberManager();
 
         TeamManager.Team_Instance();
-        new WorldManager().applyRuleToAllWorlds();
-
+        //new WorldManager().applyRuleToAllWorlds();
+        splatoonZoneManager = new ZoneManager(this);
         glowingEntities = new GlowingEntities(this);
-
+        gameZoneManager = new GameZoneManager(this);
 
         // Listener
         registerEvents(
@@ -81,7 +85,6 @@ public final class SquidGame extends JavaPlugin{
             new BaPManager(),
             //new TAC(),
             new CarrouselZoneCounter(this),
-            gameZoneManager = new GameZoneManager(this),
             new GunListener(),
             new LifeListener(),
             new TchatCommad(), // contient un listener
@@ -149,4 +152,5 @@ public final class SquidGame extends JavaPlugin{
             instance.getServer().getPluginManager().registerEvents(listener, instance);
         }
     }
+
 }

@@ -1,0 +1,9 @@
+Zone1:
+  world: worlds/SquidGame/Splatoon
+  xyz1: [100, 64, 100]
+  xyz2: [200, 80, 200]
+
+Zone2:
+  world: world
+  xyz1: [-21, 80, 53]
+  xyz2: [-41, 83, 78]
