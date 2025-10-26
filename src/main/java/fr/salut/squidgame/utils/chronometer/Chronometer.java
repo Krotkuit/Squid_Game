@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -162,7 +163,7 @@ public class Chronometer{
         activeTasks.computeIfAbsent(entityUUID, k -> new HashMap<>()).put(group, task);
     }
 
-    public static void startServerChronometer(String tag, String group, int time, ChronometerType messageType, String message, ChronometerType finishMessageType, String finishMessage) {
+    public static void startServerChronometer(String tag, Team team, String group, int time, ChronometerType messageType, String message, ChronometerType finishMessageType, String finishMessage) {
         serverChronometer.put(group, time);
         List<Player> players = new ArrayList<>();
 
@@ -174,11 +175,17 @@ public class Chronometer{
             @Override
             public void run() {
 
-                if (tag == null){
+                if (tag == null && team == null){
                     players.addAll(SquidGame.getInstance().getServer().getOnlinePlayers());
-                } else {
+                } else if (tag != null){
                     for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()){
                         if (player.getScoreboardTags().contains(tag)){
+                            players.add(player);
+                        }
+                    }
+                } else {
+                    for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
+                        if (team.getPlayers().contains(player)) {
                             players.add(player);
                         }
                     }

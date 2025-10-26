@@ -13,6 +13,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonM
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TTC.TTBManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.ListenerManager.intance.WorldManager;
@@ -89,6 +90,7 @@ public final class SquidGame extends JavaPlugin{
             new LifeListener(),
             new TchatCommad(), // contient un listener
             new BookMenuListener(),
+            new TTBManager(),
             new SplatoonManager(this),
 
             // [ extern folder ] //
@@ -113,7 +115,8 @@ public final class SquidGame extends JavaPlugin{
                 new SplatoonCommand(),
                 new LifeModeCommand(),
                 new TchatCommad(),
-                new ConfigsCommand()
+                new ConfigsCommand(),
+                new TTBCommand()
 
         );
 
@@ -152,5 +155,4 @@ public final class SquidGame extends JavaPlugin{
             instance.getServer().getPluginManager().registerEvents(listener, instance);
         }
     }
-
 }
