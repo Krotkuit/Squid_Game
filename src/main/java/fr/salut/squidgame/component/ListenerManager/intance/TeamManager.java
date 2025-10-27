@@ -2,15 +2,21 @@ package fr.salut.squidgame.component.ListenerManager.intance;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
-public class TeamManager {
+import java.util.ArrayList;
+import java.util.List;
+
+public class TeamManager{
+
+  private static final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+
   public static void Team_Instance() {
 
-    ScoreboardManager manager = Bukkit.getScoreboardManager();
-    Scoreboard scoreboard = manager.getMainScoreboard();
+
     Team team;
 
     // Team mort
@@ -38,5 +44,26 @@ public class TeamManager {
       team.setPrefix(ChatColor.LIGHT_PURPLE + "[Garde] ");
       team.setColor(ChatColor.WHITE);
     }
+  }
+
+  public static boolean hasTeamOnlinePlayers(Team team){
+    for (OfflinePlayer player : team.getPlayers()){
+      if (player.isOnline()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static List<Player> getTeamOnlinePlayers(Team team){
+
+    List<Player> players = new ArrayList<>();
+
+    for (OfflinePlayer player : team.getPlayers()){
+      if (player.isOnline()){
+        players.add(player.getPlayer());
+      }
+    }
+    return players;
   }
 }

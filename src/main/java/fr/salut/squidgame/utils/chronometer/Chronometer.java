@@ -1,6 +1,7 @@
 package fr.salut.squidgame.utils.chronometer;
 
 import fr.salut.squidgame.SquidGame;
+import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -184,11 +185,7 @@ public class Chronometer{
                         }
                     }
                 } else {
-                    for (Player player : SquidGame.getInstance().getServer().getOnlinePlayers()) {
-                        if (team.getPlayers().contains(player)) {
-                            players.add(player);
-                        }
-                    }
+                    players.addAll(TeamManager.getTeamOnlinePlayers(team));
                 }
 
                 int remainingTime = serverChronometer.get(group);
