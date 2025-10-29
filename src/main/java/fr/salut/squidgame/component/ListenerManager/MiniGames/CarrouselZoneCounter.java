@@ -34,7 +34,8 @@ public class CarrouselZoneCounter implements Listener {
   private void initSalles() {
     World world = Bukkit.getWorld("worlds/SquidGame/Carrousel");
     if (world == null) {
-      throw new IllegalStateException("Le monde 'worlds/SquidGame/Carrousel' est introuvable.");
+      Bukkit.getLogger().warning("Le monde 'worlds/SquidGame/Carrousel' est introuvable.");
+      return;
     }
 
     // Définition des 25 salles
