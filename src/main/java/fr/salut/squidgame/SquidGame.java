@@ -9,6 +9,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.RouletteRusse.RouletteRusseManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
@@ -92,6 +93,7 @@ public final class SquidGame extends JavaPlugin{
             new BookMenuListener(),
             new TTBManager(),
             new SplatoonManager(this),
+            new RouletteRusseManager(),
 
             // [ extern folder ] //
             new MVCFix(this)
@@ -116,7 +118,8 @@ public final class SquidGame extends JavaPlugin{
                 new LifeModeCommand(),
                 new TchatCommad(),
                 new ConfigsCommand(),
-                new TTBCommand()
+                new TTBCommand(),
+                new RouletteRusseCommand(this)
 
         );
 

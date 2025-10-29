@@ -39,6 +39,10 @@ commands:
     description: Commande pour gérer le mode Splatoon.
     usage: /splatoon <ON|OFF|STOP>
     permission: sqg.admins.commands.splatoon
+  rouletterusse:
+    description: Commande pour gérer le mode RouletteRusse.
+    usage: /rouletterusse <ON|OFF|STOP>
+    permission: sqg.admins.commands.rouletterusse
   lifemode:
     description: Commande pour gérer le mode de vie.
     usage: /lifemode <mode <ON|OFF>|getlifenumber <player>|lifeadd <player> <number>|lifenumber <number>|player <revive|reset <number>>>
