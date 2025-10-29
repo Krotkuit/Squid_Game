@@ -266,16 +266,19 @@ public class RouletteTeam {
 
 
     // Détermine le prochain joueur
-    if (fromPass) {
+    if (fromPass) { // Cas où le joueur a passé son tour
       forcedDoubleShot = false;
       currentIndex = (currentIndex + 1) % players.size();
-    } else if (forcedDoubleShot || roundsPlayed == 1){
+    } else if (forcedDoubleShot || roundsPlayed == 1){ // Cas où le joueur doit tirer deux fois de suite
       forcedDoubleShot = false;
       mustShootNext = true;
       roundsPlayed++;
-    } else {
-      currentIndex = (currentIndex + 1) % players.size();
+    } else if (roundsPlayed == 2) { // Cas où le joueur qui a tiré deux fois de suite a fini son tour
+      currentIndex = (currentIndex + 2) % players.size();
       roundsPlayed = 0;
+      mustShootNext = false;
+    } else { // Cas normal
+      currentIndex = (currentIndex + 1) % players.size();
       mustShootNext = false;
     }
 
