@@ -80,7 +80,7 @@ public class RouletteTeam {
     for (Player player : Bukkit.getOnlinePlayers()) {
       player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.8f, 1.0f);
       player.sendMessage(ChatColor.DARK_RED + "L’équipe " + ChatColor.BOLD + name +
-          ChatColor.DARK_RED + " a éliminé " + deathCount + " joueurs !");
+          ChatColor.DARK_RED + " a terminé le jeu !");
     }
     players.clear();
   }
