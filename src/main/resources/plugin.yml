@@ -41,7 +41,7 @@ commands:
     permission: sqg.admins.commands.splatoon
   rouletterusse:
     description: Commande pour gérer le mode RouletteRusse.
-    usage: /rouletterusse <ON|OFF|STOP>
+    usage: /rouletterusse <ON|OFF|STOP|MORT>
     permission: sqg.admins.commands.rouletterusse
   lifemode:
     description: Commande pour gérer le mode de vie.

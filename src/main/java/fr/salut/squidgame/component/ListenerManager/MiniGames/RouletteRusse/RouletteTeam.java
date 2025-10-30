@@ -16,16 +16,20 @@ public class RouletteTeam {
 
   private final String name;
   @Getter
-  private final List<Player> players = new ArrayList<>();
+  public final List<Player> players = new ArrayList<>();
   private final Map<UUID, Integer> order = new HashMap<>();
   private final Map<UUID, Boolean> lastTurnPassed = new HashMap<>();
   private final Map<UUID, Boolean> hasUsedAnvil = new HashMap<>();
+  private final Map<UUID, Boolean> hasCheckedAmmo = new HashMap<>();
+
 
 
   private int currentIndex = 0;
   private boolean forcedDoubleShot = false;
   private boolean mustShootNext = false;
   private int roundsPlayed = 0;
+  public static int MAX_DEATHS = 3;
+  private int deathCount = 0;
 
   private final Map<UUID, Integer> playerAmmo = new HashMap<>();
   private final int MAX_AMMO = 6; // nombre de tirs avant que le joueur meure
@@ -43,7 +47,7 @@ public class RouletteTeam {
     players.add(player);
     order.put(player.getUniqueId(), players.size());
     playerAmmo.put(player.getUniqueId(), new Random().nextInt(MAX_AMMO) + 1); // tire aléatoire entre 1 et MAX_AMMO
-    Bukkit.broadcastMessage(ChatColor.AQUA + player.getName() + " a rejoint l’équipe " + ChatColor.BOLD + name);
+    Bukkit.getLogger().info(ChatColor.AQUA + player.getName() + " a rejoint l’équipe " + ChatColor.BOLD + name);
     hasUsedAnvil.put(player.getUniqueId(), false);
 
   }
@@ -53,47 +57,76 @@ public class RouletteTeam {
     players.remove(player);
     order.remove(player.getUniqueId());
     lastTurnPassed.remove(player.getUniqueId());
+    hasCheckedAmmo.put(player.getUniqueId(), false);
   }
 
   // ---- GESTION DU TOUR ----
   public void resetForNewGame() {
     currentIndex = 0;
     forcedDoubleShot = false;
+    mustShootNext = false;
+    roundsPlayed = 0;
     lastTurnPassed.clear();
+
+    Collections.shuffle(players);
   }
+
+  private void stopTeamGame() {
+    for (Player p : players) {
+      p.sendTitle(ChatColor.RED + "Fin de la partie !",
+           "§7" + deathCount + " joueurs ont été éliminés !",
+          10, 60, 10);
+    }
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.8f, 1.0f);
+      player.sendMessage(ChatColor.DARK_RED + "L’équipe " + ChatColor.BOLD + name +
+          ChatColor.DARK_RED + " a éliminé " + deathCount + " joueurs !");
+    }
+    players.clear();
+  }
+
 
   public void startTurn() {
     if (players.isEmpty()) return;
     Player current = players.get(currentIndex);
-    Bukkit.broadcastMessage(ChatColor.GOLD + "C’est au tour de " + ChatColor.BOLD + current.getName() + " (" + name + ")");
+    for (Player player : players) {
+      player.sendMessage("§6C’est au tour de §l" + current.getName());
+    }
     giveTurnItems(current);
   }
 
   private void giveTurnItems(Player player) {
     PlayerInventory inv = player.getInventory();
 
-    // Flèche spéciale pour tirer
-    ItemStack arrow = new ItemStack(Material.ARROW, 1);
-    ItemMeta arrowMeta = arrow.getItemMeta();
-    arrowMeta.setDisplayName(ChatColor.RED + "Tir - Roulette Russe");
-    arrow.setItemMeta(arrowMeta);
+    // Gun spéciale pour tirer
+    ItemStack crossbow = new ItemStack(Material.CROSSBOW, 1);
+    ItemMeta crossbowMeta = crossbow.getItemMeta();
+    crossbowMeta.setDisplayName(ChatColor.RED + "Tir");
+    crossbow.setItemMeta(crossbowMeta);
 
     // Papier spécial pour passer le tour
     ItemStack paper = new ItemStack(Material.PAPER, 1);
     ItemMeta paperMeta = paper.getItemMeta();
-    paperMeta.setDisplayName(ChatColor.YELLOW + "Passer le tour - Roulette Russe");
+    paperMeta.setDisplayName(ChatColor.YELLOW + "Passer le tour");
     paper.setItemMeta(paperMeta);
 
     // Enclume spéciale pour reset le barillet
-    ItemStack anvil = new ItemStack(Material.ANVIL, 1);
+    ItemStack anvil = new ItemStack(Material.ARROW, 1);
     ItemMeta anvilMeta = anvil.getItemMeta();
-    anvilMeta.setDisplayName(ChatColor.GRAY + "Réinitialiser le barillet - Roulette Russe");
+    anvilMeta.setDisplayName(ChatColor.GRAY + "Réinitialiser le barillet");
     anvil.setItemMeta(anvilMeta);
 
-    // Ajoute les items à l’inventaire
-    inv.addItem(arrow, paper, anvil);
+    // Oeil de l'end spécial pour regarder le barillet
+    ItemStack enderEye = new ItemStack(Material.ENDER_EYE, 1);
+    ItemMeta enderEyeMeta = enderEye.getItemMeta();
+    enderEyeMeta.setDisplayName(ChatColor.BLUE + "Regarder dans le barillet");
+    enderEye.setItemMeta(enderEyeMeta);
 
-    player.sendMessage(ChatColor.GREEN + "C’est ton tour ! Tu as reçu : une flèche (tir) et un papier (passer ton tour).");
+
+    // Ajoute les items à l’inventaire
+    inv.addItem(crossbow, paper, anvil, enderEye);
+
+    player.sendMessage(ChatColor.GREEN + "C’est ton tour !");
   }
 
   public void removeTurnItems(Player player) {
@@ -108,18 +141,43 @@ public class RouletteTeam {
 
       String name = meta.getDisplayName();
       // Retire uniquement les items du tour
-      if (name.equals(ChatColor.RED + "Tir - Roulette Russe") ||
-          name.equals(ChatColor.YELLOW + "Passer le tour - Roulette Russe") ||
-          name.equals(ChatColor.GRAY + "Réinitialiser le barillet - Roulette Russe")) {
+      if (name.equals(ChatColor.RED + "Tir") ||
+          name.equals(ChatColor.YELLOW + "Passer le tour") ||
+          name.equals(ChatColor.GRAY + "Réinitialiser le barillet") ||
+          name.equals(ChatColor.BLUE + "Regarder dans le barillet")) {
         inv.setItem(i, null);
       }
     }
-
-    player.sendMessage(ChatColor.GRAY + "Tes items du tour ont été retirés.");
   }
 
 
   // ---- ACTIONS ----
+  public void handleCheckAmmo(Player player) {
+    if (!isCurrentPlayer(player)) {
+      player.sendMessage(ChatColor.RED + "Ce n’est pas ton tour !");
+      return;
+    }
+
+    UUID uuid = player.getUniqueId();
+
+    // Vérifie s’il a déjà utilisé cette option
+    if (hasCheckedAmmo.getOrDefault(uuid, false)) {
+      player.sendMessage(ChatColor.RED + "Tu as déjà regardé dans ton barillet !");
+      player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 0.5f);
+      return;
+    }
+
+    int ammoLeft = playerAmmo.getOrDefault(uuid, MAX_AMMO);
+
+    // Envoi d’un message discret
+    player.sendMessage(ChatColor.GRAY + "§7Tu observes ton barillet... §8(§f" + ammoLeft + "§7 tours avant la mort§8)");
+    player.playSound(player.getLocation(), Sound.ITEM_SPYGLASS_USE, 1.0f, 1.0f);
+
+    // Marque l’utilisation
+    hasCheckedAmmo.put(uuid, true);
+  }
+
+
   public void handleReload(Player player) {
     if (!isCurrentPlayer(player)) {
       player.sendMessage(ChatColor.RED + "Ce n’est pas ton tour !");
@@ -139,8 +197,12 @@ public class RouletteTeam {
     int newAmmo = new Random().nextInt(MAX_AMMO) + 1;
     playerAmmo.put(uuid, newAmmo);
 
-    player.sendMessage(ChatColor.GRAY + "§7Tu fais tourner ton barillet... (§f" + newAmmo + "§7 tours avant la mort)");
-    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0f, 1.2f);
+    player.sendMessage(ChatColor.GRAY + "§7Tu fais tourner ton barillet...");
+    //player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0f, 1.2f);
+    for (Player playerInTeam : players) {
+      playerInTeam.playSound(player.getLocation(), Sound.ITEM_SPYGLASS_USE, 1.0f, 1.0f);
+      playerInTeam.sendMessage("§5" + player.getName() + "§d a fait tourner son barillet !");
+    }
 
     hasUsedAnvil.put(uuid, true);
   }
@@ -163,7 +225,14 @@ public class RouletteTeam {
     }
 
     lastTurnPassed.put(player.getUniqueId(), true);
-    Bukkit.broadcastMessage(ChatColor.YELLOW + player.getName() + " a choisi de passer son tour !");
+
+    for (Player playerInTeam : players) {
+      playerInTeam.sendMessage("§6" + player.getName() + "§e a choisi de passer son tour !");
+      playerInTeam.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 0.5f);
+      playerInTeam.sendTitle("§eC'est à §6" + players.get((currentIndex + 1 + players.size()) % players.size()).getName() + "§e de jouer !",
+          "§aLe joueur §2" + players.get(currentIndex).getName() + "§a a passé son tour",
+          10, 70, 20);
+    }
     mustShootNext = true;
     nextPlayer(true);
   }
@@ -174,7 +243,7 @@ public class RouletteTeam {
       return;
     }
 
-    Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " appuie sur la gâchette...");
+    //Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " appuie sur la gâchette...");
 
     UUID uuid = player.getUniqueId();
     int ammoLeft = playerAmmo.getOrDefault(uuid, MAX_AMMO);
@@ -183,20 +252,33 @@ public class RouletteTeam {
     playerAmmo.put(uuid, ammoLeft);
 
     for (Player teammate : players) {
-        teammate.playSound(player.getLocation(),
-            Sound.ENTITY_PLAYER_HURT,
-            1.0f,
-            1.3f);
+      teammate.sendMessage("§6" + player.getName() + "§e a choisi de tirer !");
+      teammate.playSound(player.getLocation(),
+          Sound.ENTITY_PLAYER_HURT,
+          1.0f,
+          0.5f);
     }
 
     if (ammoLeft <= 0) {
-      Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " est mort(e) !");
-      for (Player teammate : players) {
-        if (!teammate.equals(player)) {
-          teammate.playSound(player.getLocation(),
-              Sound.ENTITY_ARROW_SHOOT,
+      for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+        //onlinePlayer.sendMessage(ChatColor.DARK_RED + player.getName() + " éliminé(e) !");
+          onlinePlayer.playSound(player.getLocation(),
+              Sound.ITEM_CROSSBOW_SHOOT,
               1.0f,
               1.0f);
+      }
+      player.setHealth(0.0); // élimine le joueur
+      if (roundsPlayed > 0) {
+        for (Player teammate : players) {
+          teammate.sendTitle("§eC'est à §6" + players.get((currentIndex + 2 + players.size()) % players.size()).getName() + "§e de jouer !",
+              "§aLe joueur §2" + players.get(currentIndex).getName() + "§a a été éliminé",
+              10, 70, 20);
+        }
+      } else {
+        for (Player teammate : players) {
+          teammate.sendTitle("§eC'est à §6" + players.get((currentIndex + 1 + players.size()) % players.size()).getName() + "§e de jouer !",
+              "§aLe joueur §2" + players.get(currentIndex).getName() + "§a a été éliminé",
+              10, 70, 20);
         }
       }
 
@@ -204,9 +286,23 @@ public class RouletteTeam {
       playerAmmo.remove(uuid);
       players.remove(player);
 
+      deathCount++;
+
+// ✅ Vérifier si le nombre de morts dépasse le seuil
+      if (deathCount >= MAX_DEATHS || players.size() <= 1) {
+        stopTeamGame();
+        return;
+      }
+
       // Reset les flags
       mustShootNext = false;
       forcedDoubleShot = false;
+      if (roundsPlayed == 1) {
+        roundsPlayed = 0;
+        nextPlayer(false);
+        return;
+      }
+
 
       if (currentIndex >= players.size() || currentIndex == 0) {
         currentIndex = players.size()-1; // boucle sur le premier joueur restant
@@ -220,24 +316,50 @@ public class RouletteTeam {
 
       return;
     }
-    else if (mustShootNext && roundsPlayed > 0) {
-      Bukkit.broadcastMessage(ChatColor.GREEN + player.getName() + " a survécu au tir obligatoire !");
-      Bukkit.broadcastMessage("Il reste 1 tir obligatoire !");
-      Bukkit.broadcastMessage("Le joueur actuel est : " + players.get(currentIndex).getName());
-      Bukkit.broadcastMessage("Le joueur suivant est : " + players.get(currentIndex).getName());
+    else if (mustShootNext && roundsPlayed == 1) { // Cas où le joueur doit tirer une 2ème fois
+      for (Player playerInTeam : players) {
+        playerInTeam.sendMessage("§2" + player.getName() + "§a a survécu au 1er tir obligatoire !");
+        playerInTeam.sendTitle("§6" + players.get(currentIndex).getName() + "§e doit encore tirer !",
+            "§aIl reste un tir",
+            10, 70, 20);
+      }
+
+      //Bukkit.broadcastMessage("Il reste 1 tir obligatoire !");
+      //Bukkit.broadcastMessage("Le joueur actuel est : " + players.get(currentIndex).getName());
+      //Bukkit.broadcastMessage("Le joueur suivant est : " + players.get(currentIndex).getName());
       mustShootNext = true;
     }
-    else if (mustShootNext) {
-      Bukkit.broadcastMessage(ChatColor.GREEN + player.getName() + " a survécu au tir obligatoire !");
-      Bukkit.broadcastMessage("Le prochain tir sera un double tir !");
-      Bukkit.broadcastMessage("Le joueur actuel est : " + players.get(currentIndex).getName());
+    else if (mustShootNext && roundsPlayed == 2) { // Cas où le joueur a tiré 2 fois
+      for (Player playerInTeam : players) {
+        playerInTeam.sendTitle("§eC'est à §6" + players.get((currentIndex + 2 + players.size()) % players.size()).getName() + "§e de jouer !",
+            "§aLe joueur §2" + players.get(currentIndex).getName() + "§a n'a pas été éliminé",
+            10, 70, 20);
+      }
+    }
+    else if (mustShootNext) { // Cas où le joueur ne peut pas passer
+      for (Player playerInTeam : players) {
+        playerInTeam.sendMessage("§2" + player.getName() + "§a a survécu au tir obligatoire !");
+        playerInTeam.sendMessage("§dLe prochain tir sera un double tir !");
+        playerInTeam.sendTitle("§6" + players.get((currentIndex - 1 + players.size()) % players.size()).getName() + "§e doit tirer 2 fois !",
+            "§aLe joueur §2" + players.get(currentIndex).getName() + "§a n'a pas été éliminé",
+            10, 70, 20);
+      }
+
+      //Bukkit.broadcastMessage("Le joueur actuel est : " + players.get(currentIndex).getName());
       forcedDoubleShot = true;
       currentIndex = (currentIndex - 1 + players.size()) % players.size();
-      Bukkit.broadcastMessage("Le joueur suivant est : " + players.get(currentIndex).getName());
+
+      //Bukkit.broadcastMessage("Le joueur suivant est : " + players.get(currentIndex).getName());
       mustShootNext = false;
+    } else {
+      for (Player playerInTeam : players) {
+        playerInTeam.sendTitle("§eC'est à §6" + players.get((currentIndex + 1 + players.size()) % players.size()).getName() + "§e de jouer !",
+            "§aLe joueur §2" + players.get(currentIndex).getName() + "§a n'a pas été éliminé",
+            10, 70, 20);
+      }
     }
 
-    Bukkit.broadcastMessage(ChatColor.GREEN + player.getName() + " a survécu ! Il reste " + ammoLeft + " tir(s) avant la mort.");
+    //Bukkit.broadcastMessage(ChatColor.GREEN + player.getName() + " a survécu ! Il reste " + ammoLeft + " tir(s) avant la mort.");
     lastTurnPassed.put(uuid, false);
 
     nextPlayer(false);
@@ -284,7 +406,10 @@ public class RouletteTeam {
 
     // Donne le tour au joueur suivant
     Player nextPlayer = players.get(currentIndex);
-    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "C’est maintenant au tour de " + nextPlayer.getName());
+    for (Player player : players) {
+      player.sendMessage("§eC’est le tour de §6" + nextPlayer.getName());
+    }
+
     giveTurnItems(nextPlayer);
 
   }

@@ -3,6 +3,7 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.RouletteRusse;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,9 +45,10 @@ public class RouletteRusseManager implements Listener {
 
     if (!team.isCurrentPlayer(player)) return;
 
-    String shootName = ChatColor.RED + "Tir - Roulette Russe";
-    String passName = ChatColor.YELLOW + "Passer le tour - Roulette Russe";
-    String reloadName = ChatColor.GRAY + "Réinitialiser le barillet - Roulette Russe";
+    String shootName = ChatColor.RED + "Tir";
+    String passName = ChatColor.YELLOW + "Passer le tour";
+    String reloadName = ChatColor.GRAY + "Réinitialiser le barillet";
+    String checkName = ChatColor.BLUE + "Regarder dans le barillet";
 
     if (shootName.equals(displayName)) {
       event.setCancelled(true);
@@ -57,6 +59,9 @@ public class RouletteRusseManager implements Listener {
     } else if (reloadName.equals(displayName)) {
       event.setCancelled(true);
       team.handleReload(player);
+    } else if (checkName.equals(displayName)) {
+      event.setCancelled(true);
+      team.handleCheckAmmo(player);
     }
 
   }
@@ -67,21 +72,28 @@ public class RouletteRusseManager implements Listener {
   public static void startGame() {
     loadTeamsFromScoreboard();
     if (teams.isEmpty()) {
-      Bukkit.broadcastMessage(ChatColor.RED + "Aucune équipe n’est enregistrée pour la Roulette Russe !");
+      Bukkit.getLogger().info(ChatColor.RED + "Aucune équipe n’est enregistrée pour la Roulette Russe !");
       return;
     }
 
     gameRunning = true;
-    Bukkit.broadcastMessage(ChatColor.GOLD + "La Roulette Russe commence !");
     for (RouletteTeam team : teams.values()) {
       team.resetForNewGame();
       team.startTurn();
+      for (Player player : team.getPlayers()) {
+        player.sendMessage(ChatColor.AQUA + "La Roulette Russe commence !");
+        player.playSound(player.getLocation(), Sound.ITEM_SPYGLASS_USE, 1.0f, 0.3f);
+        player.sendTitle("§bLe jeu commence !",
+            "§eLe joueur qui commence est : §6" + team.players.get(0).getName(),
+            10, 70, 20);
+      }
+
     }
   }
 
   public static void stopGame() {
     if (!gameRunning) {
-      Bukkit.broadcastMessage(ChatColor.RED + "Aucun jeu de Roulette Russe n’est en cours.");
+      Bukkit.getLogger().info(ChatColor.RED + "Aucun jeu de Roulette Russe n’est en cours.");
       return;
     }
 
@@ -92,7 +104,7 @@ public class RouletteRusseManager implements Listener {
     }
 
     gameRunning = false;
-    Bukkit.broadcastMessage(ChatColor.RED + "La Roulette Russe est terminée !");
+    Bukkit.getLogger().info(ChatColor.RED + "La Roulette Russe est terminée !");
     teams.clear();
   }
 
@@ -122,13 +134,13 @@ public class RouletteRusseManager implements Listener {
 
       if (!rrTeam.getPlayers().isEmpty()) {
         teams.put(teamName, rrTeam);
-        Bukkit.broadcastMessage(ChatColor.GREEN + "Équipe détectée : " + ChatColor.YELLOW + teamName
+        Bukkit.getLogger().info(ChatColor.GREEN + "Équipe détectée : " + ChatColor.YELLOW + teamName
             + ChatColor.GRAY + " (" + rrTeam.getPlayers().size() + " joueurs)");
       }
     }
 
     if (teams.isEmpty()) {
-      Bukkit.broadcastMessage(ChatColor.RED + "Aucune des équipes autorisées n’a été trouvée sur le serveur !");
+      Bukkit.getLogger().info(ChatColor.RED + "Aucune des équipes autorisées n’a été trouvée sur le serveur !");
     }
   }
 
@@ -139,19 +151,19 @@ public class RouletteRusseManager implements Listener {
 
     // Vérifie si le nom est autorisé
     if (!allowedTeams.contains(lower)) {
-      Bukkit.broadcastMessage(ChatColor.RED + "L’équipe " + teamName + " n’est pas autorisée !");
-      Bukkit.broadcastMessage(ChatColor.GRAY + "Équipes autorisées : " + ChatColor.YELLOW + String.join(", ", allowedTeams));
+      Bukkit.getLogger().info(ChatColor.RED + "L’équipe " + teamName + " n’est pas autorisée !");
+      Bukkit.getLogger().info(ChatColor.GRAY + "Équipes autorisées : " + ChatColor.YELLOW + String.join(", ", allowedTeams));
       return;
     }
 
     // Vérifie si elle existe déjà
     if (teams.containsKey(lower)) {
-      Bukkit.broadcastMessage(ChatColor.RED + "L’équipe " + teamName + " existe déjà !");
+      Bukkit.getLogger().info(ChatColor.RED + "L’équipe " + teamName + " existe déjà !");
       return;
     }
 
     teams.put(lower, new RouletteTeam(lower));
-    Bukkit.broadcastMessage(ChatColor.GREEN + "Équipe " + lower + " ajoutée !");
+    Bukkit.getLogger().info(ChatColor.GREEN + "Équipe " + lower + " ajoutée !");
   }
 
   public static void addPlayerToTeam(String teamName, Player player) {
