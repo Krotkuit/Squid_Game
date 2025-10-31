@@ -47,22 +47,22 @@ public class SplatoonManager implements Listener {
   // Mapping équipe → couleur (pour blocs)
   private final Map<String, Material> teamConcrete = Map.of(
       "rouge", Material.RED_CONCRETE,
-      "bleu", Material.BLUE_CONCRETE,
-      "vert", Material.GREEN_CONCRETE,
+      "bleu_marine", Material.BLUE_CONCRETE,
+      "vert_profond", Material.GREEN_CONCRETE,
       "jaune", Material.YELLOW_CONCRETE
   );
 
   public static final Map<String, Material> teamWool = Map.of(
       "rouge", Material.RED_WOOL,
-      "bleu", Material.BLUE_WOOL,
-      "vert", Material.GREEN_WOOL,
+      "bleu_marine", Material.BLUE_WOOL,
+      "vert_profond", Material.GREEN_WOOL,
       "jaune", Material.YELLOW_WOOL
   );
 
   public static final Map<String, ChatColor> teamColorMap = Map.of(
       "rouge", ChatColor.RED,
-      "bleu", ChatColor.BLUE,
-      "vert", ChatColor.GREEN,
+      "bleu_marine", ChatColor.BLUE,
+      "vert_profond", ChatColor.GREEN,
       "jaune", ChatColor.YELLOW
   );
 
@@ -113,10 +113,10 @@ public class SplatoonManager implements Listener {
     for (Player p : Bukkit.getOnlinePlayers()) {
       Team team = Bukkit.getScoreboardManager().getMainScoreboard().getEntryTeam(p.getName());
       if (team != null && (team.getName().equalsIgnoreCase("rouge") ||
-          team.getName().equalsIgnoreCase("bleu") ||
-          team.getName().equalsIgnoreCase("vert") ||
+          team.getName().equalsIgnoreCase("bleu_marine") ||
+          team.getName().equalsIgnoreCase("vert_profond") ||
           team.getName().equalsIgnoreCase("jaune"))){
-          assignTeam(p, team.getName()); // Assure-toi que les noms match "rouge", "bleu", etc.
+          assignTeam(p, team.getName()); // Assure-toi que les noms match "rouge", "bleu_marine", etc.
       }
     }
   }
@@ -623,8 +623,8 @@ public class SplatoonManager implements Listener {
     // Vérifie s'il a une équipe sur le scoreboard
     Team team = Bukkit.getScoreboardManager().getMainScoreboard().getEntryTeam(p.getName());
     if (team != null && (team.getName().equalsIgnoreCase("rouge")
-        || team.getName().equalsIgnoreCase("bleu")
-        || team.getName().equalsIgnoreCase("vert")
+        || team.getName().equalsIgnoreCase("bleu_marine")
+        || team.getName().equalsIgnoreCase("vert_profond")
         || team.getName().equalsIgnoreCase("jaune"))) {
       assignTeam(p, team.getName());
       Bukkit.getLogger().info("[Splatoon] " + p.getName() + " ajouté automatiquement à l’équipe " + team.getName());
