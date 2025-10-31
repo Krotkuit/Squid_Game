@@ -8,8 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
+
+import fr.salut.squidgame.component.ListenerManager.MiniGames.RouletteRusse.RouletteTeam;
 
 import java.util.*;
 
@@ -66,7 +70,34 @@ public class RouletteRusseManager implements Listener {
 
   }
 
+  @EventHandler
+  public void onPlayerQuit(PlayerQuitEvent event) {
+    if (!gameRunning) return;
 
+    Player player = event.getPlayer();
+    RouletteTeam team = getTeamOf(player);
+
+    if (team != null) {
+      removePlayer(player);
+      if (RouletteTeam.isCurrentPlayer(player)) {
+        RouletteTeam.nextPlayer(false);
+      }
+    }
+  }
+
+  @EventHandler
+  public void onJoinEvent(PlayerJoinEvent event) {
+    if (!gameRunning) return;
+
+    Player player = event.getPlayer();
+    RouletteTeam team = getTeamOf(player);
+
+    if (team != null) {
+      team.addPlayer(player);
+      player.sendMessage(ChatColor.AQUA + "Bienvenue dans la partie de Roulette Russe en cours !");
+      team.giveTurnItems(player);
+    }
+  }
 
   // ---- GESTION DU JEU ----
   public static void startGame() {

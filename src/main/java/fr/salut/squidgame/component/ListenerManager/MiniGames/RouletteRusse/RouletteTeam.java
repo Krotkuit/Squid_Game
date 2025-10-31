@@ -16,7 +16,7 @@ public class RouletteTeam {
 
   private final String name;
   @Getter
-  public final List<Player> players = new ArrayList<>();
+  public static final List<Player> players = new ArrayList<>();
   private final Map<UUID, Integer> order = new HashMap<>();
   private final Map<UUID, Boolean> lastTurnPassed = new HashMap<>();
   private final Map<UUID, Boolean> hasUsedAnvil = new HashMap<>();
@@ -24,10 +24,10 @@ public class RouletteTeam {
 
 
 
-  private int currentIndex = 0;
-  private boolean forcedDoubleShot = false;
-  private boolean mustShootNext = false;
-  private int roundsPlayed = 0;
+  private static int currentIndex = 0;
+  private static boolean forcedDoubleShot = false;
+  private static boolean mustShootNext = false;
+  private static int roundsPlayed = 0;
   public static int MAX_DEATHS = 3;
   private int deathCount = 0;
 
@@ -95,7 +95,7 @@ public class RouletteTeam {
     giveTurnItems(current);
   }
 
-  private void giveTurnItems(Player player) {
+  public static void giveTurnItems(Player player) {
     PlayerInventory inv = player.getInventory();
 
     // Gun spéciale pour tirer
@@ -129,7 +129,7 @@ public class RouletteTeam {
     player.sendMessage(ChatColor.GREEN + "C’est ton tour !");
   }
 
-  public void removeTurnItems(Player player) {
+  public static void removeTurnItems(Player player) {
     if (player == null) return;
     PlayerInventory inv = player.getInventory();
 
@@ -366,7 +366,7 @@ public class RouletteTeam {
   }
 
 
-  private void nextPlayer(boolean fromPass) {
+  public static void nextPlayer(boolean fromPass) {
     if (players.isEmpty()) return;
 
     // Joueur qui vient de jouer
@@ -416,7 +416,7 @@ public class RouletteTeam {
 
 
 
-  public boolean isCurrentPlayer(Player player) {
+  public static boolean isCurrentPlayer(Player player) {
     return players.get(currentIndex).equals(player);
   }
 }
