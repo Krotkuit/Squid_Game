@@ -1,13 +1,17 @@
 package fr.salut.squidgame.component.commands.games;
 
 import fr.salut.squidgame.SquidGame;
-import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TAC;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
+import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.Vector;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Named;
@@ -23,11 +27,7 @@ import java.util.UUID;
 public class TACCommand {
 
     SquidGame plugin = SquidGame.getInstance();
-
-    @Getter
-    static final List<UUID> teamCorde1 = new ArrayList<>();
-    @Getter
-    static final List<UUID> teamCorde2 = new ArrayList<>();
+    private final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 
     @DefaultFor("~")
     public void bapDefault(Player sender){
@@ -35,58 +35,62 @@ public class TACCommand {
     }
 
     @Subcommand("ON")
+    @CommandPermission("spg.admins.commands.tac.ON")
     public void tacON(CommandSender sender){
         plugin.setTacState(TACState.ON);
         sender.sendMessage("§aTAC activé : jeux activé.");
-        TAC.startDetection();
-        TAC.CPS();
+        TACManager.startTAC();
     }
 
     @Subcommand("OFF")
+    @CommandPermission("spg.admins.commands.tac.OFF")
     public void tacOFF(CommandSender sender){
         plugin.setTacState(TACState.OFF);
         sender.sendMessage("§cTAC désactivé : jeux réinitailisé et désactivé.");
-        TAC.setClickTeam1(0);
-        TAC.setClickTeam2(0);
-        TAC.getIgnoredClicker().clear();
-        teamCorde1.clear();
-        teamCorde2.clear();
+        TACManager.team1Click = 0;
+        TACManager.team2Click = 0;
     }
 
-    @Subcommand("STOP")
-    public void tacSTOP(CommandSender sender){
-        plugin.setTacState(TACState.STOP);
-        sender.sendMessage("§eTAC en mode STOP : jeux mis en pause.");
-    }
     @Subcommand("RESET")
+    @CommandPermission("spg.admins.commands.tac.RESET")
     public void tacRESET(CommandSender sender){
         plugin.setTacState(TACState.RESET);
-        TAC.setClickTeam1(0);
-        TAC.setClickTeam2(0);
-        TAC.getIgnoredClicker().clear();
+        for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team1)){
+            player.removePotionEffect(PotionEffectType.SLOW);
+            player.setGravity(true);
+        }
+        for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team2)){
+            player.removePotionEffect(PotionEffectType.SLOW);
+            player.setGravity(true);
+        }
+        TACManager.team1Click = 0;
+        TACManager.team2Click = 0;
+        TACManager.playersTeam1.clear();
+        TACManager.playersTeam2.clear();
         sender.sendMessage("§eTAC reset");
     }
 
 
     @Subcommand("select")
-    public void tacSelectTeam(CommandSender sender, @Named("team1") String team1, @Named("team2") String team2){
-        Team t1 = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(team1);
-        Team t2 = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(team2);
-
-        if (t1==null || t2==null){
+    @CommandPermission("spg.admins.commands.tac.select")
+    public void tacSelectTeam(CommandSender sender,@Named("team") String team1,@Named("team") String team2){
+        if (team1==null || team2==null){
             sender.sendMessage("§eLes teams n'existent pas !");
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()){
-            if (t1.hasEntry(player.getName())){
-                player.addScoreboardTag("Corde1");
-                teamCorde1.add(player.getUniqueId());
-                continue;
-            }
-            if (t2.hasEntry(player.getName())){
-                player.addScoreboardTag("Corde2");
-                teamCorde2.add(player.getUniqueId());
-            }
-        }
+        TACManager.team1 = scoreboard.getTeam(team1);
+        TACManager.team2 = scoreboard.getTeam(team2);
+    }
+
+    @Subcommand("debug setclickt1")
+    @CommandPermission("spg.admins.commands.tac.debug.setclickt2")
+    public void debugSetClickTeam1(double clicks) {
+        TACManager.team1Click = clicks;
+    }
+
+    @Subcommand("debug setclickt2")
+    @CommandPermission("spg.admins.commands.tac.debug.setclickt2")
+    public void debugSetClickTeam2(double clicks) {
+        TACManager.team2Click = clicks;
     }
 }

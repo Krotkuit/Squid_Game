@@ -13,11 +13,11 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.RouletteRusse.Roul
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
-import fr.salut.squidgame.component.ListenerManager.MiniGames.TTC.TTBManager;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TTB.TTBManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
-import fr.salut.squidgame.component.ListenerManager.intance.WorldManager;
 import fr.salut.squidgame.component.commands.*;
 import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.utils.MVC.MVCFix;
@@ -85,7 +85,7 @@ public final class SquidGame extends JavaPlugin{
             new PRVListener(),
             new LTTEManager(),
             new BaPManager(),
-            //new TAC(),
+            new TACManager(),
             new CarrouselZoneCounter(this),
             new GunListener(),
             new LifeListener(),

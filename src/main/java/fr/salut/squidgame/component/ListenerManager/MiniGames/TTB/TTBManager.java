@@ -1,4 +1,4 @@
-package fr.salut.squidgame.component.ListenerManager.MiniGames.TTC;
+package fr.salut.squidgame.component.ListenerManager.MiniGames.TTB;
 
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
@@ -130,7 +130,7 @@ public class TTBManager implements Listener {
 
     @EventHandler
     public void onPlayerHitPlayer(EntityDamageByEntityEvent e) {
-        if (!EpreuveCommand.getEpreuve().equals("TTB")) return;
+        if (EpreuveCommand.getEpreuve().equals("TTB")) return;
         if (e.getDamager() instanceof Player player) {
             if (e.getEntity() instanceof Player target) {
                 Team team = scoreboard.getPlayerTeam(player);

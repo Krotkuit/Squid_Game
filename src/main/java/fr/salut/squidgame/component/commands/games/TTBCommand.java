@@ -1,6 +1,6 @@
 package fr.salut.squidgame.component.commands.games;
 
-import fr.salut.squidgame.component.ListenerManager.MiniGames.TTC.TTBManager;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.TTB.TTBManager;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.utils.chronometer.Chronometer;
 import fr.salut.squidgame.utils.chronometer.ChronometerType;
