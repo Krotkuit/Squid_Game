@@ -141,8 +141,8 @@ public class TACManager implements Listener {
             if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§a" + team1Click);
         }
         for (Player player : TeamManager.getTeamOnlinePlayers(team2)) {
-            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§a" + team1Click);
-            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§c" + team1Click);
+            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§a" + team2Click);
+            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§c" + team2Click);
         }
     }
 
