@@ -19,8 +19,9 @@ import java.util.*;
 
 public class RouletteRusseManager implements Listener {
 
+
   // Liste des équipes de la roulette russe
-  private static Map<String, RouletteTeam> teams = new HashMap<>();
+  private static final Map<String, RouletteTeam> teams = new HashMap<>();
 
   @Getter
   private static final List<String> allowedTeams = List.of(
@@ -67,7 +68,6 @@ public class RouletteRusseManager implements Listener {
       event.setCancelled(true);
       team.handleCheckAmmo(player);
     }
-
   }
 
   @EventHandler
@@ -78,9 +78,12 @@ public class RouletteRusseManager implements Listener {
     RouletteTeam team = getTeamOf(player);
 
     if (team != null) {
-      removePlayer(player);
-      if (RouletteTeam.isCurrentPlayer(player)) {
-        RouletteTeam.nextPlayer(false);
+      boolean wasCurrent = team.isCurrentPlayer(player); // stocker avant suppression
+      team.removePlayer(player);
+      Bukkit.getLogger().info("" + player.getName() + " a quitté sa table. " + team.players.size() + " joueurs restants.");
+      if (wasCurrent && !team.players.isEmpty()) {
+        team.nextPlayer(false);
+        team.removeTurnItems(player);
       }
     }
   }
@@ -92,10 +95,28 @@ public class RouletteRusseManager implements Listener {
     Player player = event.getPlayer();
     RouletteTeam team = getTeamOf(player);
 
-    if (team != null) {
-      team.addPlayer(player);
-      player.sendMessage(ChatColor.AQUA + "Bienvenue dans la partie de Roulette Russe en cours !");
-      team.giveTurnItems(player);
+    if (team == null) {
+      var scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+
+      // Parcourir toutes les équipes autorisées pour retrouver le joueur
+      for (String teamName : allowedTeams) {
+        Team scoreboardTeam = scoreboard.getTeam(teamName);
+
+        if (scoreboardTeam != null && scoreboardTeam.getEntries().contains(player.getName())) {
+          // Récupérer ou créer la RouletteTeam correspondante
+          team = teams.get(teamName);
+          if (team == null) {
+            team = new RouletteTeam(teamName);
+            teams.put(teamName, team);
+          }
+
+          // Ajouter le joueur
+          team.addPlayer(player);
+
+          Bukkit.getLogger().info(ChatColor.GREEN + "Joueur " + player.getName() + " réintégré à l'équipe " + teamName);
+          break;
+        }
+      }
     }
   }
 
@@ -167,6 +188,9 @@ public class RouletteRusseManager implements Listener {
         teams.put(teamName, rrTeam);
         Bukkit.getLogger().info(ChatColor.GREEN + "Équipe détectée : " + ChatColor.YELLOW + teamName
             + ChatColor.GRAY + " (" + rrTeam.getPlayers().size() + " joueurs)");
+        for (Player p : rrTeam.getPlayers()) {
+          Bukkit.getLogger().info(ChatColor.GRAY + " - " + ChatColor.AQUA + p.getName());
+        }
       }
     }
 
