@@ -3,7 +3,9 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -104,6 +106,30 @@ public class ZoneManager {
       this.world = world;
       this.xyz1 = xyz1.stream().mapToInt(i -> i).toArray();
       this.xyz2 = xyz2.stream().mapToInt(i -> i).toArray();
+    }
+  }
+
+  public static void clearWoolZones() {
+    for (ZoneData zone : zones.values()) {
+      int minX = Math.min(zone.xyz1[0], zone.xyz2[0]);
+      int maxX = Math.max(zone.xyz1[0], zone.xyz2[0]);
+      int minY = Math.min(zone.xyz1[1], zone.xyz2[1]);
+      int maxY = Math.max(zone.xyz1[1], zone.xyz2[1]);
+      int minZ = Math.min(zone.xyz1[2], zone.xyz2[2]);
+      int maxZ = Math.max(zone.xyz1[2], zone.xyz2[2]);
+
+      for (int x = minX; x <= maxX; x++) {
+        for (int y = minY; y <= maxY; y++) {
+          for (int z = minZ; z <= maxZ; z++) {
+            Block block = zone.world.getBlockAt(x, y, z);
+            Material mat = block.getType();
+            if (mat == Material.RED_WOOL || mat == Material.YELLOW_WOOL ||
+                mat == Material.GREEN_WOOL || mat == Material.BLUE_WOOL) {
+              block.setType(Material.WHITE_WOOL);
+            }
+          }
+        }
+      }
     }
   }
 

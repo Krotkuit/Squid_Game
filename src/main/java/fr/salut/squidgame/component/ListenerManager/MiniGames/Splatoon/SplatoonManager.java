@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -23,6 +24,8 @@ import org.bukkit.scoreboard.Team;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager.clearWoolZones;
 
 public class SplatoonManager implements Listener {
 
@@ -103,9 +106,18 @@ public class SplatoonManager implements Listener {
 
 
   public static void clearGame() {
+    for (String team : playerTeams.values()) {
+      // Retirer les pinceaux
+      for (Player p : Bukkit.getOnlinePlayers()) {
+        if (playerTeams.get(p.getUniqueId()) != null && playerTeams.get(p.getUniqueId()).equalsIgnoreCase(team)) {
+          removeBrush(p);
+        }
+      }
+    }
     paintLeft.clear();
     playerTeams.clear();
     recharging.clear();
+    clearWoolZones();
   }
 
 
@@ -594,7 +606,7 @@ public class SplatoonManager implements Listener {
   }
 
   @EventHandler
-  public void onPlayerDeath(org.bukkit.event.entity.PlayerDeathEvent e) {
+  public void onPlayerDeath(PlayerDeathEvent e) {
     Player p = e.getEntity();
     UUID id = p.getUniqueId();
 
@@ -701,6 +713,18 @@ public class SplatoonManager implements Listener {
     meta.setDisplayName(color + " Pinceau " + team.toLowerCase());
     meta.setUnbreakable(true);
     brush.setItemMeta(meta);
+    return brush;
+  }
+
+  public static ItemStack removeBrush(Player p) {
+    ItemStack brush = null;
+    for (ItemStack item : p.getInventory().getContents()) {
+      if (item != null && item.getType() == Material.BRUSH) {
+        brush = item;
+        p.getInventory().remove(item);
+        break;
+      }
+    }
     return brush;
   }
 
