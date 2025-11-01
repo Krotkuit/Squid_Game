@@ -30,8 +30,9 @@ public class TACManager implements Listener {
 
     private static final Vector west = new Vector(-1, 0, 0).normalize().multiply(0.1);
     private static final Vector east = new Vector(1, 0, 0).normalize().multiply(0.1);
-    private static final Vector up = new Vector(0, 1, 0).normalize().multiply(0.1);
-    private static final Vector down = new Vector(0, -1, 0).normalize().multiply(0.1);
+    private static final Vector upeast = new Vector(1, 1, 0).normalize().multiply(0.1);
+    private static final Vector upwest = new Vector(-1, 1, 0).normalize().multiply(0.1);
+    private static final Vector down = new Vector(0, -0.5, 0).normalize().multiply(0.1);
     private static final Vector endWest = new Vector(-2, 0, 0).normalize().multiply(0.1);
     private static final Vector endEast = new Vector(2, 0, 0).normalize().multiply(0.1);
 
@@ -120,9 +121,8 @@ public class TACManager implements Listener {
 
     private static void pushBackward(Player player, Team team) {
         if (new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 0.7, player.getLocation().getZ()).getBlock().getType().isAir()){
-            player.setVelocity(up);
-            if (team.equals(team1)) player.setVelocity(west);
-            if (team.equals(team2)) player.setVelocity(east);
+            if (team.equals(team1)) player.setVelocity(upwest);
+            if (team.equals(team2)) player.setVelocity(upeast);
             return;
         }
         if (team.equals(team1)){ // west
@@ -137,12 +137,12 @@ public class TACManager implements Listener {
 
     private void showClick(){
         for (Player player : TeamManager.getTeamOnlinePlayers(team1)) {
-            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§c" + team1Click);
-            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§a" + team1Click);
+            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§c" + team1Click + "§r§l | §r§6différnce : §l§c" + (team1Click-team2Click));
+            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§a" + team1Click + "§r§l | §r§6différnce : §l§a+" + (team1Click-team2Click));
         }
         for (Player player : TeamManager.getTeamOnlinePlayers(team2)) {
-            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§a" + team2Click);
-            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§c" + team2Click);
+            if (team1Click < team2Click) player.sendActionBar("§6Nombre de click : §l§a" + team2Click + "§r§l | §r§6différnce : §l§a+" + (team2Click-team1Click));
+            if (team2Click < team1Click) player.sendActionBar("§6Nombre de click : §l§c" + team2Click + "§r§l | §r§6différnce : §l§c" + (team2Click-team1Click));
         }
     }
 

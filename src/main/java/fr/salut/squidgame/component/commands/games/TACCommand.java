@@ -93,4 +93,10 @@ public class TACCommand {
     public void debugSetClickTeam2(double clicks) {
         TACManager.team2Click = clicks;
     }
+
+    @Subcommand("debug push")
+    public void debugPush(Player player){
+        player.setVelocity(new Vector(0, 1, 0).normalize().multiply(0.1));
+        player.setVelocity(new Vector(1, 0, 0).normalize().multiply(0.1));
+    }
 }
