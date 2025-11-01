@@ -96,8 +96,8 @@ public class TACManager implements Listener {
 
     private static void pushForward(Player player, Team team) {
         if (new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 0.7, player.getLocation().getZ()).getBlock().getType().isAir()){
-            if (playersTeam1.contains(player)) player.teleport(new Location(player.getWorld(), player.getLocation().getX() + 0.5, player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
-            if (playersTeam2.contains(player)) player.teleport(new Location(player.getWorld(), player.getLocation().getX() - 0.5, player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
+            if (playersTeam1.contains(player)) player.teleport(new Location(player.getWorld(), player.getLocation().getX() + 0.35, player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
+            if (playersTeam2.contains(player)) player.teleport(new Location(player.getWorld(), player.getLocation().getX() - 0.35, player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
             if (team.equals(team1)) playersTeam1.remove(player);
             if (team.equals(team2)) playersTeam2.remove(player);
 
