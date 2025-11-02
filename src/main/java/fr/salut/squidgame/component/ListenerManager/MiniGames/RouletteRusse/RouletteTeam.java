@@ -16,7 +16,7 @@ public class RouletteTeam {
 
   private final String name;
   @Getter
-  public static final List<Player> players = new ArrayList<>();
+  public final List<Player> players = new ArrayList<>();
   private final Map<UUID, Integer> order = new HashMap<>();
   private final Map<UUID, Boolean> lastTurnPassed = new HashMap<>();
   private final Map<UUID, Boolean> hasUsedAnvil = new HashMap<>();
@@ -47,7 +47,7 @@ public class RouletteTeam {
     players.add(player);
     order.put(player.getUniqueId(), players.size());
     playerAmmo.put(player.getUniqueId(), new Random().nextInt(MAX_AMMO) + 1); // tire aléatoire entre 1 et MAX_AMMO
-    Bukkit.getLogger().info(ChatColor.AQUA + player.getName() + " a rejoint l’équipe " + ChatColor.BOLD + name);
+    //Bukkit.getLogger().info(ChatColor.AQUA + player.getName() + " a rejoint l’équipe " + ChatColor.BOLD + name);
     hasUsedAnvil.put(player.getUniqueId(), false);
 
   }
@@ -366,7 +366,7 @@ public class RouletteTeam {
   }
 
 
-  public static void nextPlayer(boolean fromPass) {
+  public void nextPlayer(boolean fromPass) {
     if (players.isEmpty()) return;
 
     // Joueur qui vient de jouer
@@ -416,7 +416,7 @@ public class RouletteTeam {
 
 
 
-  public static boolean isCurrentPlayer(Player player) {
+  public boolean isCurrentPlayer(Player player) {
     return players.get(currentIndex).equals(player);
   }
 }

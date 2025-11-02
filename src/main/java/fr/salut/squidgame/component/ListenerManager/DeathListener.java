@@ -44,6 +44,11 @@ public class DeathListener implements Listener {
     player.addScoreboardTag("mort");
     player.removeScoreboardTag("vivant");
 
+    // Retirer le tag "no_move" s'il est présent
+    if (player.getScoreboardTags().contains("no_move")) {
+      player.removeScoreboardTag("no_move");
+    }
+
     // Ajouter le joueur à l'équipe "mort"
     team.addEntry(player.getName());
 
