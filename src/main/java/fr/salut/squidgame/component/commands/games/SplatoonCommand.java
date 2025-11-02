@@ -27,6 +27,7 @@ public class SplatoonCommand {
   private static SplatoonState splatoonState = SplatoonState.OFF;
 
   @Subcommand("ON")
+  @CommandPermission("spg.admin.splatoon.ON")
   public void splatoonON(Player sender) {
     splatoonState = SplatoonState.ON;
     SplatoonManager.startEpreuve();
@@ -34,6 +35,7 @@ public class SplatoonCommand {
   }
 
   @Subcommand("OFF")
+  @CommandPermission("spg.admin.splatoon.OFF")
   public void splatoonOFF(Player sender) {
     splatoonState = SplatoonState.OFF;
     SplatoonManager.clearGame();
@@ -42,6 +44,7 @@ public class SplatoonCommand {
   }
 
   @Subcommand("STOP")
+  @CommandPermission("spg.admin.splatoon.STOP")
   public void splatoonSTOP(Player sender) {
     splatoonState = SplatoonState.STOP;
     sender.sendMessage(ChatColor.RED + "Splatoon mis en pause.");
@@ -49,7 +52,7 @@ public class SplatoonCommand {
 
 
   @Subcommand("brushvalue")
-  @CommandPermission("spg.admin.splatoon")
+  @CommandPermission("spg.admin.splatoon.brushvalue")
   public void setBrushValue(Player sender, int value) {
     if (value < 1 || value > 5) {
       sender.sendMessage(ChatColor.RED + "La valeur du pinceau doit être compris entre 1 et 5.");
@@ -61,7 +64,7 @@ public class SplatoonCommand {
   }
 
   @Subcommand("rechargevalue")
-  @CommandPermission("spg.admin.splatoon")
+  @CommandPermission("spg.admin.splatoon.rechargevalue")
   public void setRechargeValue(Player sender, int value) {
     if (value < 1 || value > 20) {
       sender.sendMessage(ChatColor.RED + "Le nombre de recharges doit être compris entre 1 et 20.");
@@ -72,6 +75,12 @@ public class SplatoonCommand {
     sender.sendMessage(ChatColor.GREEN + "Les pinceaux ont maintenant §e" + rechargeValue + "§a unités de peinture.");
   }
 
+  @Subcommand("setknockback")
+  @CommandPermission("spg.admin.splatoon.setknockback")
+  public void setRechargeValue(Player sender, double value) {
+    sender.sendMessage(ChatColor.GREEN + "La puissance du recule a été set à §e" + value);
+    SplatoonManager.setKnockbackStrength(value);
+  }
 
   @Subcommand("count")
   @CommandPermission("sqg.admins.commands.splatoon.count")

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -40,6 +41,10 @@ public class SplatoonManager implements Listener {
 
   // Joueurs en train de recharger
   private static final Set<UUID> recharging = new HashSet<>();
+
+  //Puissance du knockback
+  @Setter
+  public static double knockbackStrength = 0.5;
 
   @Getter @Setter
   public static int brushValue = 1;
@@ -456,6 +461,15 @@ public class SplatoonManager implements Listener {
   /* ---------------------------------------------------------- */
   /* ---------------------- ÉVÉNEMENTS ------------------------- */
   /* ---------------------------------------------------------- */
+
+  @EventHandler
+  public void onPlayerHit(EntityDamageByEntityEvent event) {
+    if (event.getDamager() instanceof Player damager) {
+      if (event.getEntity() instanceof Player player) {
+        player.knockback(knockbackStrength, damager.getLocation().getX(), damager.getLocation().getZ());
+      }
+    }
+  }
 
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent e) {
