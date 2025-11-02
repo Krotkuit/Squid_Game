@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,7 +47,7 @@ public class SplatoonManager implements Listener {
 
   //Puissance du knockback
   @Setter
-  public static double knockbackStrength = 0.5;
+  public static int knockbackLevel = 1;
 
   @Getter @Setter
   public static int brushValue = 1;
@@ -466,9 +468,8 @@ public class SplatoonManager implements Listener {
   @EventHandler
   public void onPlayerHitPlayer(EntityDamageByEntityEvent event) {
     if (!SplatoonCommand.getSplatoonState().equals(SplatoonState.ON)) return;
-    if (event.getDamager() instanceof Player damager) {
-      if (event.getEntity() instanceof Player player) {
-        player.knockback(knockbackStrength, damager.getLocation().getX(), damager.getLocation().getZ());
+    if (event.getDamager() instanceof Player) {
+      if (event.getEntity() instanceof Player) {
         event.setCancelled(true);
       }
     }
@@ -734,6 +735,16 @@ public class SplatoonManager implements Listener {
 
     meta.setDisplayName(color + " Pinceau " + team.toLowerCase());
     meta.setUnbreakable(true);
+
+    meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+    meta.addEnchant(Enchantment.KNOCKBACK, knockbackLevel, true);
+    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+    if (TeamManager.getTeam(team).equals(TeamManager.teamRouge)) meta.setCustomModelData(1002);
+    if (TeamManager.getTeam(team).equals(TeamManager.teamJaune)) meta.setCustomModelData(1003);
+    if (TeamManager.getTeam(team).equals(TeamManager.teamVertProfond)) meta.setCustomModelData(1004);
+    if (TeamManager.getTeam(team).equals(TeamManager.teamBleuMarine)) meta.setCustomModelData(1005);
+
     brush.setItemMeta(meta);
     return brush;
   }

@@ -77,9 +77,9 @@ public class SplatoonCommand {
 
   @Subcommand("setknockback")
   @CommandPermission("spg.admin.splatoon.setknockback")
-  public void setRechargeValue(Player sender, double value) {
+  public void setKnockbackLevel(Player sender, int value) {
     sender.sendMessage(ChatColor.GREEN + "La puissance du recule a été set à §e" + value);
-    SplatoonManager.setKnockbackStrength(value);
+    SplatoonManager.setKnockbackLevel(value);
   }
 
   @Subcommand("count")

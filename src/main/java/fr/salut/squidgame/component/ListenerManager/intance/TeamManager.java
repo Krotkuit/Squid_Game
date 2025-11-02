@@ -79,4 +79,8 @@ public class TeamManager{
   public static Team getTeam(Player player){
     return scoreboard.getPlayerTeam(player);
   }
+
+  public static Team getTeam(String team){
+    return scoreboard.getTeam(team);
+  }
 }
