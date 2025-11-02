@@ -14,8 +14,12 @@ public class TeamManager{
 
   private static final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 
-  public static void Team_Instance() {
+  public static Team teamRouge;
+  public static Team teamJaune;
+  public static Team teamVertProfond;
+  public static Team teamBleuMarine;
 
+  public static void Team_Instance() {
 
     Team team;
 
@@ -44,6 +48,11 @@ public class TeamManager{
       team.setPrefix(ChatColor.LIGHT_PURPLE + "[Garde] ");
       team.setColor(ChatColor.WHITE);
     }
+
+    teamRouge = scoreboard.getTeam("rouge");
+    teamJaune = scoreboard.getTeam("jaune");
+    teamVertProfond = scoreboard.getTeam("vert_profond");
+    teamBleuMarine = scoreboard.getTeam("bleu_marine");
   }
 
   public static boolean hasTeamOnlinePlayers(Team team){
@@ -65,5 +74,9 @@ public class TeamManager{
       }
     }
     return players;
+  }
+
+  public static Team getTeam(Player player){
+    return scoreboard.getPlayerTeam(player);
   }
 }

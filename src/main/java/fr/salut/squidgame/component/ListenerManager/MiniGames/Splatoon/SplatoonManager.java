@@ -1,5 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon;
 
+import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.games.SplatoonCommand;
 import lombok.Getter;
 import lombok.Setter;
@@ -463,10 +464,12 @@ public class SplatoonManager implements Listener {
   /* ---------------------------------------------------------- */
 
   @EventHandler
-  public void onPlayerHit(EntityDamageByEntityEvent event) {
+  public void onPlayerHitPlayer(EntityDamageByEntityEvent event) {
+    if (!SplatoonCommand.getSplatoonState().equals(SplatoonState.ON)) return;
     if (event.getDamager() instanceof Player damager) {
       if (event.getEntity() instanceof Player player) {
         player.knockback(knockbackStrength, damager.getLocation().getX(), damager.getLocation().getZ());
+        event.setCancelled(true);
       }
     }
   }
@@ -551,6 +554,7 @@ public class SplatoonManager implements Listener {
 
     if (paintLeft.get(p.getUniqueId()) <= 0) {
       p.sendActionBar(ChatColor.YELLOW + "Retourne à ta base pour recharger ton pinceau !");
+      changeBrushColor(p, 0);
       p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.4f, 1.9f);
     }
   }
@@ -677,6 +681,10 @@ public class SplatoonManager implements Listener {
           paintLeft.put(p.getUniqueId(), rechargeValue);
           p.sendActionBar(ChatColor.GREEN + "Ton pinceau est rechargé !");
           p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.2f);
+          if (TeamManager.getTeam(p).equals(TeamManager.teamRouge)) changeBrushColor(p, 1);
+          if (TeamManager.getTeam(p).equals(TeamManager.teamJaune)) changeBrushColor(p, 2);
+          if (TeamManager.getTeam(p).equals(TeamManager.teamVertProfond)) changeBrushColor(p, 3);
+          if (TeamManager.getTeam(p).equals(TeamManager.teamBleuMarine)) changeBrushColor(p, 4);
           cancel();
           return;
         }
@@ -742,4 +750,30 @@ public class SplatoonManager implements Listener {
     return brush;
   }
 
+  private static void changeBrushColor(Player player, int index) {
+    ItemStack brush = null;
+    for (ItemStack item : player.getInventory().getContents()) {
+      if (item != null && item.getType().equals(Material.BRUSH)) {
+        brush = item;
+        return;
+      }
+    }
+    if (brush!=null){
+
+      ItemMeta brushMeta = brush.getItemMeta();
+
+      if (brushMeta != null) {
+
+        switch (index) {
+          case 0 -> brushMeta.setCustomModelData(1001); // blanc
+          case 1 -> brushMeta.setCustomModelData(1002); // rouge
+          case 2 -> brushMeta.setCustomModelData(1003); // jaune
+          case 3 -> brushMeta.setCustomModelData(1004); // vert
+          case 4 -> brushMeta.setCustomModelData(1005); // bleu
+        }
+      }
+
+      brush.setItemMeta(brushMeta);
+    }
+  }
 }
