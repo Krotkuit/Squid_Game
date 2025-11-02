@@ -755,7 +755,7 @@ public class SplatoonManager implements Listener {
     for (ItemStack item : player.getInventory().getContents()) {
       if (item != null && item.getType().equals(Material.BRUSH)) {
         brush = item;
-        return;
+        break;
       }
     }
     if (brush!=null){
