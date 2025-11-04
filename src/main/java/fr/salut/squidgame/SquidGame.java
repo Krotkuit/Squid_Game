@@ -6,6 +6,7 @@ import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.BaP.BaPManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LTTE.LTTEState;
+import fr.salut.squidgame.component.ListenerManager.MiniGames.LoupGlace.LoupGlaceManager;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVListener;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.PRV.PRVState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.CarrouselZoneCounter;
@@ -94,6 +95,7 @@ public final class SquidGame extends JavaPlugin{
             new TTBManager(),
             new SplatoonManager(this),
             new RouletteRusseManager(),
+            new LoupGlaceManager(),
 
             // [ extern folder ] //
             new MVCFix(this)
@@ -103,23 +105,24 @@ public final class SquidGame extends JavaPlugin{
 
         // Load les commandes aussi
         CommandManager.getHandler().register(
-                new BaPCommand(),
-                new LTTECommand(this),
-                new MoveDetectionCmd(),
-                new PRVCommand(),
-                //new NickNameCommands(),
-                new MenuCommand(),
-                new ArmorCommand(),
-                new CMCommand(),
-                new TACCommand(),
-                new CarrouselCommand(),
-                new BGCommand(),
-                new SplatoonCommand(),
-                new LifeModeCommand(),
-                new TchatCommad(),
-                new ConfigsCommand(),
-                new TTBCommand(),
-                new RouletteRusseCommand(this)
+            new BaPCommand(),
+            new LTTECommand(this),
+            new MoveDetectionCmd(),
+            new PRVCommand(),
+            //new NickNameCommands(),
+            new MenuCommand(),
+            new ArmorCommand(),
+            new CMCommand(),
+            new TACCommand(),
+            new CarrouselCommand(),
+            new BGCommand(),
+            new SplatoonCommand(),
+            new LifeModeCommand(),
+            new TchatCommad(),
+            new ConfigsCommand(),
+            new TTBCommand(),
+            new RouletteRusseCommand(this),
+            new LoupGlaceCommand()
 
         );
 
