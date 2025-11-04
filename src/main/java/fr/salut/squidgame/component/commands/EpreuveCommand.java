@@ -14,7 +14,8 @@ public class EpreuveCommand implements TabExecutor, TabCompleter {
 
   private static final List<String> EPREUVES = Arrays.asList(
     "Dortoir", "123Soleil", "ArcEnCiel", "BAP", "Bille", "BriseGlace", "CacheCache", "Carrousel", "ChaiseMusicale",
-    "CordeASauter", "LTTE", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise", "Splatoon", "TAC", "TTB", "RouletteRusse"
+    "ChampiMouv", "CordeASauter", "LTTE", "LoupGlace", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise", "Splatoon",
+      "TAC", "TTB", "RouletteRusse"
   );
 
   private static String epreuve = "Lobby"; // Valeur par défaut
