@@ -29,11 +29,17 @@ public class WorldManager {
       String worldName = worldDir.toString();
 
       // Charger ou récupérer le monde
-      World world = Bukkit.getWorld(worldName);
+      World world = Bukkit.getWorld(worldName.toLowerCase());
+      World world2 = Bukkit.getWorld(worldName);
+      World world3 = Bukkit.getWorld(worldDir.getName());
+      Bukkit.getLogger().warning("[SquidGame] world1 : " + world + "exists: " + (world != null));
+      Bukkit.getLogger().warning("[SquidGame] world2 : " + world2 + "exists: " + (world2 != null));
+      Bukkit.getLogger().warning("[SquidGame] world3 : " + world3 + "exists: " + (world3 != null));
       if (world == null) {
         Bukkit.getLogger().info("[SquidGame] Impossible de charger le monde : " + worldName);
       } else {
-        //world.setDifficulty(Difficulty.PEACEFUL);
+        world.setDifficulty(Difficulty.PEACEFUL);
+        Bukkit.getLogger().info("[SquidGame] Difficulté du monde " + worldName + " définie sur Peaceful.");
         Bukkit.getLogger().info("world is charged ? : " + (Bukkit.getWorld(worldName.toLowerCase()) != null));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"execute in minecraft:" + worldName.toLowerCase() + " run difficulty peaceful");
         Bukkit.getLogger().info("MONDE : " + world);

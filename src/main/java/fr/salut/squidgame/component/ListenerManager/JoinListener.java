@@ -31,7 +31,7 @@ public class JoinListener implements Listener {
       return;
     }
     //PlayerRightListener.giveRight(player);
-    player.teleport(new Location(Bukkit.getWorld("world"), -35.5, -57, 31.5));
+    player.teleport(new Location(Bukkit.getWorld("worlds/SquidGame/Dortoir"), 4.5, 66, 50.5));
     Bukkit.getScheduler().runTaskLater(
         Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
           player.setGameMode(GameMode.ADVENTURE);
@@ -91,7 +91,7 @@ public class JoinListener implements Listener {
     Team team_p = player.getScoreboard().getEntryTeam(player.getName());
     if (team_p == null) return;
     if (team_p.getName().equalsIgnoreCase("mort")){
-      player.teleport(new Location(Bukkit.getWorld("world"), -41, -46, -3));
+      player.teleport(new Location(Bukkit.getWorld("worlds/SquidGame/Dortoir"), -1, 77, 16));
       Bukkit.getScheduler().runTaskLater(
           Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("SquidGame")), () -> {
             player.setGameMode(GameMode.SPECTATOR);

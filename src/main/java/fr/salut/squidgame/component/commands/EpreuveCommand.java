@@ -1,5 +1,7 @@
 package fr.salut.squidgame.component.commands;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,18 +16,13 @@ public class EpreuveCommand implements TabExecutor, TabCompleter {
 
   private static final List<String> EPREUVES = Arrays.asList(
     "Dortoir", "123Soleil", "ArcEnCiel", "BAP", "Bille", "BriseGlace", "CacheCache", "Carrousel", "ChaiseMusicale",
-    "CordeASauter", "LTTE", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise", "Splatoon", "TAC", "TTB", "RouletteRusse"
+    "ChampiMouv", "CordeASauter", "LTTE", "LoupGlace", "PRV", "Puissance4", "SquidGameAerien", "SalleGrise", "Splatoon",
+      "TAC", "TTB", "RouletteRusse"
   );
 
-  private static String epreuve = "Lobby"; // Valeur par défaut
-
-  public static void setEpreuve(String newEpreuve) {
-    epreuve = newEpreuve;
-  }
-
-  public static String getEpreuve() {
-    return epreuve;
-  }
+  @Getter
+  @Setter
+  private static String epreuve = "Dortoir"; // Valeur par défaut
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,7 +39,7 @@ public class EpreuveCommand implements TabExecutor, TabCompleter {
       }
 
       setEpreuve(newEpreuve);
-      Bukkit.broadcastMessage("§aL'épreuve a été définie sur : " + newEpreuve);
+      sender.sendMessage("§aL'épreuve a été définie sur : " + newEpreuve);
       return true;
     }
 

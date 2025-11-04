@@ -298,7 +298,7 @@ public class GameZoneManager implements Listener {
       }
 
       // Vérifie si la position est dans l'une des sous-zones du lobby
-      Zone lobbyZone = gameZones.get("Lobby");
+      Zone lobbyZone = gameZones.get("Dortoir");
       if (lobbyZone != null) {
         for (SubZone subZone : lobbyZone.subZones) {
           if (subZone.isInside(location)) {
@@ -321,14 +321,8 @@ public class GameZoneManager implements Listener {
 //      Bukkit.getLogger().info("Vérification de la zone pour le monde : " + worldName);
 
       // Vérifie si le monde est valide et correspond à l'épreuve actuelle
-      if ("Lobby".equalsIgnoreCase(EpreuveCommand.getEpreuve())) {
-        if (location.getWorld() == null || !location.getWorld().getName().equals("world")) {
-          return false;
-        }
-      } else {
-        if (location.getWorld() == null || !location.getWorld().getName().equals("worlds/SquidGame/" + EpreuveCommand.getEpreuve())) {
-          return false;
-        }
+      if (location.getWorld() == null || !location.getWorld().getName().equals("worlds/SquidGame/" + EpreuveCommand.getEpreuve())) {
+        return false;
       }
 
 
@@ -407,9 +401,7 @@ public class GameZoneManager implements Listener {
         double centerZ = (corner1.getZ() + corner2.getZ()) / 2;
 
         return new Location(
-            "Lobby".equalsIgnoreCase(EpreuveCommand.getEpreuve())
-                ? Bukkit.getWorld("world")
-                : Bukkit.getWorld("worlds/SquidGame/" + EpreuveCommand.getEpreuve()),
+            Bukkit.getWorld("worlds/SquidGame/" + EpreuveCommand.getEpreuve()),
             centerX,
             centerY,
             centerZ

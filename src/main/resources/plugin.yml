@@ -43,6 +43,10 @@ commands:
     description: Commande pour gérer le mode RouletteRusse.
     usage: /rouletterusse <ON|OFF|STOP|MORT>
     permission: sqg.admins.commands.rouletterusse
+  loupglace:
+    description: Commande pour gérer le mode LoupGlace.
+    usage: /loupglace <ON|OFF|STOP|SHUFFLE>
+    permission: sqg.admins.commands.loupglace
   lifemode:
     description: Commande pour gérer le mode de vie.
     usage: /lifemode <mode <ON|OFF>|getlifenumber <player>|lifeadd <player> <number>|lifenumber <number>|player <revive|reset <number>>>
