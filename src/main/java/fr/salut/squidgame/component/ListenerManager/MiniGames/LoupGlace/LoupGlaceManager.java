@@ -39,12 +39,17 @@ public class LoupGlaceManager implements Listener {
       "bleu_roi", "Bleu Roi",
       "vert_profond", "Vert Profond"
   );
+  private static LoupGlaceManager instance;
+
+  public LoupGlaceManager(){
+    instance = this; // évite les répétitions inutiles
+  }
 
   // Functions
   public static void startLoupGlace() {
     // Start the Loup Glace mini-game
     resetLoupGlace();
-    new LoupGlaceManager().startFrozenStatusTask();
+    instance.startFrozenStatusTask();
   }
 
   public static void offLoupGlace() {
@@ -56,6 +61,10 @@ public class LoupGlaceManager implements Listener {
   private static void resetLoupGlace() {
     playerFrozenStatus.clear();
     playerLastLocation.clear();
+    for (Map.Entry<UUID, BukkitTask> entry : snowTasks.entrySet()){
+      entry.getValue().cancel();
+    }
+    snowTasks.clear();
     // Reset the Loup Glace mini-game
   }
 
@@ -145,9 +154,7 @@ public class LoupGlaceManager implements Listener {
       // Exécute la commande pour réinitialiser le timer
       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard players set timer Timer 0");
       Bukkit.broadcastMessage(ChatColor.GOLD + "L'équipe " + allowedTeam.get(safeTeam.getName()) + " est entièrement gelée ! Le jeu est terminé.");
-      return;
     }
-
   }
 
 
