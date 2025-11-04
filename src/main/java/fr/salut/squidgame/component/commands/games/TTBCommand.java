@@ -40,6 +40,7 @@ public class TTBCommand {
             UUID bomber = TeamManager.getTeamOnlinePlayers(team).get(random.nextInt(TeamManager.getTeamOnlinePlayers(team).size())).getUniqueId();
 
             TTBManager.giveBombTo(Bukkit.getPlayer(bomber), null, team);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound squidgame:ttb_musique record @a[team=" + team.getName() + "]");
             for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.sendTitle("§6Début du jeu", "§c" + Bukkit.getPlayer(bomber).getName() + " à la bombe !");
             Chronometer.startServerChronometer(null, team, team.getName(), random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
         }

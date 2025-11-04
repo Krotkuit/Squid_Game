@@ -93,11 +93,18 @@ public class TTBManager implements Listener {
                 if (TeamManager.getTeamOnlinePlayers(team).size() > 5 - TTBCommand.maxDead){
                     UUID newBomber = TeamManager.getTeamOnlinePlayers(team).get(TTBCommand.random.nextInt(TeamManager.getTeamOnlinePlayers(team).size())).getUniqueId();
                     giveBombTo(Bukkit.getPlayer(newBomber), null, team);
-                    for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.sendTitle("§6Next Round", "§c" + Bukkit.getPlayer(newBomber).getName() + " à la bombe !");
+                    for (Player player : TeamManager.getTeamOnlinePlayers(team)) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stopsound @a[team=" + team.getName() + "]");
+                        player.sendTitle("§6Next Round", "§c" + Bukkit.getPlayer(newBomber).getName() + " à la bombe !");
+                    }
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound squidgame:ttb_musique record @a[team=" + team.getName() + "]");
                     Chronometer.startServerChronometer(null, team, team.getName(), TTBCommand.random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
                 } else {
                     bombers.remove(team);
-                    for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.sendMessage("§aVeuillez attendre que toutes les équipes aient fini ");
+                    for (Player player : TeamManager.getTeamOnlinePlayers(team)) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stopsound @a[team=" + team.getName() + "]");
+                        player.sendMessage("§aVeuillez attendre que toutes les équipes aient fini ");
+                    }
                     Team gardeTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("garde");
                     for (Player garde : TeamManager.getTeamOnlinePlayers(gardeTeam)){
                         garde.sendMessage("§eEquipe "+ team.getName() +"§a à fini");
@@ -153,7 +160,7 @@ public class TTBManager implements Listener {
                 for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.playSound(player, tickSound, 8, 1);
             }
         };
-        task.runTaskTimer(SquidGame.getInstance(), 0, 10); // Exécute toutes les secondes (20 ticks)
+        task.runTaskTimer(SquidGame.getInstance(), 0, 10);
 
         activeTask.put(team, task);
     }
@@ -168,7 +175,7 @@ public class TTBManager implements Listener {
                 for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.playSound(player, tickSound, 8, 1);
             }
         };
-        task.runTaskTimer(SquidGame.getInstance(), 0, 5); // Exécute toutes les secondes (20 ticks)
+        task.runTaskTimer(SquidGame.getInstance(), 0, 5);
 
         activeTask.replace(team, task);
     }}
