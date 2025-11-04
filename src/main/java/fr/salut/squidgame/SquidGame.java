@@ -73,7 +73,9 @@ public final class SquidGame extends JavaPlugin{
         //new WorldManager().applyRuleToAllWorlds();
         splatoonZoneManager = new ZoneManager(this);
         glowingEntities = new GlowingEntities(this);
+
         gameZoneManager = new GameZoneManager(this);
+        registerEvents(gameZoneManager);
 
         // Listener
         registerEvents(
