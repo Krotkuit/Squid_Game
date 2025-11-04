@@ -82,6 +82,10 @@ public class TACCommand {
         TACManager.team2 = scoreboard.getTeam(team2);
     }
 
+    @Subcommand("place")
+    @CommandPermission("spg.admins.commands.tac.place")
+    public void tacPlaceTeams() {TACManager.placePlayers();}
+
     @Subcommand("debug setclickt1")
     @CommandPermission("spg.admins.commands.tac.debug.setclickt2")
     public void debugSetClickTeam1(double clicks) {

@@ -3,15 +3,20 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.TAC;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,21 +43,54 @@ public class TACManager implements Listener {
 
     public static List<Player> playersTeam1 = new ArrayList<>();
     public static List<Player> playersTeam2 = new ArrayList<>();
+    private static final World TACW = Bukkit.getWorld("worlds/squidgame/tac");
+
+    private static final List<Block> team1Locs = List.of(
+            new Location(TACW, -23, 151, -127).getBlock(),
+            new Location(TACW, -22, 151, -129).getBlock(),
+            new Location(TACW, -21, 151, -127).getBlock(),
+            new Location(TACW, -20, 151, -129).getBlock(),
+            new Location(TACW, -19, 151, -127).getBlock(),
+            new Location(TACW, -18, 151, -129).getBlock(),
+            new Location(TACW, -17, 151, -127).getBlock(),
+            new Location(TACW, -16, 151, -129).getBlock(),
+            new Location(TACW, -15, 151, -127).getBlock(),
+            new Location(TACW, -14, 151, -129).getBlock()
+    );
+
+    private static final List<Block> team2Locs = List.of(
+            new Location(TACW, 21, 151, -129).getBlock(),
+            new Location(TACW, 20, 151, -127).getBlock(),
+            new Location(TACW, 19, 151, -129).getBlock(),
+            new Location(TACW, 18, 151, -127).getBlock(),
+            new Location(TACW, 17, 151, -129).getBlock(),
+            new Location(TACW, 16, 151, -127).getBlock(),
+            new Location(TACW, 15, 151, -129).getBlock(),
+            new Location(TACW, 14, 151, -127).getBlock(),
+            new Location(TACW, 13, 151, -129).getBlock(),
+            new Location(TACW, 12, 151, -127).getBlock()
+    );
 
     static BukkitRunnable gameTask;
 
     public static void startTAC(){
 
-        playersTeam1.addAll(TeamManager.getTeamOnlinePlayers(team1));
-        playersTeam2.addAll(TeamManager.getTeamOnlinePlayers(team2));
+        if (playersTeam1.isEmpty() || playersTeam2.isEmpty()){
+            SquidGame.getInstance().getLogger().warning("Teams not loaded, pls use ");
+            return;
+        }
 
         for (Player player : playersTeam1) {
             player.setGravity(false);
+            player.setFoodLevel(2);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true));
         }
         for (Player player : playersTeam2){
             player.setGravity(false);
+            player.setFoodLevel(2);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true));
         }
 
         gameTask = new BukkitRunnable() {
@@ -76,6 +114,37 @@ public class TACManager implements Listener {
 
             }
         }; gameTask.runTaskTimer(SquidGame.getInstance(), 0, 20);
+    }
+
+    public static void placePlayers() {
+
+        Player toTp = null;
+
+        if (team1 == null || team2 == null){
+            SquidGame.getInstance().getLogger().warning("Team 1 or Team 2 isn't set yet !");
+            return;
+        }
+
+        playersTeam1.addAll(TeamManager.getTeamOnlinePlayers(team1));
+        playersTeam2.addAll(TeamManager.getTeamOnlinePlayers(team2));
+
+        for (Block block : team1Locs){
+            for (Player player : playersTeam1){
+                if (toTp==null) toTp = player;
+                if (block.getLocation().distance(player.getLocation()) < block.getLocation().distance(toTp.getLocation())) toTp = player;
+            }
+            if (toTp!=null) toTp.teleport(block.getLocation());
+            toTp = null;
+        }
+
+        for (Block block : team2Locs){
+            for (Player player : playersTeam2){
+                if (toTp==null) toTp = player;
+                if (block.getLocation().distance(player.getLocation()) < block.getLocation().distance(toTp.getLocation())) toTp = player;
+            }
+            if (toTp!=null) toTp.teleport(block.getLocation());
+            toTp = null;
+        }
     }
 
     public static void stopTAC(Team looser, Team winner){
@@ -159,6 +228,13 @@ public class TACManager implements Listener {
             if (team.equals(team2)) team2Click ++;
             showClick();
         }
+    }
+
+    @EventHandler
+    public void onFoodRegen(FoodLevelChangeEvent event){
+        if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
+        event.getEntity().setFoodLevel(2);
+        event.setCancelled(true);
     }
 
     @EventHandler

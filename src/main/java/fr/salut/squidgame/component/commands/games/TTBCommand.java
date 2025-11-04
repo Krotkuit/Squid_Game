@@ -10,17 +10,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.Random;
 import java.util.UUID;
 
 @Command("ttb")
+@CommandPermission("spg.admins.commands.ttb")
 public class TTBCommand {
 
     public static double maxDead = 1;
     public static Random random = new Random();
 
     @Subcommand("set")
+    @CommandPermission("spg.admins.commands.ttb.set")
     public void tTCBet(CommandSender sender, double score){
         if (score <= 0) {
             sender.sendMessage("§cLa valeur doit être positive.");
@@ -31,6 +34,7 @@ public class TTBCommand {
     }
 
     @Subcommand("start")
+    @CommandPermission("spg.admins.commands.ttb.start")
     public void tTBStart(){
 
         TTBManager.addTeams();
@@ -47,6 +51,7 @@ public class TTBCommand {
     }
 
     @Subcommand("stop")
+    @CommandPermission("spg.admins.commands.ttb.stop")
     public void tTBStop() {
         TTBManager.stopGame();
         Chronometer.stopAllServerChronometer(null, ChronometerType.ACTION_BAR, "%null%");
