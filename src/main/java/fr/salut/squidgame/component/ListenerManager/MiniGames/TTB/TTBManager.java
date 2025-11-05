@@ -31,8 +31,11 @@ public class TTBManager implements Listener {
 
     private static final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 
-    private static final List<String> allowedTeams = List.of("dark_red", "rouge", "orange", "jaune", "vert_clair", "vert", "vert_profond",
-            "bleu", "cyan", "bleu_marine", "bleu_profond", "violet", "magenta", "rose", "blanc", "light_gray", "gris", "dark_gray", "black", "marron");
+    private static final List<String> allowedTeams = List.of(
+        "noir", "gris_fonce", "gris_clair", "blanc", "marron", "rose", "magenta",
+        "indigo", "bleu_marine", "bleu_roi", "bleu_ciel", "cyan", "vert_profond", "vert_citron",
+        "jaune", "or", "orange", "saumon", "bordeaux", "rouge"
+    );
     private final Map<Team, BukkitRunnable> activeTask = new HashMap<>();
 
     private final Sound exploseSound = Sound.ENTITY_GENERIC_EXPLODE;

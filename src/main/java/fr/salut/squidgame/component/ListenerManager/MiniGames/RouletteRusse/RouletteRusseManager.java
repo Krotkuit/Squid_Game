@@ -25,9 +25,9 @@ public class RouletteRusseManager implements Listener {
 
   @Getter
   private static final List<String> allowedTeams = List.of(
-      "dark_red", "rouge", "orange", "jaune", "vert_clair", "vert", "vert_profond",
-      "bleu", "cyan", "bleu_marine", "bleu_profond", "violet", "magenta", "rose",
-      "blanc", "light_gray", "gris", "dark_gray", "black", "marron"
+      "noir", "gris_fonce", "gris_clair", "blanc", "marron", "rose", "magenta",
+      "indigo", "bleu_marine", "bleu_roi", "bleu_ciel", "cyan", "vert_profond", "vert_citron",
+      "jaune", "or", "orange", "saumon", "bordeaux", "rouge"
   );
 
   // Indique si le jeu est en cours
