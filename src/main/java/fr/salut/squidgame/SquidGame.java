@@ -80,8 +80,8 @@ public final class SquidGame extends JavaPlugin{
         // Listener
         registerEvents(
             new JoinListener(),
-            new NoMoveTagListener(),
-            //new PlayerRightListener(),
+            new TagListener(),
+//            new PlayerRightListener(),
             new ArmorProtectionListener(),
             new MoveDetectListener(this),
             new DeathListener(),
