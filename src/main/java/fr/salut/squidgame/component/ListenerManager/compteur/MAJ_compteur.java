@@ -8,7 +8,7 @@ public class MAJ_compteur {
 
   public MAJ_compteur() {
     // mise à jour du compteur
-    World overworld = Bukkit.getWorld("world");
-    overworld.getBlockAt(-41,-60,-38).setType(Material.REDSTONE_BLOCK);
+    World overworld = Bukkit.getWorld("worlds/SquidGame/Dortoir");
+    overworld.getBlockAt(37, 82, -43).setType(Material.REDSTONE_BLOCK);
   }
 }
