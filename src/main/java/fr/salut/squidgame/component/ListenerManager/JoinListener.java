@@ -1,7 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
 import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
-import fr.salut.squidgame.component.ListenerManager.NumberPlayer.PlayerNumberManager;
 import fr.salut.squidgame.component.ListenerManager.armor.GiveArmorPlayer;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.scoreboard.Team;
 
@@ -17,6 +17,12 @@ import java.util.Objects;
 
 @Getter
 public class JoinListener implements Listener {
+
+  @EventHandler
+  public void onPlayerQuit(PlayerQuitEvent event) {
+    // mise à jour du compteur
+    new MAJ_compteur();
+  }
 
   @EventHandler
   public void onPlayerJoin(PlayerJoinEvent event) {
