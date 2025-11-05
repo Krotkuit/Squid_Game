@@ -300,22 +300,36 @@ public class GameZoneManager implements Listener {
       // Vérifie si la position est dans l'une des sous-zones du lobby
       Zone lobbyZone = gameZones.get("Dortoir");
       if (lobbyZone != null) {
-        for (SubZone subZone : lobbyZone.subZones) {
-          if (subZone.isInside(location)) {
-            return true;
+        for (Zone.SubZone subZone : lobbyZone.subZones) {
+          if (subZone.cyl) {
+            if (isInCylinder(location, subZone.getCylCenter(), subZone.getRadius(), subZone.getMinY(), subZone.getMaxY())) {
+              return true;
+            }
+          } else {
+            if (subZone.isInside(location)) {
+              return true;
+            }
           }
         }
       }
 
+
       // Vérifie si la position est dans l'une des sous-zones de la salle grise
       Zone SalleGriseZone = gameZones.get("SalleGrise");
       if (SalleGriseZone != null) {
-        for (SubZone subZone : SalleGriseZone.subZones) {
-          if (subZone.isInside(location)) {
-            return true;
+        for (Zone.SubZone subZone : SalleGriseZone.subZones) {
+          if (subZone.cyl) {
+            if (isInCylinder(location, subZone.getCylCenter(), subZone.getRadius(), subZone.getMinY(), subZone.getMaxY())) {
+              return true;
+            }
+          } else {
+            if (subZone.isInside(location)) {
+              return true;
+            }
           }
         }
       }
+
 
 //      String worldName = location.getWorld().getName();
 //      Bukkit.getLogger().info("Vérification de la zone pour le monde : " + worldName);
