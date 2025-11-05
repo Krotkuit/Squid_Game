@@ -5,18 +5,14 @@ import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -118,7 +114,7 @@ public class TACManager implements Listener {
 
     public static void placePlayers() {
 
-        Player toTp = null;
+        Block toTp = null;
 
         if (team1 == null || team2 == null){
             SquidGame.getInstance().getLogger().warning("Team 1 or Team 2 isn't set yet !");
@@ -128,21 +124,23 @@ public class TACManager implements Listener {
         playersTeam1.addAll(TeamManager.getTeamOnlinePlayers(team1));
         playersTeam2.addAll(TeamManager.getTeamOnlinePlayers(team2));
 
-        for (Block block : team1Locs){
-            for (Player player : playersTeam1){
-                if (toTp==null) toTp = player;
-                if (block.getLocation().distance(player.getLocation()) < block.getLocation().distance(toTp.getLocation())) toTp = player;
+        for (Player player : playersTeam1){
+            for (Block block : team1Locs){
+                if (toTp == null ) toTp = block;
+                if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
             }
-            if (toTp!=null) toTp.teleport(block.getLocation());
+            if (toTp == null) continue;
+            player.teleport(toTp.getLocation());
             toTp = null;
         }
 
-        for (Block block : team2Locs){
-            for (Player player : playersTeam2){
-                if (toTp==null) toTp = player;
-                if (block.getLocation().distance(player.getLocation()) < block.getLocation().distance(toTp.getLocation())) toTp = player;
+        for (Player player : playersTeam2){
+            for (Block block : team2Locs){
+                if (toTp == null ) toTp = block;
+                if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
             }
-            if (toTp!=null) toTp.teleport(block.getLocation());
+            if (toTp == null) continue;
+            player.teleport(toTp.getLocation());
             toTp = null;
         }
     }
@@ -222,7 +220,7 @@ public class TACManager implements Listener {
 
         if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
 
-        Team team = player.getScoreboard().getPlayerTeam(player);
+        Team team = TeamManager.getTeam(player);
         if (team!=null){
             if (team.equals(team1)) team1Click ++;
             if (team.equals(team2)) team2Click ++;
