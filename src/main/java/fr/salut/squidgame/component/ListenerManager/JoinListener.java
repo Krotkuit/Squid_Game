@@ -3,7 +3,9 @@ package fr.salut.squidgame.component.ListenerManager;
 import fr.salut.squidgame.component.ListenerManager.LifeMode.LifeListener;
 import fr.salut.squidgame.component.ListenerManager.armor.GiveArmorPlayer;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
+import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,8 +22,13 @@ public class JoinListener implements Listener {
 
   @EventHandler
   public void onPlayerQuit(PlayerQuitEvent event) {
+    Player player = event.getPlayer();
     // mise à jour du compteur
     new MAJ_compteur();
+    event.quitMessage(Component.empty());
+    for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))){
+      garde.sendMessage(ChatColor.YELLOW + "[" + TeamManager.getTeam(player).getName() + "] " + player.getName() + " left the game reason : " + event.getReason());
+    }
   }
 
   @EventHandler

@@ -23,7 +23,6 @@ public class TTBCommand {
     public static Random random = new Random();
 
     @Subcommand("set")
-    @CommandPermission("spg.admins.commands.ttb.set")
     public void tTCBet(CommandSender sender, double score){
         if (score <= 0) {
             sender.sendMessage("§cLa valeur doit être positive.");
@@ -34,7 +33,6 @@ public class TTBCommand {
     }
 
     @Subcommand("start")
-    @CommandPermission("spg.admins.commands.ttb.start")
     public void tTBStart(){
 
         TTBManager.addTeams();
@@ -51,7 +49,6 @@ public class TTBCommand {
     }
 
     @Subcommand("stop")
-    @CommandPermission("spg.admins.commands.ttb.stop")
     public void tTBStop() {
         TTBManager.stopGame();
         Chronometer.stopAllServerChronometer(null, ChronometerType.ACTION_BAR, "%null%");

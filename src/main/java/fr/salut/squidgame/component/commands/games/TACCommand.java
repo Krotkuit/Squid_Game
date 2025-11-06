@@ -36,7 +36,6 @@ public class TACCommand {
     }
 
     @Subcommand("ON")
-    @CommandPermission("spg.admins.commands.tac.ON")
     public void tacON(CommandSender sender){
         plugin.setTacState(TACState.ON);
         sender.sendMessage("§aTAC activé : jeux activé.");
@@ -44,7 +43,6 @@ public class TACCommand {
     }
 
     @Subcommand("OFF")
-    @CommandPermission("spg.admins.commands.tac.OFF")
     public void tacOFF(CommandSender sender){
         plugin.setTacState(TACState.OFF);
         sender.sendMessage("§cTAC désactivé : jeux réinitailisé et désactivé.");
@@ -68,7 +66,6 @@ public class TACCommand {
     }
 
     @Subcommand("RESET")
-    @CommandPermission("spg.admins.commands.tac.RESET")
     public void tacRESET(CommandSender sender){
         plugin.setTacState(TACState.RESET);
         for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team1)){
@@ -91,7 +88,6 @@ public class TACCommand {
 
 
     @Subcommand("select")
-    @CommandPermission("spg.admins.commands.tac.select")
     public void tacSelectTeam(CommandSender sender,@Named("team") String team1,@Named("team") String team2){
         if (team1==null || team2==null){
             sender.sendMessage("§eLes teams n'existent pas !");
@@ -102,17 +98,14 @@ public class TACCommand {
     }
 
     @Subcommand("place")
-    @CommandPermission("spg.admins.commands.tac.place")
     public void tacPlaceTeams() {TACManager.placePlayers();}
 
     @Subcommand("debug setclickt1")
-    @CommandPermission("spg.admins.commands.tac.debug.setclickt2")
     public void debugSetClickTeam1(double clicks) {
         TACManager.team1Click = clicks;
     }
 
     @Subcommand("debug setclickt2")
-    @CommandPermission("spg.admins.commands.tac.debug.setclickt2")
     public void debugSetClickTeam2(double clicks) {
         TACManager.team2Click = clicks;
     }
