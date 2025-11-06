@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -79,14 +80,14 @@ public class TACManager implements Listener {
         for (Player player : playersTeam1) {
             player.setGravity(false);
             player.setFoodLevel(2);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true, false));
         }
         for (Player player : playersTeam2){
             player.setGravity(false);
             player.setFoodLevel(2);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true, false));
         }
 
         gameTask = new BukkitRunnable() {
@@ -130,7 +131,7 @@ public class TACManager implements Listener {
                 if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
             }
             if (toTp == null) continue;
-            player.teleport(toTp.getLocation());
+            player.teleport(toTp.getLocation().toCenterLocation());
             toTp = null;
         }
 
@@ -140,7 +141,7 @@ public class TACManager implements Listener {
                 if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
             }
             if (toTp == null) continue;
-            player.teleport(toTp.getLocation());
+            player.teleport(toTp.getLocation().toCenterLocation());
             toTp = null;
         }
     }
@@ -232,6 +233,22 @@ public class TACManager implements Listener {
     public void onFoodRegen(FoodLevelChangeEvent event){
         if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
         event.getEntity().setFoodLevel(2);
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerHitBlock(BlockDamageEvent event){
+        if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
+        Player player = event.getPlayer();
+
+        if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
+
+        Team team = TeamManager.getTeam(player);
+        if (team!=null){
+            if (team.equals(team1)) team1Click ++;
+            if (team.equals(team2)) team2Click ++;
+            showClick();
+        }
         event.setCancelled(true);
     }
 
