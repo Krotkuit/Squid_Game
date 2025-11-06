@@ -48,7 +48,7 @@ public class InteractPlayerRight implements Listener {
 
     if (event.getClickedBlock() != null && materialsInterdits.contains(event.getClickedBlock().getType())) {
       event.setCancelled(true);
-      player.sendActionBar("§cTu n'es pas autoriser à utiliser ça !");
+      player.sendActionBar("§cTu n'es pas autorisé à utiliser ça !");
     }
   }
 }

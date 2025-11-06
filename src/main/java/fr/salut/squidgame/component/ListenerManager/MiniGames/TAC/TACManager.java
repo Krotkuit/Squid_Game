@@ -3,15 +3,15 @@ package fr.salut.squidgame.component.ListenerManager.MiniGames.TAC;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
@@ -42,30 +42,30 @@ public class TACManager implements Listener {
     public static List<Player> playersTeam2 = new ArrayList<>();
     private static final World TACW = Bukkit.getWorld("worlds/squidgame/tac");
 
-    private static final List<Block> team1Locs = List.of(
-            new Location(TACW, -23, 151, -127).getBlock(),
-            new Location(TACW, -22, 151, -129).getBlock(),
-            new Location(TACW, -21, 151, -127).getBlock(),
-            new Location(TACW, -20, 151, -129).getBlock(),
-            new Location(TACW, -19, 151, -127).getBlock(),
-            new Location(TACW, -18, 151, -129).getBlock(),
-            new Location(TACW, -17, 151, -127).getBlock(),
-            new Location(TACW, -16, 151, -129).getBlock(),
-            new Location(TACW, -15, 151, -127).getBlock(),
-            new Location(TACW, -14, 151, -129).getBlock()
+    private static final List<Location> team1Locs = List.of(
+            new Location(TACW, -22.5, 151, -126.5, -90, 0),
+            new Location(TACW, -21.5, 151, -128.5, -90, 0),
+            new Location(TACW, -20.5, 151, -126.5, -90, 0),
+            new Location(TACW, -19.5, 151, -128.5, -90, 0),
+            new Location(TACW, -18.5, 151, -126.5, -90, 0),
+            new Location(TACW, -17.5, 151, -128.5, -90, 0),
+            new Location(TACW, -16.5, 151, -126.5, -90, 0),
+            new Location(TACW, -15.5, 151, -128.5, -90, 0),
+            new Location(TACW, -14.5, 151, -126.5, -90, 0),
+            new Location(TACW, -13.5, 151, -128.5, -90, 0)
     );
 
-    private static final List<Block> team2Locs = List.of(
-            new Location(TACW, 21, 151, -129).getBlock(),
-            new Location(TACW, 20, 151, -127).getBlock(),
-            new Location(TACW, 19, 151, -129).getBlock(),
-            new Location(TACW, 18, 151, -127).getBlock(),
-            new Location(TACW, 17, 151, -129).getBlock(),
-            new Location(TACW, 16, 151, -127).getBlock(),
-            new Location(TACW, 15, 151, -129).getBlock(),
-            new Location(TACW, 14, 151, -127).getBlock(),
-            new Location(TACW, 13, 151, -129).getBlock(),
-            new Location(TACW, 12, 151, -127).getBlock()
+    private static final List<Location> team2Locs = List.of(
+            new Location(TACW, 21.5, 151, -128.5, 90, 0),
+            new Location(TACW, 20.5, 151, -126.5, 90, 0),
+            new Location(TACW, 19.5, 151, -128.5, 90, 0),
+            new Location(TACW, 18.5, 151, -126.5, 90, 0),
+            new Location(TACW, 17.5, 151, -128.5, 90, 0),
+            new Location(TACW, 16.5, 151, -126.5, 90, 0),
+            new Location(TACW, 15.5, 151, -128.5, 90, 0),
+            new Location(TACW, 14.5, 151, -126.5, 90, 0),
+            new Location(TACW, 13.5, 151, -128.5, 90, 0),
+            new Location(TACW, 12.5, 151, -126.5, 90, 0)
     );
 
     static BukkitRunnable gameTask;
@@ -76,6 +76,8 @@ public class TACManager implements Listener {
             SquidGame.getInstance().getLogger().warning("Teams not loaded, pls use ");
             return;
         }
+
+        TACW.setDifficulty(Difficulty.EASY);
 
         for (Player player : playersTeam1) {
             player.setGravity(false);
@@ -113,9 +115,8 @@ public class TACManager implements Listener {
         }; gameTask.runTaskTimer(SquidGame.getInstance(), 0, 20);
     }
 
-    public static void placePlayers() {
 
-        Block toTp = null;
+    public static void placePlayers() {
 
         if (team1 == null || team2 == null){
             SquidGame.getInstance().getLogger().warning("Team 1 or Team 2 isn't set yet !");
@@ -125,24 +126,53 @@ public class TACManager implements Listener {
         playersTeam1.addAll(TeamManager.getTeamOnlinePlayers(team1));
         playersTeam2.addAll(TeamManager.getTeamOnlinePlayers(team2));
 
-        for (Player player : playersTeam1){
-            for (Block block : team1Locs){
-                if (toTp == null ) toTp = block;
-                if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
+        // Créer des copies modifiables et INVERSER l'ordre
+        List<Location> availableTeam1Locs = new ArrayList<>(team1Locs);
+        List<Location> availableTeam2Locs = new ArrayList<>(team2Locs);
+
+        Collections.reverse(availableTeam1Locs);
+        Collections.reverse(availableTeam2Locs);
+
+        // Team 1 : assigner les joueurs aux positions les plus proches
+        assignPlayersToClosestLocations(playersTeam1, availableTeam1Locs);
+
+        // Team 2 : assigner les joueurs aux positions les plus proches
+        assignPlayersToClosestLocations(playersTeam2, availableTeam2Locs);
+    }
+
+    private static void assignPlayersToClosestLocations(List<Player> players, List<Location> locations) {
+        List<Player> unassignedPlayers = new ArrayList<>(players);
+
+        // Parcourir chaque position de 1 à 10
+        for (Location location : locations) {
+            if (unassignedPlayers.isEmpty()) break;
+
+            Player closestPlayer = null;
+            double minDistance = Double.MAX_VALUE;
+
+            // Trouver le joueur le plus proche de cette position
+            for (Player player : unassignedPlayers) {
+                double distance = player.getLocation().distance(location);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestPlayer = player;
+                }
             }
-            if (toTp == null) continue;
-            player.teleport(toTp.getLocation().toCenterLocation());
-            toTp = null;
+
+            // Téléporter le joueur le plus proche et le retirer de la liste
+            if (closestPlayer != null) {
+                closestPlayer.teleport(location);
+                unassignedPlayers.remove(closestPlayer);
+            }
         }
 
-        for (Player player : playersTeam2){
-            for (Block block : team2Locs){
-                if (toTp == null ) toTp = block;
-                if (player.getLocation().distance(block.getLocation()) < player.getLocation().distance(toTp.getLocation())) toTp = block;
+        // Si plus de 10 joueurs, répartir les restants sur les positions déjà utilisées
+        if (!unassignedPlayers.isEmpty()) {
+            int index = 0;
+            for (Player player : unassignedPlayers) {
+                player.teleport(locations.get(index % locations.size()));
+                index++;
             }
-            if (toTp == null) continue;
-            player.teleport(toTp.getLocation().toCenterLocation());
-            toTp = null;
         }
     }
 
@@ -151,14 +181,19 @@ public class TACManager implements Listener {
         gameTask.cancel();
         for (Player teamPlayer : TeamManager.getTeamOnlinePlayers(looser)){
             teamPlayer.setGravity(true);
+            teamPlayer.setFoodLevel(20);
             teamPlayer.removePotionEffect(PotionEffectType.SLOW);
+            teamPlayer.removePotionEffect(PotionEffectType.JUMP);
         }
         for (Player teamPlayer : TeamManager.getTeamOnlinePlayers(winner)){
             teamPlayer.setGravity(true);
+            teamPlayer.setFoodLevel(20);
             teamPlayer.removePotionEffect(PotionEffectType.SLOW);
+            teamPlayer.removePotionEffect(PotionEffectType.JUMP);
             if (winner.equals(team1)) teamPlayer.setVelocity(endWest);
             if (winner.equals(team2)) teamPlayer.setVelocity(endEast);
         }
+        TACW.setDifficulty(Difficulty.PEACEFUL);
         SquidGame.getInstance().setTacState(TACState.OFF);
     }
 
@@ -215,16 +250,22 @@ public class TACManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerClick(PlayerInteractEvent event){
+    public void onPlayerClick(PlayerAnimationEvent event){
         if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
+
         Player player = event.getPlayer();
 
         if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
 
+        // Vérifier si le joueur regarde un bloc (raytrace)
+        Block targetBlock = player.getTargetBlockExact(3); // 3 blocs de portée
+        if (targetBlock == null || targetBlock.getType().isAir()) return;
+        if (targetBlock.getType() != Material.valueOf("COPYCATS_COPYCAT_SHAFT")) return;
+
         Team team = TeamManager.getTeam(player);
-        if (team!=null){
-            if (team.equals(team1)) team1Click ++;
-            if (team.equals(team2)) team2Click ++;
+        if (team != null){
+            if (team.equals(team1)) team1Click++;
+            if (team.equals(team2)) team2Click++;
             showClick();
         }
     }
@@ -232,23 +273,16 @@ public class TACManager implements Listener {
     @EventHandler
     public void onFoodRegen(FoodLevelChangeEvent event){
         if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
-        event.getEntity().setFoodLevel(2);
-        event.setCancelled(true);
-    }
 
-    @EventHandler
-    public void onPlayerHitBlock(BlockDamageEvent event){
-        if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
-        Player player = event.getPlayer();
+        // Vérifier que c'est un joueur
+        if (!(event.getEntity() instanceof Player)) return;
 
+        Player player = (Player) event.getEntity();
+
+        // Vérifier que le joueur est dans une des équipes
         if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
 
-        Team team = TeamManager.getTeam(player);
-        if (team!=null){
-            if (team.equals(team1)) team1Click ++;
-            if (team.equals(team2)) team2Click ++;
-            showClick();
-        }
+        event.setFoodLevel(2);
         event.setCancelled(true);
     }
 
@@ -258,13 +292,5 @@ public class TACManager implements Listener {
         Player player = event.getPlayer();
         if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
         player.setGravity(!new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 0.7, player.getLocation().getZ()).getBlock().getType().isAir());
-    }
-
-    @EventHandler
-    public void onPlayerJump(PlayerJumpEvent event){
-        if (!SquidGame.getInstance().getTacState().equals(TACState.ON)) return;
-        Player player = event.getPlayer();
-        if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
-        event.setCancelled(true);
     }
 }

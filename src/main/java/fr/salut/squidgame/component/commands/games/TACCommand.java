@@ -6,6 +6,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.TAC.TACState;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
@@ -47,8 +48,23 @@ public class TACCommand {
     public void tacOFF(CommandSender sender){
         plugin.setTacState(TACState.OFF);
         sender.sendMessage("§cTAC désactivé : jeux réinitailisé et désactivé.");
+        for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team1)){
+            player.removePotionEffect(PotionEffectType.SLOW);
+            player.removePotionEffect(PotionEffectType.JUMP);
+            player.setGravity(true);
+            player.setFoodLevel(20);
+        }
+        for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team2)){
+            player.removePotionEffect(PotionEffectType.SLOW);
+            player.removePotionEffect(PotionEffectType.JUMP);
+            player.setGravity(true);
+            player.setFoodLevel(20);
+        }
+        Bukkit.getWorld("worlds/squidgame/tac").setDifficulty(Difficulty.PEACEFUL);
         TACManager.team1Click = 0;
         TACManager.team2Click = 0;
+        TACManager.playersTeam1.clear();
+        TACManager.playersTeam2.clear();
     }
 
     @Subcommand("RESET")
@@ -57,16 +73,19 @@ public class TACCommand {
         plugin.setTacState(TACState.RESET);
         for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team1)){
             player.removePotionEffect(PotionEffectType.SLOW);
+            player.removePotionEffect(PotionEffectType.JUMP);
             player.setGravity(true);
         }
         for (Player player : TeamManager.getTeamOnlinePlayers(TACManager.team2)){
             player.removePotionEffect(PotionEffectType.SLOW);
+            player.removePotionEffect(PotionEffectType.JUMP);
             player.setGravity(true);
         }
         TACManager.team1Click = 0;
         TACManager.team2Click = 0;
         TACManager.playersTeam1.clear();
         TACManager.playersTeam2.clear();
+        Bukkit.getWorld("worlds/squidgame/tac").setDifficulty(Difficulty.PEACEFUL);
         sender.sendMessage("§eTAC reset");
     }
 
