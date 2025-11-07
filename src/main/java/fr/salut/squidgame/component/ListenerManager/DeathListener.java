@@ -1,5 +1,6 @@
 package fr.salut.squidgame.component.ListenerManager;
 
+import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager;
 import fr.salut.squidgame.component.ListenerManager.compteur.MAJ_compteur;
 import fr.salut.squidgame.component.commands.EpreuveCommand;
@@ -15,6 +16,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static fr.salut.squidgame.component.ListenerManager.GameZone.GameZoneManager.gameZones;
@@ -29,6 +31,11 @@ public class DeathListener implements Listener {
 
     // rétablir les items
     Player player = event.getPlayer();
+    try {
+      SquidGame.getInstance().getLogWriter().log(player.getName() + " est mort");
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
     player.getInventory().setHelmet(new ItemStack(Material.AIR));
     Team team = player.getScoreboard().getEntryTeam(player.getName());
 

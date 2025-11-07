@@ -24,6 +24,7 @@ import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.utils.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookManager;
 import fr.salut.squidgame.menu.BookMenuListener;
+import fr.salut.squidgame.utils.log.LogWriter;
 import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,9 @@ public final class SquidGame extends JavaPlugin{
     @Getter
     ZoneManager splatoonZoneManager;
 
+    @Getter
+    LogWriter logWriter;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -67,6 +72,11 @@ public final class SquidGame extends JavaPlugin{
         new CommandManager();
         booksManager = new BookManager(this);
         booksManager.loadBooks(false);
+        try {
+            logWriter = new LogWriter();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         //new PlayerNumberManager();
 
         TeamManager.Team_Instance();
@@ -135,6 +145,12 @@ public final class SquidGame extends JavaPlugin{
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        try {
+            logWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         glowingEntities.disable();
 
