@@ -62,7 +62,7 @@ public class LifeModeCommand {
       Team team = player.getScoreboard().getEntryTeam(player.getName());
       if (team != null && team.getName().equalsIgnoreCase("garde")) continue;
 
-      Integer lives = lifeListener.getPlayerLives().get(player);
+      Integer lives = lifeListener.getPlayerLives().get(player.getUniqueId());
       if (lives != null && lives > 0) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join joueur " + player.getName());
         sender.sendMessage(ChatColor.GREEN + "Player " + player.getName() + " revived.");
@@ -106,7 +106,7 @@ public class LifeModeCommand {
     for (Entity entity : entities) {
       Player player = (Player) entity;
       UUID uuid = player.getUniqueId();
-      Integer currentLives = lifeListener.getPlayerLives().getOrDefault(player, 0);
+      Integer currentLives = lifeListener.getPlayerLives().getOrDefault(uuid, 0);
       int newLives = currentLives + number;
       lifeListener.getPlayerLives().put(uuid, newLives);
       lifeListener.updatePlayerXP(player, newLives); // Met à jour l'XP
