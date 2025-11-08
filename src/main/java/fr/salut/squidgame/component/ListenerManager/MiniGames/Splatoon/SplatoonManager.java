@@ -475,6 +475,8 @@ public class SplatoonManager implements Listener {
   public void onPlayerInteract(PlayerInteractEvent e) {
     Player p = e.getPlayer();
 
+    if (!playerTeams.containsKey(p.getUniqueId())) return;
+
     // 🔴 Si le jeu est en pause/STOP → message + annulation
     if (SplatoonCommand.getSplatoonState() == SplatoonState.STOP) {
       p.sendActionBar(ChatColor.RED + "Le jeu est en pause !");
@@ -485,7 +487,6 @@ public class SplatoonManager implements Listener {
     if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
     if (e.getClickedBlock() == null) return;
     if (e.getHand() != EquipmentSlot.HAND) return;
-    if (!playerTeams.containsKey(p.getUniqueId())) return;
 
 
     Block block = e.getClickedBlock();
