@@ -104,11 +104,9 @@ public class SplatoonManager implements Listener {
       if (p != null && p.isOnline()) {
         String team = playerTeams.get(playerId);
         p.getInventory().addItem(createBrush(team));
-        p.sendMessage(ChatColor.AQUA + "L'épreuve Splatoon commence !");
+        p.sendMessage(ChatColor.AQUA + "L'épreuve Splashtoon commence !");
       }
     }
-
-    Bukkit.broadcastMessage(ChatColor.GREEN + "La partie Splatoon est maintenant en cours !");
   }
 
 
@@ -449,8 +447,6 @@ public class SplatoonManager implements Listener {
 
     blockToZone.clear();
     allZones.clear();
-
-    Bukkit.broadcastMessage(ChatColor.GRAY + "[Splatoon] Toutes les zones ont été réinitialisées.");
   }
 
 
@@ -465,7 +461,7 @@ public class SplatoonManager implements Listener {
   /* ---------------------- ÉVÉNEMENTS ------------------------- */
   /* ---------------------------------------------------------- */
 
-  @EventHandler
+  //@EventHandler
   public void onPlayerHitPlayer(EntityDamageByEntityEvent event) {
     if (!SplatoonCommand.getSplatoonState().equals(SplatoonState.ON)) return;
     if (event.getDamager() instanceof Player) {
