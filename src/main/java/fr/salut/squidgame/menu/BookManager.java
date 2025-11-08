@@ -2,8 +2,10 @@ package fr.salut.squidgame.menu;
 
 
 import fr.salut.squidgame.SquidGame;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -45,6 +47,7 @@ public class BookManager {
             if (s == null) continue;
 
             String name = s.getString("name", key);
+            World world = Bukkit.getWorld(s.getString("world"));
             double x = s.getDouble("x");
             double y = s.getDouble("y");
             double z = s.getDouble("z");
@@ -53,7 +56,7 @@ public class BookManager {
             Material material = Material.matchMaterial(matName);
             if (material == null) material = Material.BOOK;
 
-            BookData book = new BookData(key, name, x, y, z, slot, material);
+            BookData book = new BookData(key, name, world, x, y, z, slot, material);
             books.put(key, book);
         }
 
@@ -72,7 +75,7 @@ public class BookManager {
 /**
  * Représente un livre dans la config
  */
-record BookData(String key, String name, double x, double y, double z, int slot, Material material) {
+record BookData(String key, String name, World world, double x, double y, double z, int slot, Material material) {
 
     @Override
     public String toString() {

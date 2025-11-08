@@ -49,17 +49,15 @@ public class BooksMenu {
         }
 
         owner.addScoreboardTag("tempBook");
-        World world = Bukkit.getWorld("world");
-        if (world == null) world = owner.getWorld();
-        Location loc = new Location(world, data.x(), data.y(), data.z());
+        Location loc = new Location(data.world(), data.x(), data.y(), data.z());
 
         if (loc == null) {
             SquidGame.getInstance().getLogger().warning("la location n'a pas été bien initialisée");
             return;
         }
 
-        world.getBlockAt(loc).setType(Material.REDSTONE_BLOCK);
-        world.getBlockAt(loc).setType(Material.AIR);
+        data.world().getBlockAt(loc).setType(Material.REDSTONE_BLOCK);
+        data.world().getBlockAt(loc).setType(Material.AIR);
         owner.closeInventory();
     }
 }
