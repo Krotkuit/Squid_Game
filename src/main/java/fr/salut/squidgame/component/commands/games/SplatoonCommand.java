@@ -4,6 +4,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonM
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -143,7 +144,9 @@ public class SplatoonCommand {
         default: color = ChatColor.WHITE; break;
       }
 
-      sender.sendMessage(color + team + " : " + count);
+      for (Player player : Bukkit.getOnlinePlayers()) {
+        player.sendMessage(color + team + " : " + count);
+      }
     }
   }
 
