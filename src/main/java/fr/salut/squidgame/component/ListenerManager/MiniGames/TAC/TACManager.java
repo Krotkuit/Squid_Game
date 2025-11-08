@@ -1,6 +1,5 @@
 package fr.salut.squidgame.component.ListenerManager.MiniGames.TAC;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import fr.salut.squidgame.SquidGame;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import org.bukkit.*;
@@ -8,11 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -41,6 +37,10 @@ public class TACManager implements Listener {
     public static List<Player> playersTeam1 = new ArrayList<>();
     public static List<Player> playersTeam2 = new ArrayList<>();
     private static final World TACW = Bukkit.getWorld("worlds/squidgame/tac");
+
+    private static final Map<Player, Integer> playersClicks = new HashMap<>();
+    private static final Map<Player, Integer> suspiciousPLayers = new HashMap<>();
+    private static final List<Player> stopClick = new ArrayList<>();
 
     private static final List<Location> team1Locs = List.of(
             new Location(TACW, -22.5, 151, -126.5, -90, 0),
@@ -80,12 +80,14 @@ public class TACManager implements Listener {
         TACW.setDifficulty(Difficulty.EASY);
 
         for (Player player : playersTeam1) {
+            playersClicks.put(player, 0);
             player.setGravity(false);
             player.setFoodLevel(2);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, PotionEffect.INFINITE_DURATION, 150, true, false));
         }
         for (Player player : playersTeam2){
+            playersClicks.put(player, 0);
             player.setGravity(false);
             player.setFoodLevel(2);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, PotionEffect.INFINITE_DURATION, 255, true, false));
@@ -95,6 +97,10 @@ public class TACManager implements Listener {
         gameTask = new BukkitRunnable() {
             @Override
             public void run() {
+                for (Map.Entry<Player, Integer> players : playersClicks.entrySet()){
+                    players.setValue(0);
+                }
+                stopClick.clear();
 
                 if (SquidGame.getInstance().getTacState().equals(TACState.OFF)) cancel();
                 if (SquidGame.getInstance().getTacState().equals(TACState.STOP)) return;
@@ -177,7 +183,6 @@ public class TACManager implements Listener {
     }
 
     public static void stopTAC(Team looser, Team winner){
-        System.out.println("stop");
         gameTask.cancel();
         for (Player teamPlayer : TeamManager.getTeamOnlinePlayers(looser)){
             teamPlayer.setGravity(true);
@@ -195,6 +200,13 @@ public class TACManager implements Listener {
         }
         TACW.setDifficulty(Difficulty.PEACEFUL);
         SquidGame.getInstance().setTacState(TACState.OFF);
+
+        for (Map.Entry<Player, Integer> players : suspiciousPLayers.entrySet())
+            SquidGame.getInstance().getLogger().info(players.getKey().getName() + " a dépassé / atteint le CPS : " + players.getValue());
+
+        suspiciousPLayers.clear();
+        stopClick.clear();
+        playersClicks.clear();
     }
 
     private static void pushForward(Player player, Team team) {
@@ -255,6 +267,8 @@ public class TACManager implements Listener {
 
         Player player = event.getPlayer();
 
+        if (stopClick.contains(player)) return;
+
         if (!playersTeam1.contains(player) && !playersTeam2.contains(player)) return;
 
         // Vérifier si le joueur regarde un bloc (raytrace)
@@ -264,6 +278,12 @@ public class TACManager implements Listener {
 
         Team team = TeamManager.getTeam(player);
         if (team != null){
+            playersClicks.put(player, 1);
+            if (playersClicks.get(player) >= 15) {
+                stopClick.add(player);
+                suspiciousPLayers.put(player, 1);
+                return;
+            }
             if (team.equals(team1)) team1Click++;
             if (team.equals(team2)) team2Click++;
             showClick();
