@@ -26,7 +26,7 @@ public class JoinListener implements Listener {
     new MAJ_compteur();
     event.setQuitMessage("");
     for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))){
-      garde.sendMessage(ChatColor.YELLOW + "[" + TeamManager.getTeam(player).getName() + "] " + player.getName() + " left the game reason : " + event.getReason());
+      garde.sendMessage(ChatColor.YELLOW + "[" + TeamManager.getTeam(player).getName() + "] " + player.getName() + " left the game");
     }
   }
 

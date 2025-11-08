@@ -4,10 +4,12 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonM
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.SplatoonState;
 import fr.salut.squidgame.component.ListenerManager.MiniGames.Splatoon.ZoneManager;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Subcommand;
@@ -27,14 +29,14 @@ public class SplatoonCommand {
   private static SplatoonState splatoonState = SplatoonState.OFF;
 
   @Subcommand("ON")
-  public void splatoonON(Player sender) {
+  public void splatoonON(CommandSender sender) {
     splatoonState = SplatoonState.ON;
     SplatoonManager.startEpreuve();
     sender.sendMessage(ChatColor.GREEN + "Splatoon activé !");
   }
 
   @Subcommand("OFF")
-  public void splatoonOFF(Player sender) {
+  public void splatoonOFF(CommandSender sender) {
     splatoonState = SplatoonState.OFF;
     SplatoonManager.clearGame();
     SplatoonManager.clearAllZones();
@@ -42,14 +44,14 @@ public class SplatoonCommand {
   }
 
   @Subcommand("STOP")
-  public void splatoonSTOP(Player sender) {
+  public void splatoonSTOP(CommandSender sender) {
     splatoonState = SplatoonState.STOP;
     sender.sendMessage(ChatColor.RED + "Splatoon mis en pause.");
   }
 
 
   @Subcommand("brushvalue")
-  public void setBrushValue(Player sender, int value) {
+  public void setBrushValue(CommandSender sender, int value) {
     if (value < 1 || value > 5) {
       sender.sendMessage(ChatColor.RED + "La valeur du pinceau doit être compris entre 1 et 5.");
       return;
@@ -71,13 +73,13 @@ public class SplatoonCommand {
   }
 
   @Subcommand("setknockback")
-  public void setKnockbackLevel(Player sender, int value) {
+  public void setKnockbackLevel(CommandSender sender, int value) {
     sender.sendMessage(ChatColor.GREEN + "La puissance du recule a été set à §e" + value);
     SplatoonManager.setKnockbackLevel(value);
   }
 
   @Subcommand("count")
-  public void onCountBlocks(Player player) {
+  public void onCountBlocks(CommandSender sender) {
     int redCount = 0;
     int yellowCount = 0;
     int greenCount = 0;
@@ -127,7 +129,7 @@ public class SplatoonCommand {
         .toList();
 
     // Affichage des résultats triés
-    player.sendMessage("§aNombre de blocs peints par équipe :");
+    sender.sendMessage("§aNombre de blocs peints par équipe :");
 
     for (Map.Entry<String, Integer> entry : sorted) {
       String team = entry.getKey();
@@ -142,7 +144,9 @@ public class SplatoonCommand {
         default: color = ChatColor.WHITE; break;
       }
 
-      player.sendMessage(color + team + " : " + count);
+      for (Player player : Bukkit.getOnlinePlayers()) {
+        player.sendMessage(color + team + " : " + count);
+      }
     }
   }
 

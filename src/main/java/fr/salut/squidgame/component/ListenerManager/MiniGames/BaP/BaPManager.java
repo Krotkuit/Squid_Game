@@ -40,7 +40,7 @@ public class BaPManager implements Listener {
 
   // ** Initialisation des zones **
   public void initializeZones() {
-    teamZones.put("bleu_marine", new int[]{39, 65, -35, 60, 68, -14});
+    teamZones.put("bleu_roi", new int[]{39, 65, -35, 60, 68, -14});
     teamZones.put("vert_profond", new int[]{39, 65, -57, 60, 68, -36});
 
     prisonZones.put("vert_profond", Arrays.asList(
@@ -48,7 +48,7 @@ public class BaPManager implements Listener {
         new int[]{31, 65, -13, 68, 68, -6},
         new int[]{61, 65, -35, 68, 68, -6}
     ));
-    prisonZones.put("bleu_marine", Arrays.asList(
+    prisonZones.put("bleu_roi", Arrays.asList(
         new int[]{31, 65, -65, 38, 68, -36},
         new int[]{31, 65, -65, 68, 68, -58},
         new int[]{61, 65, -65, 68, 68, -36}
@@ -165,7 +165,7 @@ public class BaPManager implements Listener {
         if (team == null) continue;
 
         String teamName = team.getName().toLowerCase();
-        if (!teamName.equals("bleu_marine") && !teamName.equals("vert_profond")) continue;
+        if (!teamName.equals("bleu_roi") && !teamName.equals("vert_profond")) continue;
 
         double distance = player.getLocation().distance(snowball.getLocation());
         if (distance < closestDistance) {
@@ -179,7 +179,7 @@ public class BaPManager implements Listener {
         closestPlayer.playSound(closestPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
         closestPlayer.setCompassTarget(snowball.getLocation());
       } else {
-        Bukkit.getLogger().warning("Aucun joueur proche dans les équipes bleu_marine ou vert_profond pour recevoir la balle !");
+        Bukkit.getLogger().warning("Aucun joueur proche dans les équipes bleu_roi ou vert_profond pour recevoir la balle !");
       }
     }
   }
@@ -250,7 +250,7 @@ public class BaPManager implements Listener {
     if (gardeTeam == null) return;
 
     // Compte le nombre de joueurs emprisonnés par équipe
-    int bleuMarinePrisoners = (int) playersInPrison.stream().filter(player -> isPlayerInTeam(player, "bleu_marine")).count();
+    int bleuMarinePrisoners = (int) playersInPrison.stream().filter(player -> isPlayerInTeam(player, "bleu_roi")).count();
     int vertProfondPrisoners = (int) playersInPrison.stream().filter(player -> isPlayerInTeam(player, "vert_profond")).count();
 
     // Envoie les informations à chaque garde
@@ -271,7 +271,7 @@ public class BaPManager implements Listener {
 
       player.setGlowing(false);
       String teamName = team.getName().toLowerCase();
-      if ((teamName.equals("bleu_marine") || teamName.equals("vert_profond"))
+      if ((teamName.equals("bleu_roi") || teamName.equals("vert_profond"))
           && player.getInventory().contains(Material.SNOWBALL)) {
         player.setGlowing(true);
       } else {
@@ -320,7 +320,7 @@ public class BaPManager implements Listener {
 
   private Location getPrisonSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -62, 0, 0);
+      case "bleu_roi" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -62, 0, 0);
       case "vert_profond" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -10, 180, 0);
       default -> null;
     };
@@ -328,7 +328,7 @@ public class BaPManager implements Listener {
 
   private Location getTeamSpawn(String teamName) {
     return switch (teamName.toLowerCase()) {
-      case "bleu_marine" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -25, 0, 0);
+      case "bleu_roi" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -25, 0, 0);
       case "vert_profond" -> new Location(Bukkit.getWorld("worlds/SquidGame/BAP"), 49, 65, -47, 180, 0);
       default -> null;
     };

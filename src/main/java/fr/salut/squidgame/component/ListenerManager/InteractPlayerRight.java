@@ -22,8 +22,8 @@ public class InteractPlayerRight implements Listener {
 
     if (team != null && team.getName().equalsIgnoreCase("garde")) return;
 
-    World world = Bukkit.getWorld(player.getUniqueId());
-    if (world != null && !world.getName().equalsIgnoreCase("worlds/SquidGame/Dortoir")) return;
+    World world = player.getWorld();
+    if (!world.getName().equalsIgnoreCase("worlds/SquidGame/Dortoir")) return;
 
     List<Material> materialsInterdits = Arrays.asList(
         Material.LEVER,

@@ -5,6 +5,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.LoupGlace.LoupGlac
 import fr.salut.squidgame.component.ListenerManager.MiniGames.LoupGlace.LoupGlaceManager;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.command.CommandSender;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Subcommand;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
@@ -18,26 +19,32 @@ public class LoupGlaceCommand {
 
 
   @Subcommand("start")
-  void onStart() {
+  void onStart(CommandSender sender) {
     LoupGlaceManager.startLoupGlace();
     loupGlaceState = LoupGlaceState.ON;
+    sender.sendMessage("§aLe LoupGlacé est lancé !");
   }
 
   @Subcommand("stop")
-  void onStop() {
+  void onStop(CommandSender sender) {
     loupGlaceState = LoupGlaceState.STOP;
+
+    sender.sendMessage("§6Le LoupGlacé est stoppé !");
   }
 
   @Subcommand("off")
-  void onOff() {
+  void onOff(CommandSender sender) {
     LoupGlaceManager.offLoupGlace();
     loupGlaceState = LoupGlaceState.OFF;
+
+    sender.sendMessage("§cLe LoupGlacé est arrêté !");
   }
 
   @Subcommand("shuffle")
-  void onShuffle() {
+  void onShuffle(CommandSender sender) {
     LoupGlaceManager.shuffleLoupGlaceTeams();
 
+    sender.sendMessage("§3Le LoupGlacé lance le suffle !");
   }
 
 }
