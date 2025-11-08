@@ -519,6 +519,8 @@ public class SplatoonManager implements Listener {
     Material teamWoolColor = teamWool.get(team.toLowerCase());
     int brushValue = getBrushValue();
 
+    Block target = null;
+
     // === Nouvelle boucle pour peindre en "zone sphérique" ===
     double radius = brushValue - 0.5; // rayon légèrement adouci
     for (int x = -brushValue + 1; x < brushValue; x++) {
@@ -529,7 +531,7 @@ public class SplatoonManager implements Listener {
           double distance = Math.sqrt(x * x + y * y + z * z);
           if (distance > radius) continue; // ignore les blocs en dehors du rayon
 
-          Block target = block.getRelative(x, y, z);
+          target = block.getRelative(x, y, z);
 
           if (!target.getType().name().contains("WOOL")) continue;
           if (target.getType() == teamWoolColor) continue;
@@ -545,10 +547,11 @@ public class SplatoonManager implements Listener {
           if (!inZone) continue;
 
           target.setType(teamWoolColor);
-          p.getWorld().playSound(target.getLocation(), Sound.BLOCK_SLIME_BLOCK_PLACE, 1.0f, 1.2f);
         }
       }
     }
+
+    if (target != null) p.getWorld().playSound(target.getLocation(), Sound.BLOCK_SLIME_BLOCK_PLACE, 1.0f, 1.2f);
 
     paintLeft.put(p.getUniqueId(), left - 1);
     p.sendActionBar(ChatColor.GRAY + "Peinture restante: " + ChatColor.WHITE + paintLeft.get(p.getUniqueId()) + "/" + rechargeValue);
