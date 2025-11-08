@@ -127,10 +127,9 @@ public class LTTEManager implements Listener {
     Player receiverPlayer = Bukkit.getPlayer(receiverUUID);
     Player giverPlayer = Bukkit.getPlayer(giverUUID);
 
-    String tagReceiver = receiver.getScoreboardTags().toString();
-
     if (!playersWithTNT.contains(giverUUID) || playersWithTNT.contains(receiverUUID)) return;
-    if (tagReceiver != null && !tagReceiver.equals("joueur")) return;
+    if (!receiver.getScoreboardTags().contains("vivant")) return;
+
 
     playersWithTNT.add(receiverUUID);
     playersWithTNT.remove(giverUUID);
@@ -169,7 +168,8 @@ public class LTTEManager implements Listener {
 
     giver.playSound(giver.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
     giver.sendTitle(ChatColor.BLUE + "Vous n'avez plus de TNT !", "Fuyez les loups !", 10, 40, 20);
-    giver.playSound(giver.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
+    giver.sendActionBar(ChatColor.BLUE + "Fuis !");
+    receiver.playSound(receiver.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.3f, 1.0f);
     receiver.sendTitle(ChatColor.RED + "Vous avez une TNT !", "Touchez un autre joueur pour la lui donner !", 10, 40, 20);
   }
 
