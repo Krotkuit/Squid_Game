@@ -143,7 +143,7 @@ public class LoupGlaceManager implements Listener {
     boolean allImprisoned = true;
     for (String entry : safeTeam.getEntries()) {
       Player player = Bukkit.getPlayer(entry);
-      if (player != null && !playerFrozenStatus.get(player.getUniqueId())) {
+      if (player != null && !playerFrozenStatus.getOrDefault(player.getUniqueId(), false)) {
         allImprisoned = false;
         break;
       }

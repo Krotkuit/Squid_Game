@@ -22,11 +22,14 @@ public class JoinListener implements Listener {
   @EventHandler
   public void onPlayerQuit(PlayerQuitEvent event) {
     Player player = event.getPlayer();
-    // mise à jour du compteur
     new MAJ_compteur();
     event.setQuitMessage("");
-    for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))){
-      garde.sendMessage(ChatColor.YELLOW + "[" + TeamManager.getTeam(player).getName() + "] " + player.getName() + " left the game");
+
+    Team playerTeam = TeamManager.getTeam(player);
+    String playerTeamName = (playerTeam != null) ? playerTeam.getName() : "Aucune équipe";
+
+    for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))) {
+      garde.sendMessage(ChatColor.YELLOW + "[" + playerTeamName + "] " + player.getName() + " left the game");
     }
   }
 
@@ -35,8 +38,11 @@ public class JoinListener implements Listener {
     Player player = event.getPlayer();
 
     event.setJoinMessage("");
-    for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))){
-      garde.sendMessage(ChatColor.YELLOW + "[" + TeamManager.getTeam(player).getName() + "] " + player.getName() + " join the game");
+    Team playerTeam = TeamManager.getTeam(player);
+    String playerTeamName = (playerTeam != null) ? playerTeam.getName() : "Aucune équipe";
+
+    for (Player garde : TeamManager.getTeamOnlinePlayers(TeamManager.getTeam("garde"))) {
+      garde.sendMessage(ChatColor.YELLOW + "[" + playerTeamName + "] " + player.getName() + " join the game");
     }
 
     Team team = Bukkit.getScoreboardManager().getMainScoreboard().getEntryTeam(player.getName());
