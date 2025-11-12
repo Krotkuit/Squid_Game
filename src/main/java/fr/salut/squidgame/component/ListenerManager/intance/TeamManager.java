@@ -2,7 +2,6 @@ package fr.salut.squidgame.component.ListenerManager.intance;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -56,8 +55,9 @@ public class TeamManager{
   }
 
   public static boolean hasTeamOnlinePlayers(Team team){
-    for (OfflinePlayer player : team.getPlayers()){
-      if (player.isOnline()){
+    for (String playerName : team.getEntries()){
+      Player player = Bukkit.getPlayer(playerName);
+      if (player != null && player.isOnline()){
         return true;
       }
     }
@@ -68,8 +68,9 @@ public class TeamManager{
 
     List<Player> players = new ArrayList<>();
 
-    for (OfflinePlayer player : team.getPlayers()){
-      if (player.isOnline()){
+    for (String playerName : team.getEntries()){
+      Player player = Bukkit.getPlayer(playerName);
+      if (player != null && player.isOnline()){
         players.add(player.getPlayer());
       }
     }
