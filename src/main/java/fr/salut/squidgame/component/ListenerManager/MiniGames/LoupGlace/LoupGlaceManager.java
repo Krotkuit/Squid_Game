@@ -295,9 +295,11 @@ public class LoupGlaceManager implements Listener {
     if (state == LoupGlaceState.OFF) return;
 
     Player player = event.getPlayer();
-    if (!TeamManager.getTeam(player).equals(loupGlaceTeam) && playerFrozenStatus.get(player.getUniqueId())) {
+    if (!TeamManager.getTeam(player).equals(loupGlaceTeam)
+        && playerFrozenStatus.getOrDefault(player.getUniqueId(), false)) {
       playerFrozenStatus.put(player.getUniqueId(), false);
     }
+
   }
 
   @EventHandler
