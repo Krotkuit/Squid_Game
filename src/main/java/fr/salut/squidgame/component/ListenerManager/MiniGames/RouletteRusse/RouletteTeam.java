@@ -404,6 +404,14 @@ public class RouletteTeam {
       mustShootNext = false;
     }
 
+    if (!players.get(currentIndex).isOnline()) {
+      // Si le joueur n'est pas en ligne, on passe au suivant
+      removeTurnItems(players.get(currentIndex));
+      currentIndex = (currentIndex + 1) % players.size();
+      nextPlayer(false);
+      return;
+    }
+
     // Donne le tour au joueur suivant
     Player nextPlayer = players.get(currentIndex);
     for (Player player : players) {

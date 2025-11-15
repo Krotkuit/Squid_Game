@@ -79,7 +79,7 @@ public class RouletteRusseManager implements Listener {
 
     if (team != null) {
       boolean wasCurrent = team.isCurrentPlayer(player); // stocker avant suppression
-      team.removePlayer(player);
+      //team.removePlayer(player);
       Bukkit.getLogger().info("" + player.getName() + " a quitté sa table. " + team.players.size() + " joueurs restants.");
       if (wasCurrent && !team.players.isEmpty()) {
         team.nextPlayer(false);
@@ -111,7 +111,7 @@ public class RouletteRusseManager implements Listener {
           }
 
           // Ajouter le joueur
-          team.addPlayer(player);
+          //team.addPlayer(player);
 
           Bukkit.getLogger().info(ChatColor.GREEN + "Joueur " + player.getName() + " réintégré à l'équipe " + teamName);
           break;
