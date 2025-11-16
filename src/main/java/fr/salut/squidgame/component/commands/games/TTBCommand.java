@@ -44,13 +44,13 @@ public class TTBCommand {
             TTBManager.giveBombTo(Bukkit.getPlayer(bomber), null, team);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound squidgame:ttb_musique record @a[team=" + team.getName() + "]");
             for (Player player : TeamManager.getTeamOnlinePlayers(team)) player.sendTitle("§6Début du jeu", "§c" + Bukkit.getPlayer(bomber).getName() + " à la bombe !");
-            Chronometer.startServerChronometer(null, team, team.getName(), random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
+            Chronometer.startServerChronometer(team, team.getName(), random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
         }
     }
 
     @Subcommand("stop")
     public void tTBStop() {
         TTBManager.stopGame();
-        Chronometer.stopAllServerChronometer(null, ChronometerType.ACTION_BAR, "%null%");
+        Chronometer.stopAllServerChronometer(ChronometerType.ACTION_BAR, "%null%");
     }
 }

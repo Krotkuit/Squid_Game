@@ -7,7 +7,9 @@ import net.md_5.bungee.api.ChatMessageType;
 public enum ChronometerType {
     ACTION_BAR(ChatMessageType.ACTION_BAR),
     CHAT(ChatMessageType.CHAT),
-    SYSTEM(ChatMessageType.SYSTEM);
+    SYSTEM(ChatMessageType.SYSTEM),
+    BOSSBAR(null);
+
 
     private final ChatMessageType chatMessageType;
 

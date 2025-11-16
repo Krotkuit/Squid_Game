@@ -101,7 +101,7 @@ public class TTBManager implements Listener {
                         player.sendTitle("§6Next Round", "§c" + Bukkit.getPlayer(newBomber).getName() + " à la bombe !");
                     }
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "playsound squidgame:ttb_musique record @a[team=" + team.getName() + "]");
-                    Chronometer.startServerChronometer(null, team, team.getName(), TTBCommand.random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
+                    Chronometer.startServerChronometer(team, team.getName(), TTBCommand.random.nextInt(90, 150), ChronometerType.ACTION_BAR, "%null%", ChronometerType.ACTION_BAR, "§cBOUM !");
                 } else {
                     bombers.remove(team);
                     for (Player player : TeamManager.getTeamOnlinePlayers(team)) {
@@ -119,7 +119,7 @@ public class TTBManager implements Listener {
     }
 
     @EventHandler
-    public void onServerChronometerTick(Chronometer.ChronometerTimeChangeEvent event){
+    public void onServerChronometerTick(Chronometer.ServerChronometerTimeChangeEvent event){
         if (!EpreuveCommand.getEpreuve().equals("TTB")) return;
         if (allowedTeams.contains(event.getGroup())){
             Team team = scoreboard.getTeam(event.getGroup());

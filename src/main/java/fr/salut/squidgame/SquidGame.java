@@ -20,6 +20,7 @@ import fr.salut.squidgame.component.ListenerManager.MiniGames.TTB.TTBManager;
 import fr.salut.squidgame.component.ListenerManager.armor.ArmorProtectionListener;
 import fr.salut.squidgame.component.ListenerManager.intance.TeamManager;
 import fr.salut.squidgame.component.commands.*;
+import fr.salut.squidgame.component.commands.debug.ChronomterDebugCommand;
 import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.utils.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookManager;
@@ -135,8 +136,10 @@ public final class SquidGame extends JavaPlugin{
             new ConfigsCommand(),
             new TTBCommand(),
             new RouletteRusseCommand(this),
-            new LoupGlaceCommand()
+            new LoupGlaceCommand(),
 
+            // [ Debug Folder ] //
+            new ChronomterDebugCommand()
         );
 
         getLogger().info("Le plugin est activé !");
