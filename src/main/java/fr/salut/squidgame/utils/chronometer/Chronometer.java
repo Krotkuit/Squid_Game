@@ -342,12 +342,15 @@ public class Chronometer{
      * @param messageType display type
      * @param message message display when the chronometer is stopped
      */
-    public static void stopAllChronometer(Entity entity, @NotNull ChronometerType messageType, String message) {
-        UUID entityUUID = entity.getUniqueId();
+    public static void stopAllChronometer(Entity entity, UUID uuid, @NotNull ChronometerType messageType, String message) {
+        UUID entityUUID = entity == null ? uuid : entity.getUniqueId();
         if (chronometer.containsKey(entityUUID)) {
             chronometer.remove(entityUUID);
             if (message!=null){
                 if (!message.contains("%null%")){
+                    if (entity == null)
+                        entity = Bukkit.getEntity(entityUUID);
+
                     if (entity instanceof Player player){
                         if (!messageType.equals(ChronometerType.BOSSBAR))
                             player.spigot().sendMessage(messageType.getChatMessageType(), new TextComponent(message));
@@ -373,6 +376,20 @@ public class Chronometer{
                 entry.getValue().destroy();
             }
             chronometerBossBar.remove(entityUUID);
+        }
+    }
+
+    public static void stopAllChronometer(Entity entity, @NotNull ChronometerType messageType, String message) {
+        stopAllChronometer(entity, null, messageType, message);
+    }
+
+    public static void stopAllChronometer(UUID uuid, @NotNull ChronometerType messageType, String message) {
+        stopAllChronometer(null, uuid, messageType, message);
+    }
+
+    public static void stopAllChronometer(){
+        for (Map.Entry<UUID, HashMap<String, Integer>> entry : chronometer.entrySet()){
+            stopAllChronometer(entry.getKey(), ChronometerType.ACTION_BAR, "%null%");
         }
     }
 

@@ -25,6 +25,8 @@ import fr.salut.squidgame.component.commands.games.*;
 import fr.salut.squidgame.utils.MVC.MVCFix;
 import fr.salut.squidgame.menu.BookManager;
 import fr.salut.squidgame.menu.BookMenuListener;
+import fr.salut.squidgame.utils.chronometer.Chronometer;
+import fr.salut.squidgame.utils.chronometer.ChronometerType;
 import fr.salut.squidgame.utils.log.LogWriter;
 import fr.skytasul.glowingentities.GlowingEntities;
 import lombok.Getter;
@@ -156,6 +158,9 @@ public final class SquidGame extends JavaPlugin{
         }
 
         glowingEntities.disable();
+
+        Chronometer.stopAllServerChronometer(ChronometerType.ACTION_BAR, "%null%");
+        Chronometer.stopAllChronometer();
 
         getLogger().info("Le plugin est désactivé !");
     }
