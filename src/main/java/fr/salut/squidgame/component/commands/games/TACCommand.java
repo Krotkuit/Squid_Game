@@ -58,7 +58,7 @@ public class TACCommand {
             player.setGravity(true);
             player.setFoodLevel(20);
         }
-        Bukkit.getWorld("worlds/squidgame/tac").setDifficulty(Difficulty.PEACEFUL);
+        Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
         TACManager.team1Click = 0;
         TACManager.team2Click = 0;
         TACManager.playersTeam1.clear();
@@ -82,7 +82,8 @@ public class TACCommand {
         TACManager.team2Click = 0;
         TACManager.playersTeam1.clear();
         TACManager.playersTeam2.clear();
-        Bukkit.getWorld("worlds/squidgame/tac").setDifficulty(Difficulty.PEACEFUL);
+        TACManager.resetTAC();
+        Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
         sender.sendMessage("§eTAC reset");
     }
 
@@ -108,5 +109,10 @@ public class TACCommand {
     @Subcommand("debug setclickt2")
     public void debugSetClickTeam2(double clicks) {
         TACManager.team2Click = clicks;
+    }
+
+    @Subcommand("debug maxspeed")
+    public void debugSetMaxSpeed(int speed) {
+        TACManager.maxSpeed = speed;
     }
 }
